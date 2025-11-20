@@ -1,0 +1,519 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model EventForm {
+  id                  String    @id @default(cuid())
+  status               TravelRequestStatus @default(PENDING)
+  // Vous
+  company             String?
+  firstName           String
+  lastName            String
+  email               String
+  phone               String
+  eventType           String
+  participants        String?
+  projectDescription  String?
+
+  // Dates
+  departureDate       DateTime?
+  returnDate          DateTime?
+  dateFlexibility     Boolean   @default(false)
+  dateComments        String?
+
+  // Hébergement
+  accommodationLevel  String    @default("Milieu de gamme")
+  hasAccommodation    Boolean   @default(true)
+  roomType            String    @default("Double")
+  hasMeetingRoom      Boolean   @default(true)
+  accommodationComments String?
+
+  // Destination & Transport
+  destination         String
+  hasTransport        Boolean   @default(true)
+  departureCity       String?
+
+  // Activités
+  activities          String[]
+  activitiesComments  String?
+
+  // Enjeux
+  objectives          String[]
+  objectivesComments  String?
+
+  // Réunion
+  halfDays            Int       @default(0)
+
+  // Budget
+  budgetPerPerson     String?
+  budgetComments      String?
+
+  // Contact
+  contactPreference   String    @default("Email")
+
+  // Message global
+  message             String?
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model TravelRequest {
+  id                   String   @id @default(cuid())
+  destination          String
+  departureDate        DateTime
+  status               TravelRequestStatus @default(PENDING)
+  returnDate           DateTime
+  isFlexible           String   @default("non")
+  departureCity        String
+  needsTransport       String   @default("non")
+  needsFlight          String   @default("non")
+  adults               Int
+  children             Int
+  accommodationWishes  String?
+  numberOfRooms        Int
+  accommodationCategory String   @default("Standard")
+  budget               Float
+  duration             Int
+  title                String
+  firstName            String
+  lastName             String
+  email                String
+  countryCode          String   @default("France (+33)")
+  phone                String
+  message              String?
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+enum TravelRequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+model GoogleReview {
+  id          String   @id @default(cuid())
+  authorName  String   // Name of the reviewer
+  authorUrl  String?  // URL to reviewer's Google profile
+  profilePhotoUrl String? // Reviewer's profile photo
+  rating      Int      // Rating (1-5)
+  text        String?  // The review text (nullable if no text)
+  time        DateTime // When the review was created
+  language    String?  // Language of the review
+  originalText String? // Original text if translated
+  responseText String? // Business owner's response
+  responseTime DateTime? // When response was posted
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      Boolean  @default(true)
+
+  @@index([rating])
+  @@index([time])
+}
+model Meeting {
+  id          String   @id @default(cuid())
+  title       String // Meeting subject/title
+  description String? // Optional details
+  date        DateTime // Meeting date & time
+  status      String   @default("pending") // pending/confirmed/cancelled
+  clientId    String // Reference to client
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // Relations
+  client      User     @relation(fields: [clientId], references: [id])
+}
+
+model Destination {
+  id       String         @id @default(cuid())
+  name     String         @unique
+  type     DestinaionType @default(NATIONAL)
+  imageUrl String
+  visible  Boolean        @default(true)
+  tours    Tour[]         @relation("TourDestinations")
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  imageUrl    String
+  visible     Boolean @default(true)
+  tours       Tour[]  @relation("CategoryTours")
+}
+
+model Nature {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  imageUrl    String
+  visible     Boolean @default(true)
+  tours       Tour[]  @relation("NatureTours")
+}
+
+model Landing {
+  id                 String  @id @default(cuid())
+  navbar             Boolean @default(true)
+  hero               Boolean @default(true)
+  national           Boolean @default(true)
+  international      Boolean @default(true)
+  thisMount          Boolean @default(true)
+  mesure             Boolean @default(true)
+  reviews            Boolean @default(true)
+  meeting            Boolean @default(true)
+  expert             Boolean @default(true)
+  trust              Boolean @default(true)
+  footer             Boolean @default(true)
+  search             Boolean @default(true)
+  omrah              Boolean @default(true)
+  googleAvie         Boolean @default(true)
+  discover           Boolean @default(true)
+  imageHero          String?
+  titleHero          String?
+  subTitleHero       String?
+  imageOmrah         String?
+  subTitleHero1      String?
+  nationalTitle      String?
+  discoverTitle      String?
+  discoverSubtitle   String?
+  nationalText       String?
+  internationalTitle String?
+  internationalText  String?
+  thisMountTitle     String?
+  thisMountText      String?
+  condition          String?
+  plitique           String?
+
+}
+
+model NavbarItem {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  label     String
+  isVisible Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String?
+  category    String?
+  status      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  orderIndex  Int      @default(0)
+  description String?
+  imageUrl    String?
+  tourId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tour        Tour     @relation("TourPrograms", fields: [tourId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  tours       Tour[]  @relation("TourServices")
+}
+
+model Hotel {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  reservation Reservation[]
+  tours       Tour[]        @relation("HotelTours")
+}
+
+model NewsLetter {
+  id        String    @id @default(cuid())
+  nom       String?
+  prenom    String?
+  email     String?
+  phone     String?
+  message   String?
+  statu     Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model ReservationForm {
+  id        String   @id @default(uuid())
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId    String
+  fields    Json // stores array of field definitions (see below)
+  createdAt DateTime @default(now())
+}
+
+model Reservations {
+  id         String            @id @default(uuid())
+  tour       Tour              @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId     String
+  nom        String
+  prenom     String
+  phone      String
+  email      String?
+  status     ReservationStatus @default(PENDING)
+  data       Json
+  finalPrice Float
+  basePrice  Float
+  isDiscover Boolean         @default(false)
+  // New fields
+  startDate  DateTime
+  endDate    DateTime
+
+  createdAt  DateTime @default(now())
+}
+
+model Checklist {
+  id          String   @id @default(uuid())
+  tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId      String
+  orderIndex  Int
+  title       String // stores array of field definitions (see below)
+  description String
+  createdAt   DateTime @default(now())
+}
+
+model BookingSteps {
+  id          String   @id @default(uuid())
+  tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId      String
+  orderIndex  Int
+  title       String // stores array of field definitions (see below)
+  description String
+  createdAt   DateTime @default(now())
+}
+model Faq {
+  id        String   @id @default(cuid())
+  visible   Boolean @default(true)
+  orderIndex  Int
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+}
+
+model Tour {
+  id                String            @id
+  title             String
+  description       String?
+  type              TravelType        @default(NATIONAL)
+  isDiscover        Boolean @default(false)
+  priceOriginal     Int?
+  priceDiscounted   Int?
+  durationDays      Int?
+  durationNights    Int?
+  imageUrl          String?
+  groupType         String?
+  titleCkecklist    String?
+  descriptionCkecklist String?
+  groupSizeMax      Int?
+  showReviews       Boolean           @default(true)
+  showChecklist       Boolean           @default(true)
+  showHebergement   Boolean           @default(true)
+  showDifficulty    Boolean           @default(true)
+  showDiscount      Boolean           @default(true)
+  difficultyLevel   Int?
+  totalReviews      Int               @default(0)
+  averageRating     Float             @default(0.0)
+  discountPercent   Int?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  dateCard          String?
+  orderIndex        Int?
+  villeDepart       String?
+  ville             String?
+  accommodationType String?
+  exclus            String?
+  inclus            String?
+  extracts          String?
+  advancedPrice     Int?
+  googleMapsUrl     String?
+  videoUrl          String?
+  active            Boolean           @default(true)
+  archive           Boolean           @default(false)
+  discountEndDate   DateTime?
+  images            File[]
+  programs          Program[]         @relation("TourPrograms")
+  reviews           Review[]
+  bookinSteps       BookingSteps[]
+  checklist         Checklist[]
+  dates             TourDate[]
+  reservation       Reservation[]
+  reservations      Reservations[]
+  reservationForm   ReservationForm[]
+  categories        Category[]        @relation("CategoryTours")
+  hotels            Hotel[]           @relation("HotelTours")
+  natures           Nature[]          @relation("NatureTours")
+  destinations      Destination[]     @relation("TourDestinations")
+  services          Service[]         @relation("TourServices")
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  tourId    String
+  url       String
+  createdAt DateTime @default(now())
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+}
+
+model Reservation {
+  id              String            @id @default(cuid())
+  tourId          String
+  hotelId         String?
+  travelDateId    String
+  fullName        String
+  email           String
+  phone           String
+  adultCount      Int
+  childCount      Int
+  infantCount     Int
+  singleRoom      Boolean           @default(false)
+  specialRequests String?
+  totalPrice      Float
+  termsAccepted   Boolean           @default(false)
+  status          ReservationStatus @default(PENDING)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  travelDate TourDate @relation(fields: [travelDateId], references: [id])
+  hotel      Hotel?   @relation(fields: [hotelId], references: [id])
+  tour       Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  fullName  String
+  message   String
+  rating    Int      @default(5)
+  status    Boolean  @default(false)
+  tourId    String
+  createdAt DateTime @default(now())
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+}
+
+model TourDate {
+  id              String         @id @default(cuid())
+  tourId          String
+  startDate       DateTime?
+  endDate         DateTime?
+  description     String?
+  price           Float?
+  visible         Boolean        @default(true)
+  tour            Tour           @relation(fields: [tourId], references: [id])
+  Reservation     Reservation[]
+}
+
+model User {
+  id               String          @id @default(cuid())
+  name             String?
+  email            String          @unique
+  archive          Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  emailVerified    DateTime?
+  image            String?
+  phone            Int?
+  password         String?
+  prenom           String?
+  qrSecret         String?
+  role             Role            @default(USER)
+  statut           Boolean         @default(true)
+  twoFactorEnabled Boolean         @default(true)
+  twoFactorSecret  String?
+  updatedAt        DateTime        @updatedAt
+  username         String          @unique
+  verified_email   String?
+  accounts         Account[]
+  Authenticator    Authenticator[]
+  sessions         Session[]
+  meetings         Meeting[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}
+
+enum Role {
+  USER
+  ADMIN
+  CREATOR
+  STAGIAIRE
+}
+
+enum TravelType {
+  NATIONAL
+  INTERNATIONAL
+  EN_MESURE
+}
+
+enum DestinaionType {
+  NATIONAL
+  INTERNATIONAL
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}

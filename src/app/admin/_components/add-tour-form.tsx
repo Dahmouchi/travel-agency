@@ -104,7 +104,10 @@ const tourSchema = z.object({
   title: z.string().min(1, "Le titre est requis"),
   description: z.string().min(1, "La description est requise"),
   titleCkecklist: z.string().min(1, "Le titre est requis").optional(),
-  descriptionCkecklist: z.string().min(1, "La description est requise").optional(),
+  descriptionCkecklist: z
+    .string()
+    .min(1, "La description est requise")
+    .optional(),
   type: z.enum(["NATIONAL", "INTERNATIONAL"], {
     errorMap: () => ({ message: "Le type de circuit est requis" }),
   }),
@@ -225,7 +228,7 @@ const tourSchema = z.object({
       })
     )
     .optional(),
-     checklist: z
+  checklist: z
     .array(
       z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
@@ -286,7 +289,7 @@ const tourSchema = z.object({
     .min(1, "Au moins un élément exclus est requis"),
   arrayExtras: z.array(z.string()).optional(),
 });
-type FieldType = 'text' | 'checkbox' | 'select' | 'date';
+type FieldType = "text" | "checkbox" | "select" | "date";
 
 interface FieldOption {
   label: string;
@@ -319,8 +322,8 @@ export function AddTourForm({
       description: "",
       type: "NATIONAL",
       titleCkecklist: "",
-      descriptionCkecklist: "", 
-      isDiscover:false,
+      descriptionCkecklist: "",
+      isDiscover: false,
       priceOriginal: undefined,
       priceDiscounted: undefined,
       discountEndDate: undefined,
@@ -371,7 +374,7 @@ export function AddTourForm({
     try {
       setIsSubmitting(true);
 
-      const { programs, dates, bookinSteps,checklist, ...restValues } = values;
+      const { programs, dates, bookinSteps, checklist, ...restValues } = values;
 
       const formData = {
         ...restValues,
@@ -1777,13 +1780,13 @@ export function AddTourForm({
                   />
                 </div>
               </div>
-               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 className="text-lime-600 text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Checkliste
                 </h3>
                 <p className="text-lime-800 text-md  mb-4">
-                 Définissez les éléments supplémentaires du circuit.
+                  Définissez les éléments supplémentaires du circuit.
                 </p>
                 <Separator className="mb-6" />
 
@@ -1811,7 +1814,7 @@ export function AddTourForm({
                         </FormItem>
                       )}
                     />
-                     <FormField
+                    <FormField
                       control={form.control}
                       name="showChecklist"
                       render={({ field }) => (
@@ -1832,8 +1835,8 @@ export function AddTourForm({
                       )}
                     />
                   </div>
-                  
-                     <FormField
+
+                  <FormField
                     control={form.control}
                     name="descriptionCkecklist"
                     render={({ field }) => (
@@ -1856,43 +1859,42 @@ export function AddTourForm({
                       </FormItem>
                     )}
                   />
-                  
                 </div>
               </div>
-               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-          <h3 className="text-lime-600 text-l font-medium">
-            <ClipboardType className="inline mr-2" />
-            Autre Checklist
-          </h3>
-          <p className="text-lime-800 text-md  mb-4">
-            Définissez des autre Checklists.
-          </p>
-          <Separator className="mb-6" />
+              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+                <h3 className="text-lime-600 text-l font-medium">
+                  <ClipboardType className="inline mr-2" />
+                  Autre Checklist
+                </h3>
+                <p className="text-lime-800 text-md  mb-4">
+                  Définissez des autre Checklists.
+                </p>
+                <Separator className="mb-6" />
 
-          <div className="space-y-4">
-            <div>
-              <ChecklistForm
-                steps={(form.watch("checklist") || []).map(
-                  (p: any, idx: number) => ({
-                    id: p.id ?? uuidv4(),
-                    title: p.title,
-                    description: p.description,
-                    orderIndex: p.orderIndex ?? idx,
-                  })
-                )}
-                isNewTour={true}
-                onChange={(programs: any[]) => {
-                  form.setValue(
-                    "checklist",
-                    programs
-                      .sort((a, b) => a.orderIndex - b.orderIndex)
-                      .map(({ id, ...rest }) => rest)
-                  );
-                }}
-              />
-            </div>
-          </div>
-        </div>
+                <div className="space-y-4">
+                  <div>
+                    <ChecklistForm
+                      steps={(form.watch("checklist") || []).map(
+                        (p: any, idx: number) => ({
+                          id: p.id ?? uuidv4(),
+                          title: p.title,
+                          description: p.description,
+                          orderIndex: p.orderIndex ?? idx,
+                        })
+                      )}
+                      isNewTour={true}
+                      onChange={(programs: any[]) => {
+                        form.setValue(
+                          "checklist",
+                          programs
+                            .sort((a, b) => a.orderIndex - b.orderIndex)
+                            .map(({ id, ...rest }) => rest)
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
               {/* Extras */}
               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 className="text-lime-600 text-l font-medium">
@@ -2016,7 +2018,6 @@ export function AddTourForm({
                   </div>
                 </div>
               </div>
-              
             </div>
           </CardContent>
         </Card>
@@ -2054,7 +2055,7 @@ export function AddTourForm({
             </div>
           </div>
         </div>
- 
+
         <Card className="border-none">
           <CardContent className=" ">
             <div className="space-y-8 ">

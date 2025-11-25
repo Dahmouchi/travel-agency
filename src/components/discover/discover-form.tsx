@@ -107,7 +107,10 @@ const tourSchema = z.object({
   ville: z.string().min(1, "Le titre est requis"),
   description: z.string().min(1, "La description est requise"),
   titleCkecklist: z.string().min(1, "Le titre est requis").optional(),
-  descriptionCkecklist: z.string().min(1, "La description est requise").optional(),
+  descriptionCkecklist: z
+    .string()
+    .min(1, "La description est requise")
+    .optional(),
   type: z.enum(["NATIONAL", "INTERNATIONAL"], {
     errorMap: () => ({ message: "Le type de circuit est requis" }),
   }),
@@ -228,15 +231,15 @@ const tourSchema = z.object({
       })
     )
     .optional(),
-   checklist: z
-      .array(
-        z.object({
-          orderIndex: z.number().min(0, "Le prix doit être positif"),
-          title: z.string().min(1, "Titre requis"),
-          description: z.string().min(1, "Description requise"),
-        })
-      )
-      .optional(),
+  checklist: z
+    .array(
+      z.object({
+        orderIndex: z.number().min(0, "Le prix doit être positif"),
+        title: z.string().min(1, "Titre requis"),
+        description: z.string().min(1, "Description requise"),
+      })
+    )
+    .optional(),
   dates: z
     .array(
       z.object({
@@ -263,7 +266,7 @@ const tourSchema = z.object({
       required_error: "Au moins une destination est requise",
     })
     .min(1, "Au moins une destination est requise"),
- 
+
   categories: z
     .array(z.string().min(1, "La catégorie est requise"), {
       required_error: "Au moins une catégorie est requise",
@@ -290,7 +293,7 @@ const tourSchema = z.object({
     .min(1, "Au moins un élément exclus est requis"),
   arrayExtras: z.array(z.string()).optional(),
 });
-type FieldType = 'text' | 'checkbox' | 'select' | 'date';
+type FieldType = "text" | "checkbox" | "select" | "date";
 
 interface FieldOption {
   label: string;
@@ -323,14 +326,14 @@ export function DiscoverForm({
       description: "",
       type: "NATIONAL",
       titleCkecklist: "",
-      descriptionCkecklist: "", 
-      isDiscover:true,
+      descriptionCkecklist: "",
+      isDiscover: true,
       priceOriginal: undefined,
       priceDiscounted: undefined,
       discountEndDate: undefined,
       advancedPrice: 0,
       dateCard: "",
-      ville:"",
+      ville: "",
       durationDays: undefined,
       durationNights: undefined,
       villeDepart: "",
@@ -377,7 +380,7 @@ export function DiscoverForm({
     try {
       setIsSubmitting(true);
 
-      const { programs, dates, bookinSteps,checklist, ...restValues } = values;
+      const { programs, dates, bookinSteps, checklist, ...restValues } = values;
 
       const formData = {
         ...restValues,
@@ -1058,7 +1061,8 @@ export function DiscoverForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>
-                            Ville de départ <span className="text-red-600">*</span>
+                            Ville de départ{" "}
+                            <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -1067,12 +1071,12 @@ export function DiscoverForm({
                               {...field}
                             />
                           </FormControl>
-                         
+
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                   <CityPicker control={form.control} name="ville" />
+                    <CityPicker control={form.control} name="ville" />
                   </div>
                   {/* Main image for the tour */}
                   <FormField
@@ -1505,7 +1509,7 @@ export function DiscoverForm({
                 </div>
               </div>
 
-            <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 className="text-lime-600 text-l font-medium">
                   <Calendar className="inline mr-2" />
                   Dates et durée
@@ -1566,8 +1570,6 @@ export function DiscoverForm({
                       )}
                     />
                   </div>
-
-                
                 </div>
               </div>
 
@@ -1607,13 +1609,13 @@ export function DiscoverForm({
                   />
                 </div>
               </div>
-               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 className="text-lime-600 text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Checkliste
                 </h3>
                 <p className="text-lime-800 text-md  mb-4">
-                 Définissez les éléments supplémentaires du circuit.
+                  Définissez les éléments supplémentaires du circuit.
                 </p>
                 <Separator className="mb-6" />
 
@@ -1641,7 +1643,7 @@ export function DiscoverForm({
                         </FormItem>
                       )}
                     />
-                     <FormField
+                    <FormField
                       control={form.control}
                       name="showChecklist"
                       render={({ field }) => (
@@ -1662,8 +1664,8 @@ export function DiscoverForm({
                       )}
                     />
                   </div>
-                  
-                     <FormField
+
+                  <FormField
                     control={form.control}
                     name="descriptionCkecklist"
                     render={({ field }) => (
@@ -1686,43 +1688,42 @@ export function DiscoverForm({
                       </FormItem>
                     )}
                   />
-                  
                 </div>
               </div>
-               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-          <h3 className="text-lime-600 text-l font-medium">
-            <ClipboardType className="inline mr-2" />
-            Autre Checklist
-          </h3>
-          <p className="text-lime-800 text-md  mb-4">
-            Définissez des autre Checklists.
-          </p>
-          <Separator className="mb-6" />
+              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+                <h3 className="text-lime-600 text-l font-medium">
+                  <ClipboardType className="inline mr-2" />
+                  Autre Checklist
+                </h3>
+                <p className="text-lime-800 text-md  mb-4">
+                  Définissez des autre Checklists.
+                </p>
+                <Separator className="mb-6" />
 
-          <div className="space-y-4">
-            <div>
-              <ChecklistForm
-                steps={(form.watch("checklist") || []).map(
-                  (p: any, idx: number) => ({
-                    id: p.id ?? uuidv4(),
-                    title: p.title,
-                    description: p.description,
-                    orderIndex: p.orderIndex ?? idx,
-                  })
-                )}
-                isNewTour={true}
-                onChange={(programs: any[]) => {
-                  form.setValue(
-                    "checklist",
-                    programs
-                      .sort((a, b) => a.orderIndex - b.orderIndex)
-                      .map(({ id, ...rest }) => rest)
-                  );
-                }}
-              />
-            </div>
-          </div>
-        </div>
+                <div className="space-y-4">
+                  <div>
+                    <ChecklistForm
+                      steps={(form.watch("checklist") || []).map(
+                        (p: any, idx: number) => ({
+                          id: p.id ?? uuidv4(),
+                          title: p.title,
+                          description: p.description,
+                          orderIndex: p.orderIndex ?? idx,
+                        })
+                      )}
+                      isNewTour={true}
+                      onChange={(programs: any[]) => {
+                        form.setValue(
+                          "checklist",
+                          programs
+                            .sort((a, b) => a.orderIndex - b.orderIndex)
+                            .map(({ id, ...rest }) => rest)
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
               {/* Extras */}
               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                 <h3 className="text-lime-600 text-l font-medium">
@@ -1846,7 +1847,6 @@ export function DiscoverForm({
                   </div>
                 </div>
               </div>
-              
             </div>
           </CardContent>
         </Card>
@@ -1931,7 +1931,6 @@ export function DiscoverForm({
               !form.watch("groupType") ||
               !form.watch("groupSizeMax") ||
               !form.watch("priceOriginal") ||
-              
               !form.watch("imageURL") ||
               !form.watch("durationDays") ||
               !form.watch("durationNights") ||

@@ -124,7 +124,7 @@ export function MonthlyFeaturedTours({
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-block mb-3 px-4 py-1 bg-gradient-to-r from-[#8EBD22] to-[#b0f70a] rounded-full text-white text-sm font-medium"
+            className="inline-block mb-3 px-4 py-1 bg-gradient-to-r from-[#D97D55] to-[#b0f70a] rounded-full text-white text-sm font-medium"
           >
             <TrendingUp className="inline-block w-4 h-4 mr-1 -mt-0.5" />
             Tendances
@@ -269,7 +269,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <Star className="w-4 h-4 text-[#8EBD22]" />
+                      <Star className="w-4 h-4 text-[#D97D55]" />
                     </div>
                     <div>
                       <span className="font-medium block">
@@ -286,7 +286,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <Clock className="w-4 h-4 text-[#8EBD22]" />
+                      <Clock className="w-4 h-4 text-[#D97D55]" />
                     </div>
                     <div>
                       <span className="font-medium block">Période idéale</span>
@@ -301,7 +301,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <MapPin className="w-4 h-4 text-[#8EBD22]" />
+                      <MapPin className="w-4 h-4 text-[#D97D55]" />
                     </div>
                     <div>
                       <span className="font-medium block">
@@ -324,7 +324,7 @@ export function MonthlyFeaturedTours({
                     {activeTours.slice(0, 9).map((tour, index) => (
                       <motion.div
                         key={tour.id}
-                        className={`relative min-w-[6rem] rounded-lg overflow-hidden cursor-pointer h-20 ${index === currentIndex ? "ring-2 ring-[#8EBD22]" : ""}`}
+                        className={`relative min-w-[6rem] rounded-lg overflow-hidden cursor-pointer h-20 ${index === currentIndex ? "ring-2 ring-[#D97D55]" : ""}`}
                         onClick={() => goToSlide(index)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
@@ -339,7 +339,7 @@ export function MonthlyFeaturedTours({
                         {index === currentIndex && (
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="bg-white rounded-full p-1">
-                              <div className="bg-[#8EBD22] rounded-full w-2 h-2"></div>
+                              <div className="bg-[#D97D55] rounded-full w-2 h-2"></div>
                             </div>
                           </div>
                         )}
@@ -367,7 +367,7 @@ export function MonthlyFeaturedTours({
                   <motion.button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`w-2.5 h-2.5 rounded-full ${index === currentIndex ? "bg-[#8EBD22]" : "bg-purple-200"}`}
+                    className={`w-2.5 h-2.5 rounded-full ${index === currentIndex ? "bg-[#D97D55]" : "bg-purple-200"}`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.8 }}
                   />

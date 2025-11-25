@@ -122,7 +122,7 @@ export default function BlogManagementPage() {
     defaultValues: {
       authorName: "",
       rating: 5,
-      originalText:1,
+      originalText: 1,
       text: "",
       profilePhotoUrl: null,
       language: null,
@@ -160,7 +160,7 @@ export default function BlogManagementPage() {
       formData.append("authorName", values.authorName);
       formData.append("text", values.text || "");
       formData.append("rating", values.rating.toString() || "5");
-       formData.append("originalText", values.originalText.toString() || "1");
+      formData.append("originalText", values.originalText.toString() || "1");
       formData.append("time", values.time || new Date().toISOString());
       formData.append("status", values.status.toString());
       if (selectedFile) {
@@ -275,7 +275,7 @@ export default function BlogManagementPage() {
     });
     setIsDialogOpen(true);
   };
- const formatRelativeTime = (inputDate: string | Date): string => {
+  const formatRelativeTime = (inputDate: string | Date): string => {
     // Convert input to Date object if it's a string
     const date =
       typeof inputDate === "string" ? new Date(inputDate) : inputDate;
@@ -424,14 +424,17 @@ export default function BlogManagementPage() {
                               </FormControl>
                               {selectedFileProfil && (
                                 <p className="text-sm text-muted-foreground mt-2">
-                                  Fichier sélectionné : {selectedFileProfil.name}
+                                  Fichier sélectionné :{" "}
+                                  {selectedFileProfil.name}
                                 </p>
                               )}
-                              {currentBlog?.profilePhotoUrl && !selectedFile && (
-                                <p className="text-sm text-muted-foreground mt-2">
-                                  Image actuelle : {currentBlog.profilePhotoUrl}
-                                </p>
-                              )}
+                              {currentBlog?.profilePhotoUrl &&
+                                !selectedFile && (
+                                  <p className="text-sm text-muted-foreground mt-2">
+                                    Image actuelle :{" "}
+                                    {currentBlog.profilePhotoUrl}
+                                  </p>
+                                )}
                               <FormMessage />
                             </FormItem>
                           )}
@@ -496,7 +499,7 @@ export default function BlogManagementPage() {
                             <FormItem>
                               <FormLabel>Image du commentaire</FormLabel>
                               <FormDescription>
-                                Téléchargez une image 
+                                Téléchargez une image
                               </FormDescription>
                               <FormControl>
                                 <input
@@ -557,7 +560,6 @@ export default function BlogManagementPage() {
                                   placeholder="Nombre d'avis"
                                   {...field}
                                   type="number"
-                                 
                                 />
                               </FormControl>
                               <FormMessage />
@@ -619,16 +621,19 @@ export default function BlogManagementPage() {
                     {/* Header avec avatar et infos utilisateur */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
-                        {
-                          review.profilePhotoUrl ? 
-                          <img src={`${review?.profilePhotoUrl}`} alt="" className="h-10 w-10 rounded-full"/> 
-                          : 
+                        {review.profilePhotoUrl ? (
+                          <img
+                            src={`${review?.profilePhotoUrl}`}
+                            alt=""
+                            className="h-10 w-10 rounded-full"
+                          />
+                        ) : (
                           <div
-                                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${getRandomColor()}`}
-                                    >
-                                      {getInitialsAvatar(review.authorName)}
-                                    </div>
-                        }
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${getRandomColor()}`}
+                          >
+                            {getInitialsAvatar(review.authorName)}
+                          </div>
+                        )}
                         <div>
                           <h3 className="font-medium text-black text-sm">
                             {review.authorName}
@@ -707,9 +712,10 @@ export default function BlogManagementPage() {
                       <p className="text-gray-800 text-sm leading-relaxed">
                         {displayText}
                         {shouldShowMore && !expandedReviews[review.id] && (
-                          
                           <button
-                            onClick={() =>{ toggleExpand(review.id)}}
+                            onClick={() => {
+                              toggleExpand(review.id);
+                            }}
                             className="text-blue-400 hover:text-blue-300 ml-1 font-medium"
                           >
                             Plus
@@ -725,7 +731,13 @@ export default function BlogManagementPage() {
                         )}
                       </p>
                     </div>
-                   {review.language &&  <img src={review?.language} alt="" className="w-full h-40 rounded-2xl"/>}
+                    {review.language && (
+                      <img
+                        src={review?.language}
+                        alt=""
+                        className="w-full h-40 rounded-2xl"
+                      />
+                    )}
                   </motion.div>
                 </div>
               );

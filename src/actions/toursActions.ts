@@ -42,14 +42,11 @@ function getCorrectId(id: string) {
     .toLowerCase();
 }
 
-
 export async function addTour(
   validatedData: any,
-  reservationFormFields: any[],
-  
+  reservationFormFields: any[]
 ) {
   try {
-
     let imgUrl = "";
     if (validatedData.imageURL) {
       imgUrl = await uploadImage(validatedData.imageURL);
@@ -57,143 +54,140 @@ export async function addTour(
 
     const tour = await prisma.tour.create({
       data: {
-      id: getCorrectId(validatedData.id),
-      active: validatedData.active,
-      title: validatedData.title,
-      villeDepart: validatedData.villeDepart,
-      ville: validatedData.ville,
-      titleCkecklist: validatedData.titleCkecklist,
-      descriptionCkecklist: validatedData.descriptionCkecklist,
-      reservationForm: {
-        create: {
-        fields: reservationFormFields,
+        id: getCorrectId(validatedData.id),
+        active: validatedData.active,
+        title: validatedData.title,
+        villeDepart: validatedData.villeDepart,
+        ville: validatedData.ville,
+        titleCkecklist: validatedData.titleCkecklist,
+        descriptionCkecklist: validatedData.descriptionCkecklist,
+        reservationForm: {
+          create: {
+            fields: reservationFormFields,
+          },
         },
-      },
-      description: validatedData.description,
-      isDiscover:validatedData.isDiscover,
-      type: validatedData.type as TravelType,
-      priceOriginal: validatedData.priceOriginal,
-      priceDiscounted:
-        validatedData.priceDiscounted === 0 ||
-        validatedData.priceDiscounted === undefined ||
-        validatedData.priceDiscounted === null
-        ? validatedData.priceOriginal
-        : validatedData.priceDiscounted,
-      discountEndDate: validatedData.discountEndDate
-        ? new Date(validatedData.discountEndDate)
-        : null,
-      advancedPrice:
-        parseInt(validatedData.advancedPrice) === 0
-        ? parseInt(validatedData.priceOriginal)
-        : parseInt(validatedData.advancedPrice) || parseInt(validatedData.priceOriginal),
-      dateCard: validatedData.dateCard,
-      durationDays: parseInt(validatedData.durationDays),
-      durationNights: parseInt(validatedData.durationNights),
-      googleMapsUrl: validatedData.googleMapsUrl
-        ? (await getEmbedGoogleMapsUrl(validatedData.googleMapsUrl)) ?? ""
-        : "",
-      videoUrl: validatedData.videoUrl
-        ? (await getYouTubeEmbedUrl(validatedData.videoUrl)) || ""
-        : "",
-      imageUrl: imgUrl,
-      inclus: validatedData.inclus,
-      exclus: validatedData.exclus,
-      extracts: validatedData.extracts,
-      groupType: validatedData.groupType,
-      groupSizeMax: parseInt(validatedData.groupSizeMax),
-      showReviews: validatedData.showReviews,
-      showChecklist: validatedData.showChecklist,
-      showHebergement: validatedData.showHebergement,
-      showDifficulty: validatedData.showDifficulty,
-      showDiscount: validatedData.showDiscount,
-      difficultyLevel: validatedData.difficultyLevel,
-      discountPercent: validatedData.discountPercent,
-      accommodationType: validatedData.accommodationType,
-      
-      dates: validatedData.dates
-        ? {
-          create: validatedData.dates.map((dateObj:any) => ({
-          startDate: dateObj.startDate,
-          endDate: dateObj.endDate,
-          description: dateObj.description,
-          price: dateObj.price ?? 0,
-          visible: dateObj.visible ?? true,
-          })),
-        }
-        : undefined,
+        description: validatedData.description,
+        isDiscover: validatedData.isDiscover,
+        type: validatedData.type as TravelType,
+        priceOriginal: validatedData.priceOriginal,
+        priceDiscounted:
+          validatedData.priceDiscounted === 0 ||
+          validatedData.priceDiscounted === undefined ||
+          validatedData.priceDiscounted === null
+            ? validatedData.priceOriginal
+            : validatedData.priceDiscounted,
+        discountEndDate: validatedData.discountEndDate
+          ? new Date(validatedData.discountEndDate)
+          : null,
+        advancedPrice:
+          parseInt(validatedData.advancedPrice) === 0
+            ? parseInt(validatedData.priceOriginal)
+            : parseInt(validatedData.advancedPrice) ||
+              parseInt(validatedData.priceOriginal),
+        dateCard: validatedData.dateCard,
+        durationDays: parseInt(validatedData.durationDays),
+        durationNights: parseInt(validatedData.durationNights),
+        googleMapsUrl: validatedData.googleMapsUrl
+          ? ((await getEmbedGoogleMapsUrl(validatedData.googleMapsUrl)) ?? "")
+          : "",
+        videoUrl: validatedData.videoUrl
+          ? (await getYouTubeEmbedUrl(validatedData.videoUrl)) || ""
+          : "",
+        imageUrl: imgUrl,
+        inclus: validatedData.inclus,
+        exclus: validatedData.exclus,
+        extracts: validatedData.extracts,
+        groupType: validatedData.groupType,
+        groupSizeMax: parseInt(validatedData.groupSizeMax),
+        showReviews: validatedData.showReviews,
+        showChecklist: validatedData.showChecklist,
+        showHebergement: validatedData.showHebergement,
+        showDifficulty: validatedData.showDifficulty,
+        showDiscount: validatedData.showDiscount,
+        difficultyLevel: validatedData.difficultyLevel,
+        discountPercent: validatedData.discountPercent,
+        accommodationType: validatedData.accommodationType,
 
-      services: validatedData.services
-        ? {
-          connect: validatedData.services.map((id:any) => ({ id })),
-        }
-        : undefined,
+        dates: validatedData.dates
+          ? {
+              create: validatedData.dates.map((dateObj: any) => ({
+                startDate: dateObj.startDate,
+                endDate: dateObj.endDate,
+                description: dateObj.description,
+                price: dateObj.price ?? 0,
+                visible: dateObj.visible ?? true,
+              })),
+            }
+          : undefined,
 
-      destinations: validatedData.destinations
-        ? {
-          connect: validatedData.destinations.map((id:any) => ({ id })),
-        }
-        : undefined,
+        services: validatedData.services
+          ? {
+              connect: validatedData.services.map((id: any) => ({ id })),
+            }
+          : undefined,
 
-      categories: validatedData.categories
-        ? {
-          connect: validatedData.categories.map((id:any) => ({ id })),
-        }
-        : undefined,
+        destinations: validatedData.destinations
+          ? {
+              connect: validatedData.destinations.map((id: any) => ({ id })),
+            }
+          : undefined,
 
-      natures: validatedData.natures
-        ? {
-          connect: validatedData.natures.map((id:any) => ({ id })),
-        }
-        : undefined,
+        categories: validatedData.categories
+          ? {
+              connect: validatedData.categories.map((id: any) => ({ id })),
+            }
+          : undefined,
 
-      programs: validatedData.programs
-        ? {
-          create: validatedData.programs.map((program:any) => ({
-          title: program.title,
-          orderIndex: program.orderIndex,
-          description: program.description,
-          })),
-        }
-        : undefined,
-         bookinSteps: validatedData.bookinSteps
-         
-        ? {
-          create: validatedData.bookinSteps.map((program:any) => ({
-          title: program.title,
-          orderIndex: program.orderIndex,
-          description: program.description,
-          })),
-        }
-        : undefined,
-        checklist: validatedData.checklist     
-        ? {
-          create: validatedData.checklist.map((program:any) => ({
-          title: program.title,
-          orderIndex: program.orderIndex,
-          description: program.description,
-          })),
-        }
-        : undefined,
+        natures: validatedData.natures
+          ? {
+              connect: validatedData.natures.map((id: any) => ({ id })),
+            }
+          : undefined,
+
+        programs: validatedData.programs
+          ? {
+              create: validatedData.programs.map((program: any) => ({
+                title: program.title,
+                orderIndex: program.orderIndex,
+                description: program.description,
+              })),
+            }
+          : undefined,
+        bookinSteps: validatedData.bookinSteps
+          ? {
+              create: validatedData.bookinSteps.map((program: any) => ({
+                title: program.title,
+                orderIndex: program.orderIndex,
+                description: program.description,
+              })),
+            }
+          : undefined,
+        checklist: validatedData.checklist
+          ? {
+              create: validatedData.checklist.map((program: any) => ({
+                title: program.title,
+                orderIndex: program.orderIndex,
+                description: program.description,
+              })),
+            }
+          : undefined,
       },
     });
 
     return { success: true, data: tour };
-  }  catch (error) {
-  console.error("Prisma error:", error);
-  return {
-    success: false,
-    error: {
-      message: error instanceof Error ? error.message : "Unknown error",
-      code: (error as any).code ?? null,
-      meta: (error as any).meta ?? null,
-      stack: (error as any).stack ?? null,
-    },
-  };
+  } catch (error) {
+    console.error("Prisma error:", error);
+    return {
+      success: false,
+      error: {
+        message: error instanceof Error ? error.message : "Unknown error",
+        code: (error as any).code ?? null,
+        meta: (error as any).meta ?? null,
+        stack: (error as any).stack ?? null,
+      },
+    };
+  }
 }
-
-}
-
-
 
 export async function getAllTours() {
   try {
@@ -205,9 +199,9 @@ export async function getAllTours() {
         programs: true,
         images: true,
       },
-      orderBy:{
-        updatedAt:"desc",
-      }
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
     return { success: true, data: tours };
   } catch (error) {
@@ -219,26 +213,36 @@ export async function getAllTours() {
 }
 export async function getNationalTours() {
   return prisma.tour.findMany({
-    where: { type: 'NATIONAL' },
-    orderBy: { orderIndex: 'asc' },
+    where: { type: "NATIONAL" },
+    orderBy: { orderIndex: "asc" },
   });
 }
 export async function getNationalToursNonArchiver() {
   return prisma.tour.findMany({
-    where: { type: 'NATIONAL',active:true,archive:false,isDiscover:false },
-    orderBy: { orderIndex: 'asc' },
+    where: {
+      type: "NATIONAL",
+      active: true,
+      archive: false,
+      isDiscover: false,
+    },
+    orderBy: { orderIndex: "asc" },
   });
 }
 export async function getInternationalToursNonArchiver() {
   return prisma.tour.findMany({
-    where: { type: 'INTERNATIONAL',active:true,archive:false,isDiscover:false },
-    orderBy: { orderIndex: 'asc' },
+    where: {
+      type: "INTERNATIONAL",
+      active: true,
+      archive: false,
+      isDiscover: false,
+    },
+    orderBy: { orderIndex: "asc" },
   });
 }
 export async function getInternationalTours() {
   return prisma.tour.findMany({
-    where: { type: 'INTERNATIONAL' },
-    orderBy: { orderIndex: 'asc' },
+    where: { type: "INTERNATIONAL" },
+    orderBy: { orderIndex: "asc" },
   });
 }
 interface UpdateOrderInput {
@@ -246,7 +250,7 @@ interface UpdateOrderInput {
   orderIndex: number;
 }
 export async function updateTourOrder(tours: UpdateOrderInput[]) {
-  const transaction = tours.map(tour =>
+  const transaction = tours.map((tour) =>
     prisma.tour.update({
       where: { id: tour.id },
       data: { orderIndex: tour.orderIndex },
@@ -291,21 +295,21 @@ export async function archiveTour(tourId: string) {
       data: {
         archive: true,
         active: false,
-        updatedAt: new Date() // Optional: update timestamp
-      }
+        updatedAt: new Date(), // Optional: update timestamp
+      },
     });
 
     return {
       success: true,
       data: updatedTour,
-      message: "Tour archived successfully"
+      message: "Tour archived successfully",
     };
   } catch (error) {
     console.error("Error archiving tour:", error);
     return {
       success: false,
       error: "Failed to archive tour",
-      details: error instanceof Error ? error.message : "Unknown error"
+      details: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
@@ -317,21 +321,21 @@ export async function unarchiveTour(tourId: string) {
       data: {
         archive: false,
         active: true, // Optionally reactivate
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     });
 
     return {
       success: true,
       data: updatedTour,
-      message: "Tour désarchivé avec succès"
+      message: "Tour désarchivé avec succès",
     };
   } catch (error) {
     console.error("Error unarchiving tour:", error);
     return {
       success: false,
       error: "Échec du désarchivage",
-      details: error instanceof Error ? error.message : "Unknown error"
+      details: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }
@@ -344,19 +348,19 @@ export async function getTourById(tourId: string) {
         categories: true,
         natures: true,
         services: true,
-         bookinSteps: {
-          orderBy:{
-            orderIndex:"asc"
-          }
+        bookinSteps: {
+          orderBy: {
+            orderIndex: "asc",
+          },
         },
         programs: {
-          orderBy:{
-            orderIndex:"asc"
-          }
+          orderBy: {
+            orderIndex: "asc",
+          },
         },
-        reservationForm:true,
+        reservationForm: true,
         dates: true,
-        checklist:true,
+        checklist: true,
       },
     });
 
@@ -380,7 +384,7 @@ export async function updateTour(tourId: string, formData: any) {
   try {
     const existingTour = await prisma.tour.findUnique({
       where: { id: tourId },
-      include: {programs: true, dates: true },
+      include: { programs: true, dates: true },
     });
 
     if (!existingTour) {
@@ -393,9 +397,7 @@ export async function updateTour(tourId: string, formData: any) {
       ? await uploadImage(validatedData.imageURL)
       : existingTour.imageUrl;
 
-
-
-    const deletableDateIds = existingTour.dates.map((d) => d.id)
+    const deletableDateIds = existingTour.dates.map((d) => d.id);
 
     const updatedTour = await prisma.tour.update({
       where: { id: tourId },
@@ -411,21 +413,24 @@ export async function updateTour(tourId: string, formData: any) {
         type: validatedData.type,
         priceOriginal: validatedData.priceOriginal,
         priceDiscounted:
-          validatedData.priceDiscounted === 0 || validatedData.priceDiscounted === undefined || validatedData.priceDiscounted === null
+          validatedData.priceDiscounted === 0 ||
+          validatedData.priceDiscounted === undefined ||
+          validatedData.priceDiscounted === null
             ? validatedData.priceOriginal
             : validatedData.priceDiscounted,
         discountEndDate: validatedData.discountEndDate
           ? new Date(validatedData.discountEndDate)
           : null,
         advancedPrice:
-        parseInt(validatedData.advancedPrice) === 0
-        ? parseInt(validatedData.priceOriginal)
-        : parseInt(validatedData.advancedPrice) || parseInt(validatedData.priceOriginal),
+          parseInt(validatedData.advancedPrice) === 0
+            ? parseInt(validatedData.priceOriginal)
+            : parseInt(validatedData.advancedPrice) ||
+              parseInt(validatedData.priceOriginal),
         dateCard: validatedData.dateCard,
-        durationDays:  parseInt(validatedData.durationDays),
-        durationNights:  parseInt(validatedData.durationNights),
+        durationDays: parseInt(validatedData.durationDays),
+        durationNights: parseInt(validatedData.durationNights),
         googleMapsUrl: validatedData.googleMapsUrl
-          ? (await getEmbedGoogleMapsUrl(validatedData.googleMapsUrl)) ?? ""
+          ? ((await getEmbedGoogleMapsUrl(validatedData.googleMapsUrl)) ?? "")
           : "",
         videoUrl: validatedData.videoUrl
           ? (await getYouTubeEmbedUrl(validatedData.videoUrl)) || ""
@@ -435,7 +440,7 @@ export async function updateTour(tourId: string, formData: any) {
         exclus: validatedData.exclus,
         extracts: validatedData.extracts,
         groupType: validatedData.groupType,
-        groupSizeMax:  parseInt(validatedData.groupSizeMax),
+        groupSizeMax: parseInt(validatedData.groupSizeMax),
         showReviews: validatedData.showReviews,
         showHebergement: validatedData.showHebergement,
         showDifficulty: validatedData.showDifficulty,
@@ -444,72 +449,76 @@ export async function updateTour(tourId: string, formData: any) {
         discountPercent: validatedData.discountPercent,
         accommodationType: validatedData.accommodationType,
 
-       dates: validatedData.dates
-  ? {
-      deleteMany: {
-        id: { in: deletableDateIds },
-      },
-      create: validatedData.dates.map((d:any) => ({
-        startDate: d.startDate,
-        endDate: d.endDate,
-        description: d.description,
-        price: d.price ?? 0,
-        visible: d.visible ?? true,
-      })),
-    }
-  : undefined,
+        dates: validatedData.dates
+          ? {
+              deleteMany: {
+                id: { in: deletableDateIds },
+              },
+              create: validatedData.dates.map((d: any) => ({
+                startDate: d.startDate,
+                endDate: d.endDate,
+                description: d.description,
+                price: d.price ?? 0,
+                visible: d.visible ?? true,
+              })),
+            }
+          : undefined,
 
         destinations: validatedData.destinations
           ? {
               set: [],
-              connect: validatedData.destinations.map((id:any) => ({ id })),
+              connect: validatedData.destinations.map((id: any) => ({ id })),
             }
           : undefined,
 
         categories: validatedData.categories
           ? {
               set: [],
-              connect: validatedData.categories.map((id:any) => ({ id })),
+              connect: validatedData.categories.map((id: any) => ({ id })),
             }
           : undefined,
 
         natures: validatedData.natures
           ? {
               set: [],
-              connect: validatedData.natures.map((id:any) => ({ id })),
+              connect: validatedData.natures.map((id: any) => ({ id })),
             }
           : undefined,
 
         services: validatedData.services
           ? {
               set: [],
-              connect: validatedData.services.map((id:any) => ({ id })),
+              connect: validatedData.services.map((id: any) => ({ id })),
             }
-          : undefined, 
+          : undefined,
       },
     });
 
     if (validatedData.programs) {
-      const normalizedPrograms = validatedData.programs.map((program:any) => ({
+      const normalizedPrograms = validatedData.programs.map((program: any) => ({
         ...program,
       }));
       await updateProgramsForTour(tourId, normalizedPrograms);
     }
-     if (validatedData.bookinSteps) {
-      const normalizedPrograms = validatedData.bookinSteps.map((program:any) => ({
-        ...program,
-      }));
+    if (validatedData.bookinSteps) {
+      const normalizedPrograms = validatedData.bookinSteps.map(
+        (program: any) => ({
+          ...program,
+        })
+      );
       await updateStepsForTour(tourId, normalizedPrograms);
     }
-     if (validatedData.checklist) {
-      const normalizedPrograms = validatedData.checklist.map((program:any) => ({
-        ...program,
-      }));
+    if (validatedData.checklist) {
+      const normalizedPrograms = validatedData.checklist.map(
+        (program: any) => ({
+          ...program,
+        })
+      );
       await updateChecklistForTour(tourId, normalizedPrograms);
     }
 
     return { success: true, data: updatedTour };
-  }  catch (error) {
+  } catch (error) {
     console.error("Prisma error:", error);
 
     return {
@@ -683,14 +692,14 @@ export async function getForProductDetails(tourId: string) {
   try {
     // Run the DB queries in parallel
     const programs = await prisma.program.findMany({
-      where:{
-        tourId
+      where: {
+        tourId,
       },
-      orderBy:{
-        orderIndex:"asc",
-      }
-    })
-    return {data: programs}
+      orderBy: {
+        orderIndex: "asc",
+      },
+    });
+    return { data: programs };
   } catch (error) {
     console.error("Error fetching related tour data:", error);
     return {
@@ -713,22 +722,23 @@ export async function checkTourIdExists(tourId: string) {
   }
 }
 
-
-export async function updateReservationTour(reservationId: string,updatedFields:any) {
+export async function updateReservationTour(
+  reservationId: string,
+  updatedFields: any
+) {
   try {
     const tour = await prisma.reservationForm.findUnique({
       where: { id: reservationId },
     });
-    if(tour){
-       const res = await prisma.reservationForm.update({
+    if (tour) {
+      const res = await prisma.reservationForm.update({
         where: { id: reservationId },
         data: {
-          fields:updatedFields
+          fields: updatedFields,
         },
       });
-       return { success: true ,  data: res };
+      return { success: true, data: res };
     }
-   
   } catch (error) {
     console.error("Error checking tour ID:", error);
     return { exists: false, error: "Failed to check tour ID" };
@@ -736,8 +746,6 @@ export async function updateReservationTour(reservationId: string,updatedFields:
     await prisma.$disconnect();
   }
 }
-
-
 
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use server";
@@ -747,7 +755,6 @@ export async function updateReservationTour(reservationId: string,updatedFields:
 // import { getEmbedGoogleMapsUrl } from "@/utils/getEmbedGoogleMapsUrl";
 // import { getYouTubeEmbedUrl } from "@/utils/getYouTubeEmbedUrl";
 // import { uploadImage } from "@/utils/uploadImage";
-
 
 // const prisma = new PrismaClient();
 
@@ -765,8 +772,6 @@ export async function updateReservationTour(reservationId: string,updatedFields:
 //     .replace(/^-|-$/g, "") // Trim leading/trailing dash
 //     .toLowerCase();
 // }
-
-
 
 // export async function addTour(
 //   formData: any,
@@ -919,8 +924,6 @@ export async function updateReservationTour(reservationId: string,updatedFields:
 // }
 
 // }
-
-
 
 // export async function getAllTours() {
 //   try {
@@ -1263,7 +1266,7 @@ export async function updateReservationTour(reservationId: string,updatedFields:
 //       });
 //        return { success: true ,  data: res };
 //     }
-   
+
 //   } catch (error) {
 //     console.error("Error checking tour ID:", error);
 //     return { exists: false, error: "Failed to check tour ID" };
@@ -1271,6 +1274,3 @@ export async function updateReservationTour(reservationId: string,updatedFields:
 //     await prisma.$disconnect();
 //   }
 // }
-
-
-

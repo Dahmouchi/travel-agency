@@ -91,7 +91,7 @@ export function Navbar({
   };
 
   return (
-    <header className="relative flex items-center justify-between px-4 py-3 md:px-6 md:py-4 shadow-md bg-white w-full z-40">
+    <header className="absolute w-[90%] lg:flex hidden top-4 left-1/2 -translate-x-1/2 mt-3 rounded-full border border-neutral-200  items-center justify-between px-4 py-3 md:px-6 md:py-4 shadow-md bg-white z-40">
       {/* Logo */}
       <Link href="/" className="flex items-center space-x-2 z-50">
         <img
@@ -156,7 +156,7 @@ export function Navbar({
                             className={cn(
                               "flex-1",
                               selectedDestinationType === "national" &&
-                                "bg-[#8EBD22] text-white"
+                                "bg-[#D97D55] text-white"
                             )}
                             onMouseEnter={() =>
                               setSelectedDestinationType("national")
@@ -170,7 +170,7 @@ export function Navbar({
                             className={cn(
                               "flex-1",
                               selectedDestinationType === "international" &&
-                                "bg-[#8EBD22] text-white"
+                                "bg-[#D97D55] text-white"
                             )}
                             onMouseEnter={() =>
                               setSelectedDestinationType("international")
@@ -299,7 +299,7 @@ export function Navbar({
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 );
-              case "a-apropos-de-nous":
+              case "a-propos-de-nous":
                 return (
                   <NavigationMenuItem key={item.id}>
                     <NavigationMenuLink
@@ -333,7 +333,7 @@ export function Navbar({
       <div className="flex items-center gap-2 md:gap-4 z-50">
         {/* CTA Button */}
         <Link href="tel:+212628324880">
-          <Button className="bg-[#8EBD22] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-3 py-2 text-xs md:px-5 md:py-2 md:text-base transition-all duration-300 flex items-center gap-1">
+          <Button className="bg-[#D97D55] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-3 py-2 text-xs md:px-5 md:py-2 md:text-base transition-all duration-300 flex items-center gap-1">
             <Phone className="w-3 h-3 md:w-4 md:h-4" />
             <span className="hidden sm:inline">Appelez-nous</span>
             <span className="sm:hidden">Appelez-nous</span>
@@ -398,7 +398,7 @@ export function Navbar({
                           >
                             <Link
                               href="/"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -417,7 +417,7 @@ export function Navbar({
                           >
                             <Link
                               href="/voyage-sur-mesure"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -436,7 +436,7 @@ export function Navbar({
                           >
                             <Link
                               href="/team-building"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -455,7 +455,7 @@ export function Navbar({
                           >
                             <Link
                               href="/discover-morocco"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -476,7 +476,7 @@ export function Navbar({
                               value="destinations"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>
@@ -489,7 +489,7 @@ export function Navbar({
                                         "flex-1 transition-all duration-200",
                                         selectedDestinationType ===
                                           "national" &&
-                                          "bg-[#8EBD22] text-white border-[#8EBD22]"
+                                          "bg-[#D97D55] text-white border-[#D97D55]"
                                       )}
                                       onClick={() => {
                                         setSelectedDestinationType("national");
@@ -504,7 +504,7 @@ export function Navbar({
                                         "flex-1 transition-all duration-200",
                                         selectedDestinationType ===
                                           "international" &&
-                                          "bg-[#8EBD22] text-white border-[#8EBD22]"
+                                          "bg-[#D97D55] text-white border-[#D97D55]"
                                       )}
                                       onClick={() => {
                                         setSelectedDestinationType(
@@ -555,7 +555,7 @@ export function Navbar({
                               value="voyages"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>
@@ -603,7 +603,7 @@ export function Navbar({
                               value="activities"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>
@@ -649,7 +649,7 @@ export function Navbar({
                           >
                             <Link
                               href="/blogs"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -657,7 +657,7 @@ export function Navbar({
                           </motion.div>
                         );
 
-                      case "a-apropos-de-nous":
+                      case "a-propos-de-nous":
                         return (
                           <motion.div
                             key={item.id}
@@ -668,7 +668,7 @@ export function Navbar({
                           >
                             <Link
                               href="/a-propos-de-nous"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -687,7 +687,7 @@ export function Navbar({
                           >
                             <Link
                               href="/contact"
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}

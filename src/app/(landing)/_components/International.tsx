@@ -3,6 +3,7 @@ import { Tour } from "@prisma/client";
 import { NationalCard } from "./ProductCard";
 import { SwiperCarousel } from "@/components/swiper-carousel";
 import { SwiperSlide } from "@/components/swiper-slide";
+import { TourCard } from "./TourCard";
 
 const International = ({
   tour,
@@ -28,10 +29,10 @@ const International = ({
         </div>
         <div className=" relative  lg:px-28 px-4 py-8">
           <SwiperCarousel>
-            {tour.map((tour) => (
+            {tour.map((tour, index) => (
               <SwiperSlide key={tour.id}>
                 <div className="py-8 px-2">
-                  <NationalCard tour={tour} />
+                  <TourCard tour={tour} index={index} />
                 </div>
               </SwiperSlide>
             ))}

@@ -23,11 +23,10 @@ import {
   DeleteReservation,
   UpdateReservationStatus,
 } from "@/actions/reservationsActions";
-import {
+import type {
   Hotel,
   Prisma,
   Reservation,
-  ReservationStatus,
   Tour,
   TourDate,
 } from "@prisma/client";
@@ -36,6 +35,7 @@ import { ReservationDetails } from "./reservation-details-form";
 import TourDetails from "@/app/(landing)/_components/ProductDetails";
 import { ReservationEditForm } from "./reservation-edit-form";
 import { sendEmailToClient } from "@/actions/meetingsActions";
+import { ReservationStatus } from "@/types/data/blog";
 
 type ReservationData = Reservation & {
   tourTitle: string;
@@ -136,9 +136,11 @@ export const reservationColumns = ({
     header: "Statut",
     cell: ({ row, table }) => {
       const [updating, setUpdating] = useState(false);
+
       const [localStatus, setLocalStatus] = useState(
         row.getValue("status") as ReservationStatus
       );
+
       const statusColors: Record<ReservationStatus, string> = {
         [ReservationStatus.PENDING]:
           "rounded-lg bg-yellow-200 text-yellow-800 p-1",

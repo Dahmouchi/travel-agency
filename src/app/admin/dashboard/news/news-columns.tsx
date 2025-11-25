@@ -49,7 +49,7 @@ export const reviewColumns = ({
     header: "Email",
     cell: ({ row }) => row.getValue("email"),
   },
-   {
+  {
     accessorKey: "phone",
     header: "Téléphone",
     cell: ({ row }) => row.getValue("phone"),
@@ -88,7 +88,6 @@ export const reviewColumns = ({
 
       return (
         <div className="flex items-center gap-2">
-        
           {isNew && (
             <span className="flex items-center gap-1">
               <span className="relative flex h-2 w-2">

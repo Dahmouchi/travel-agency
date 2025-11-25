@@ -44,18 +44,18 @@ export default function TourOrderManagerDiscover({
   }, [initialNationalTours]);
 
   const sensors = useSensors(
-  useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 8,
-    },
-  }),
-  useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 100, // 👈 small delay before activating drag
-      tolerance: 5,
-    },
-  })
-);
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 100, // 👈 small delay before activating drag
+        tolerance: 5,
+      },
+    })
+  );
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -90,8 +90,7 @@ export default function TourOrderManagerDiscover({
     }
   };
 
-  const currentTours =
-    activeTab === "NATIONAL" ? nationalTours : nationalTours;
+  const currentTours = activeTab === "NATIONAL" ? nationalTours : nationalTours;
 
   return (
     <Card>
@@ -102,16 +101,19 @@ export default function TourOrderManagerDiscover({
               variant={activeTab === "NATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "NATIONAL"
-                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
+                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("NATIONAL")}
             >
               Discover Morocco Tours
             </Button>
-            
           </div>
-          <Button onClick={handleSave} disabled={isSaving} className="bg-green-600 hover:bg-green-800 cursor-pointer">
+          <Button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="bg-green-600 hover:bg-green-800 cursor-pointer"
+          >
             {isSaving ? "Saving..." : "Save Order"}
           </Button>
         </CardTitle>
@@ -129,9 +131,10 @@ export default function TourOrderManagerDiscover({
             <div className="space-y-2">
               {currentTours.map((tour) => (
                 <SortableItem key={tour.id} id={tour.id}>
-                  <div className="flex items-center justify-between cursor-move p-4 border rounded-lg bg-background hover:bg-accent"
+                  <div
+                    className="flex items-center justify-between cursor-move p-4 border rounded-lg bg-background hover:bg-accent"
                     style={{ touchAction: "none" }} // 👈 Important for mobile dragging
->
+                  >
                     <div className="flex items-center space-x-4">
                       <GripIcon className="text-muted-foreground" />
                       <span>{tour.title}</span>

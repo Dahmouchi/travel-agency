@@ -68,37 +68,35 @@ export async function saveOmrahImage(
 }
 export async function saveCondition(
   id: string,
-  type: 'condition' | 'plitique',
+  type: "condition" | "plitique",
   content: string
 ) {
   try {
     await prisma.landing.update({
       where: { id },
       data: {
-        [type]: content
+        [type]: content,
       },
     });
     return { success: true };
   } catch (error) {
     console.error(`Error saving ${type}:`, error);
-    return { success: false, error: 'Failed to save content' };
+    return { success: false, error: "Failed to save content" };
   }
 }
-export async function saveGoogleAvieButton(
-  googleAvie: boolean
-) {
+export async function saveGoogleAvieButton(googleAvie: boolean) {
   try {
-    const landing = await prisma.landing.findFirst()
+    const landing = await prisma.landing.findFirst();
     await prisma.landing.update({
-      where:{ id : landing?.id},
+      where: { id: landing?.id },
       data: {
-        googleAvie: googleAvie
+        googleAvie: googleAvie,
       },
     });
     return { success: true };
   } catch (error) {
     console.error(`Error saving :`, error);
-    return { success: false, error: 'Failed to save content' };
+    return { success: false, error: "Failed to save content" };
   }
 }
 export async function saveNavbarItems(navbarItems: any) {
@@ -207,7 +205,7 @@ export async function createNewsLetter(
 export async function createFaq(
   question: string,
   answer: string,
-  orderIndex: number,
+  orderIndex: number
 ) {
   // First get the current landing page config
   try {
@@ -226,7 +224,7 @@ export async function createFaq(
 }
 export async function updateFaq(
   faqId: string,
-  data: { question?: string; answer?: string; orderIndex?: number },
+  data: { question?: string; answer?: string; orderIndex?: number }
 ) {
   if (!faqId) {
     return { success: false, error: "FAQ ID is required for update" };

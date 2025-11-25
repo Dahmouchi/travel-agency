@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // reservationActions.ts
-'use server';
+"use server";
 import prisma from "@/lib/prisma";
 import { ReservationStatus, TravelRequestStatus } from "@prisma/client";
 import { Turtle } from "lucide-react";
 import { sendEmailToClient } from "./meetingsActions";
 import { sendCustomTravelReservationEmail } from "./team-building";
-
 
 interface Reservation {
   tourId: string;
@@ -28,11 +27,11 @@ export async function getTravelRequest() {
   try {
     const blogs = await prisma.travelRequest.findMany({
       orderBy: { createdAt: "asc" },
-    })
-    return blogs
+    });
+    return blogs;
   } catch (error) {
-    console.error("Error fetching categories:", error)
-    return []
+    console.error("Error fetching categories:", error);
+    return [];
   }
 }
 export async function createTravelRequest(data: any) {
@@ -62,7 +61,7 @@ export async function createTravelRequest(data: any) {
         message: data.message,
       },
     });
-     await sendCustomTravelReservationEmail(travelRequest);
+    await sendCustomTravelReservationEmail(travelRequest);
     return { success: true, travelRequest };
   } catch (error) {
     console.error("❌ Error creating travel request:", error);
@@ -102,11 +101,14 @@ export async function CreateReservation(data: Reservation) {
         infantCount: data.infantCount,
         singleRoom: data.singleRoom ?? false,
         specialRequests: data.specialRequests,
-        totalPrice: data.totalPrice + (data.singleRoom ? 100 : 0) + hotelPrice + tourPrice,
+        totalPrice:
+          data.totalPrice +
+          (data.singleRoom ? 100 : 0) +
+          hotelPrice +
+          tourPrice,
         termsAccepted: data.termsAccepted,
         status: ReservationStatus.PENDING,
       },
-      
     });
 
     return reservation;
@@ -117,7 +119,7 @@ export async function CreateReservation(data: Reservation) {
 
 type CreateReservationInput = {
   tourId: string;
-  travelDateId: string;  // still passed in to identify which TourDate to copy from
+  travelDateId: string; // still passed in to identify which TourDate to copy from
   nom: string;
   prenom: string;
   phone: string;
@@ -126,23 +128,26 @@ type CreateReservationInput = {
   basePrice: number;
   finalPrice: number;
 };
-export async function UpdateStatuSurMesure(reservationId: string, newStatus: TravelRequestStatus) {
+export async function UpdateStatuSurMesure(
+  reservationId: string,
+  newStatus: TravelRequestStatus
+) {
   try {
     const blogs = await prisma.travelRequest.findUnique({
       where: { id: reservationId },
-    })
+    });
     if (!blogs) {
       throw new Error("TravelRequest not found");
-    } 
+    }
     await prisma.travelRequest.update({
       where: { id: reservationId },
       data: { status: newStatus },
     });
-    
+
     return blogs;
   } catch (error) {
-    console.error("Error fetching categories:", error)
-    return []
+    console.error("Error fetching categories:", error);
+    return [];
   }
 }
 export async function CreateReservations(input: CreateReservationInput) {
@@ -172,9 +177,9 @@ export async function CreateReservations(input: CreateReservationInput) {
         startDate: tourDate.startDate ?? new Date(),
         endDate: tourDate.endDate ?? tourDate.startDate ?? new Date(),
       },
-      include:{
-        tour:true,
-      }
+      include: {
+        tour: true,
+      },
     });
     await sendEmailToAdmin(reservation);
     return reservation;
@@ -183,7 +188,9 @@ export async function CreateReservations(input: CreateReservationInput) {
     throw new Error("❌ Failed to create reservation.");
   }
 }
-export async function CreateReservationsDiscoverr(input: CreateReservationInput) {
+export async function CreateReservationsDiscoverr(
+  input: CreateReservationInput
+) {
   try {
     // First, find the TourDate to get startDate and endDate
 
@@ -200,11 +207,11 @@ export async function CreateReservationsDiscoverr(input: CreateReservationInput)
         finalPrice: input.finalPrice,
         status: "PENDING", // or ReservationStatus.PENDING if enum imported
         startDate: new Date(),
-        endDate:new Date(),
+        endDate: new Date(),
       },
-      include:{
-        tour:true,
-      }
+      include: {
+        tour: true,
+      },
     });
     await sendEmailToAdmin(reservation);
     return reservation;
@@ -214,16 +221,16 @@ export async function CreateReservationsDiscoverr(input: CreateReservationInput)
   }
 }
 function formatDate(date: Date): string {
-    return date.toLocaleDateString("fr-FR", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  }
+  return date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export async function sendEmailToAdmin(reservation: any) {
   const adminEmail = "happy.trip.voyage@gmail.com";
-  
+
   await sendEmailToClient(
     adminEmail,
     "Nouvelle réservation - Happy Trip",
@@ -235,14 +242,14 @@ export async function sendEmailToAdmin(reservation: any) {
       
       <!-- Email content -->
       <div style="padding: 20px; background-color: #ffffff; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-        <h2 style="color: #8EBD22; margin-top: 0;">Nouvelle réservation reçue !</h2>
+        <h2 style="color: #D97D55; margin-top: 0;">Nouvelle réservation reçue !</h2>
         <p style="font-size: 16px; line-height: 1.5;">
           Une nouvelle réservation a été effectuée sur le site Happy Trip.
         </p>
         
         <!-- Reservation details card -->
-        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8EBD22;">
-          <h3 style="color: #8EBD22; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
+        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #D97D55;">
+          <h3 style="color: #D97D55; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
           
           <p style="margin: 8px 0;"><strong>🔹 Référence :</strong> ${reservation?.tour?.title}</p>
           <p style="margin: 8px 0;"><strong>🔹 Client :</strong> ${reservation.nom} ${reservation.prenom}</p>
@@ -256,21 +263,21 @@ export async function sendEmailToAdmin(reservation: any) {
         <!-- Action buttons -->
         <div style="margin: 20px 0; text-align: center;">
           <a href="https://happytrip.ma/admin" 
-             style="display: inline-block; padding: 10px 20px; background-color: #8EBD22; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+             style="display: inline-block; padding: 10px 20px; background-color: #D97D55; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Voir la réservation
           </a>
         </div>
         
         <!-- Client information -->
         <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-top: 24px;">
-          <h4 style="margin-top: 0; color: #8EBD22;">Informations supplémentaires :</h4>
+          <h4 style="margin-top: 0; color: #D97D55;">Informations supplémentaires :</h4>
           <pre style="white-space: pre-wrap; font-family: Arial; margin: 0;">${JSON.stringify(reservation.data, null, 2)}</pre>
         </div>
         
         <!-- Signature -->
         <p style="margin-top: 24px; font-size: 15px;">
           Cordialement,<br>
-          <strong style="color: #8EBD22;">Système de notification Happy Trip</strong>
+          <strong style="color: #D97D55;">Système de notification Happy Trip</strong>
         </p>
       </div>
       
@@ -285,16 +292,16 @@ export async function sendEmailToAdmin(reservation: any) {
 export async function GetAllReservations() {
   try {
     const reservations = await prisma.reservations.findMany({
-      where: {isDiscover:false},
+      where: { isDiscover: false },
       include: {
         tour: {
-          include:{
-            reservationForm:true,
-          }
-        },      
+          include: {
+            reservationForm: true,
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -306,16 +313,16 @@ export async function GetAllReservations() {
 export async function GetAllReservationsDiscover() {
   try {
     const reservations = await prisma.reservations.findMany({
-      where: {isDiscover:true},
+      where: { isDiscover: true },
       include: {
         tour: {
-          include:{
-            reservationForm:true,
-          }
-        },      
+          include: {
+            reservationForm: true,
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
 
@@ -324,7 +331,10 @@ export async function GetAllReservationsDiscover() {
     throw new Error("Failed to fetch reservations");
   }
 }
-export async function UpdateReservationStatus(id: string, status: ReservationStatus) {
+export async function UpdateReservationStatus(
+  id: string,
+  status: ReservationStatus
+) {
   try {
     const updatedReservation = await prisma.reservations.update({
       where: { id },
@@ -337,7 +347,10 @@ export async function UpdateReservationStatus(id: string, status: ReservationSta
   }
 }
 
-export async function UpdateReservation(id: string, data: Partial<Reservation>) {
+export async function UpdateReservation(
+  id: string,
+  data: Partial<Reservation>
+) {
   try {
     const updatedReservation = await prisma.reservation.update({
       where: { id },

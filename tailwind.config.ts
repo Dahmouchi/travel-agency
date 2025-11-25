@@ -1,5 +1,5 @@
 // tailwind.config.ts
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -13,10 +13,10 @@ const config: Config = {
       colors: {
         primary: "#1D4ED8", // Example: custom blue
         secondary: "#F43F5E", // Example: custom red
-        main:"#8EBD22",
+        main: "#D97D55",
       },
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

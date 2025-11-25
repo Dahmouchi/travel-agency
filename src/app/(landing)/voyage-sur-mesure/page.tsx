@@ -85,7 +85,7 @@ export default function VoyageSurMesurePage() {
       const res = await createTravelRequest(formData);
       if (res.success) {
         toast.success("Demande envoyée avec succès !");
-       setFormData({
+        setFormData({
           destination: "",
           departureDate: "",
           returnDate: "",
@@ -326,7 +326,7 @@ export default function VoyageSurMesurePage() {
                 key={step.number}
                 className="p-6 text-center bg-[#f8ffef] rounded-none flex items-start gap-1"
               >
-                <div className="w-12 h-12 bg-[#8EBD22] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                <div className="w-12 h-12 bg-[#D97D55] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                   {step.number}
                 </div>
                 <div>
@@ -339,7 +339,6 @@ export default function VoyageSurMesurePage() {
         </div>
       </section>
 
-     
       <section className="w-full bg-[#eef5ec] py-16 md:py-24 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -351,10 +350,9 @@ export default function VoyageSurMesurePage() {
               <span className="block">
                 Voyager en toute liberté selon ses envies,
               </span>
-              <span className="block text-[#8EBD22]">
+              <span className="block text-[#D97D55]">
                 ses idées, ses passions
               </span>
-              
             </p>
           </div>
 
@@ -363,7 +361,7 @@ export default function VoyageSurMesurePage() {
             {/* Column 1: Où je veux */}
             <div className="flex flex-col items-center text-center">
               <div className="mb-8">
-                <Map className=" text-[#8EBD22] w-16 h-auto"/>
+                <Map className=" text-[#D97D55] w-16 h-auto" />
               </div>
               <h3 className="text-2xl md:text-3xl font-serif text-[#2c2c2c] mb-4 italic">
                 Où je veux
@@ -379,7 +377,7 @@ export default function VoyageSurMesurePage() {
             {/* Column 2: Quand je veux */}
             <div className="flex flex-col items-center text-center">
               <div className="mb-8">
-               <Luggage className=" text-[#8EBD22] w-16 h-auto"/>
+                <Luggage className=" text-[#D97D55] w-16 h-auto" />
               </div>
               <h3 className="text-2xl md:text-3xl font-serif text-[#2c2c2c] mb-4 italic">
                 Quand je veux
@@ -394,8 +392,7 @@ export default function VoyageSurMesurePage() {
             {/* Column 3: Comme je veux */}
             <div className="flex flex-col items-center text-center">
               <div className="mb-8">
-                <MapPinCheck className=" text-[#8EBD22] w-16 h-auto" />
-               
+                <MapPinCheck className=" text-[#D97D55] w-16 h-auto" />
               </div>
               <h3 className="text-2xl md:text-3xl font-serif text-[#2c2c2c] mb-4 italic">
                 Comme je veux
@@ -411,7 +408,7 @@ export default function VoyageSurMesurePage() {
 
           {/* CTA Button */}
           <div className="flex justify-center">
-            <button className="bg-[#8EBD22] hover:bg-[#678a13] text-white px-8 py-3 rounded-full text-base md:text-lg font-medium transition-colors">
+            <button className="bg-[#D97D55] hover:bg-[#678a13] text-white px-8 py-3 rounded-full text-base md:text-lg font-medium transition-colors">
               Faites créer votre voyage
             </button>
           </div>

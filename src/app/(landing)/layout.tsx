@@ -1,36 +1,30 @@
-import { Category, Destination, Landing, Nature } from "@prisma/client";
-import Footer from "./_components/Footer";
-import { Navbar } from "./_components/Header";
-import prisma from "@/lib/prisma";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Metadata } from "next";
+import { ApplicationLayout } from "../application-layout";
+import "@/styles/default.css";
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Chisfis is a modern and elegant template for Next.js, Tailwind CSS, and TypeScript. It is designed to be simple and easy to use, with a focus on performance and accessibility.",
+  keywords: [
+    "Next.js",
+    "Tailwind CSS",
+    "TypeScript",
+    "Chisfis",
+    "Travel",
+    "E-commerce",
+    "Booking",
+    "Cars",
+  ],
+};
 
-export default async function RootLayout({
+export default function Layout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
-    const sections: Landing | null = await prisma.landing.findFirst({});
-  const destinationNational: Destination[] | null = await prisma.destination.findMany({
-      where: {
-        type:"NATIONAL",
-      },
-    });
-    const category: Category[] | null = await prisma.category.findMany({});
-    const nature: Nature[] | null = await prisma.nature.findMany({});
-    const destinationInternational: Destination[] | null = await prisma.destination.findMany({
-      where: {
-        type:"INTERNATIONAL",
-      },
-    });
-     const navbarItem = await prisma.navbarItem.findMany({
-    orderBy: { order: "asc" },
-  });
-  return (
-    <div className="">
-       {(sections?.navbar ?? true) && <Navbar nationalDestinations={destinationNational} internationalDestinations={destinationInternational} voyage={category} nature={nature} navbarItems={navbarItem}/>}
-      
-      {children}
-       {(sections?.footer ?? true) && <Footer voyage={destinationNational} nature={nature}/>}
-      
-    </div>
-  );
+  params: any;
+}) {
+  return <ApplicationLayout>{children}</ApplicationLayout>;
 }

@@ -6,6 +6,7 @@ import { Tour } from "@prisma/client";
 import { NationalCard } from "./ProductCard";
 import { SwiperCarousel } from "@/components/swiper-carousel";
 import { SwiperSlide } from "@/components/swiper-slide";
+import { TourCard } from "./TourCard";
 
 export function ToursDisplay({
   tours,
@@ -39,11 +40,11 @@ export function ToursDisplay({
         <div className="w-full relative">
           {displayMode === "carousel" ? (
             <div className=" relative  lg:px-28 px-4 py-8">
-              <SwiperCarousel >
-                {tours.map((tour) => (
+              <SwiperCarousel>
+                {tours.map((tour, index) => (
                   <SwiperSlide key={tour.id}>
                     <div className="py-8 px-2">
-                      <NationalCard tour={tour} />
+                      <TourCard tour={tour} index={index} />
                     </div>
                   </SwiperSlide>
                 ))}
@@ -51,12 +52,12 @@ export function ToursDisplay({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-3 ">
-              {tours.map((tour) => (
+              {tours.map((tour, index) => (
                 <div
                   key={tour.id}
                   className="flex items-center justify-center w-full "
                 >
-                  <NationalCard tour={tour} />
+                  <TourCard tour={tour} index={index} />
                 </div>
               ))}
             </div>

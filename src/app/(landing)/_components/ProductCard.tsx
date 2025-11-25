@@ -70,7 +70,7 @@ export function NationalCard({ tour }: { tour: any }) {
         {/* Tour? Info */}
         <div className="absolute top-4 w-full">
           <div className="w-full flex items-center justify-between">
-            <div className="bg-[#8EBD22] w-fit flex items-center gap-2 text-white p-1 px-2 rounded-sm shadow-lg">
+            <div className="bg-[#D97D55] w-fit flex items-center gap-2 text-white p-1 px-2 rounded-sm shadow-lg">
               <CalendarDays className="w-5 h-5" />
               <div className="text-xs">
                 {tour?.durationDays}J / {tour?.durationNights}N
@@ -119,7 +119,7 @@ export function NationalCard({ tour }: { tour: any }) {
           <div className="flex justify-between items-center w-full gap-2">
             <Link
               href={`/voyage/${tour?.id}`}
-              className="bg-[#8EBD22] carddd rounded-lg cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
+              className="bg-[#D97D55] carddd rounded-lg cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
             >
               <Eye className="w-6 h-6" />
               <span className="text-white w-full text-center select-none">

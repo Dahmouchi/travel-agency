@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
-'use server';
+"use server";
 import prisma from "@/lib/prisma";
 import { TravelRequestStatus } from "@prisma/client";
 import { sendEmailToClient } from "./meetingsActions";
@@ -72,37 +71,44 @@ export async function getEvent() {
   try {
     const blogs = await prisma.eventForm.findMany({
       orderBy: { createdAt: "asc" },
-    })
-    return blogs
+    });
+    return blogs;
   } catch (error) {
-    console.error("Error fetching categories:", error)
-    return []
+    console.error("Error fetching categories:", error);
+    return [];
   }
 }
 
-export async function UpdateStatuEvent(reservationId: string, newStatus: TravelRequestStatus) {
+export async function UpdateStatuEvent(
+  reservationId: string,
+  newStatus: TravelRequestStatus
+) {
   try {
     const blogs = await prisma.eventForm.findUnique({
       where: { id: reservationId },
-    })
+    });
     if (!blogs) {
       throw new Error("TravelRequest not found");
-    } 
+    }
     await prisma.eventForm.update({
       where: { id: reservationId },
       data: { status: newStatus },
     });
-    
+
     return blogs;
   } catch (error) {
-    console.error("Error fetching categories:", error)
-    return []
+    console.error("Error fetching categories:", error);
+    return [];
   }
 }
 // Utility to format date nicely
 function formatDate(date: string | Date) {
   const d = new Date(date);
-  return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
+  return d.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 // 1️⃣ Email for "Voyage sur mesure"
@@ -117,12 +123,12 @@ export async function sendCustomTravelReservationEmail(reservation: any) {
         <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
       </div>
       <div style="padding: 20px; background-color: #ffffff; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-        <h2 style="color: #8EBD22; margin-top: 0;">Nouvelle réservation sur mesure reçue !</h2>
+        <h2 style="color: #D97D55; margin-top: 0;">Nouvelle réservation sur mesure reçue !</h2>
         <p style="font-size: 16px; line-height: 1.5;">
           Une réservation de voyage sur mesure a été effectuée sur Happy Trip.
         </p>
-        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8EBD22;">
-          <h3 style="color: #8EBD22; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
+        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #D97D55;">
+          <h3 style="color: #D97D55; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
           <p style="margin: 8px 0;"><strong>🔹 Client :</strong> ${reservation.nom} ${reservation.prenom}</p>
           <p style="margin: 8px 0;"><strong>🔹 Email :</strong> ${reservation.email}</p>
           <p style="margin: 8px 0;"><strong>🔹 Téléphone :</strong> ${reservation.phone}</p>
@@ -131,17 +137,17 @@ export async function sendCustomTravelReservationEmail(reservation: any) {
           <p style="margin: 8px 0;"><strong>🔹 Participants :</strong> ${reservation.participants}</p>
         </div>
         <div style="margin: 20px 0; text-align: center;">
-          <a href="https://happytrip.ma/admin" style="display: inline-block; padding: 10px 20px; background-color: #8EBD22; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+          <a href="https://happytrip.ma/admin" style="display: inline-block; padding: 10px 20px; background-color: #D97D55; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Voir la réservation
           </a>
         </div>
         <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-top: 24px;">
-          <h4 style="margin-top: 0; color: #8EBD22;">Informations supplémentaires :</h4>
+          <h4 style="margin-top: 0; color: #D97D55;">Informations supplémentaires :</h4>
           <pre style="white-space: pre-wrap; font-family: Arial; margin: 0;">${JSON.stringify(reservation, null, 2)}</pre>
         </div>
         <p style="margin-top: 24px; font-size: 15px;">
           Cordialement,<br>
-          <strong style="color: #8EBD22;">Système de notification Happy Trip</strong>
+          <strong style="color: #D97D55;">Système de notification Happy Trip</strong>
         </p>
       </div>
       <div style="text-align: center; padding: 16px; color: #64748b; font-size: 12px;">
@@ -163,12 +169,12 @@ export async function sendTeamBuildingReservationEmail(reservation: any) {
         <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
       </div>
       <div style="padding: 20px; background-color: #ffffff; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-        <h2 style="color: #8EBD22; margin-top: 0;">Nouvelle réservation Team Building reçue !</h2>
+        <h2 style="color: #D97D55; margin-top: 0;">Nouvelle réservation Team Building reçue !</h2>
         <p style="font-size: 16px; line-height: 1.5;">
           Une réservation Team Building a été effectuée sur Happy Trip.
         </p>
-        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8EBD22;">
-          <h3 style="color: #8EBD22; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
+        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #D97D55;">
+          <h3 style="color: #D97D55; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
           <p style="margin: 8px 0;"><strong>🔹 Entreprise :</strong> ${reservation.company}</p>
           <p style="margin: 8px 0;"><strong>🔹 Contact :</strong> ${reservation.firstName} ${reservation.lastName}</p>
           <p style="margin: 8px 0;"><strong>🔹 Email :</strong> ${reservation.email}</p>
@@ -177,17 +183,17 @@ export async function sendTeamBuildingReservationEmail(reservation: any) {
           <p style="margin: 8px 0;"><strong>🔹 Date :</strong> ${formatDate(reservation.eventDate)}</p>
         </div>
         <div style="margin: 20px 0; text-align: center;">
-          <a href="https://happytrip.ma/admin" style="display: inline-block; padding: 10px 20px; background-color: #8EBD22; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+          <a href="https://happytrip.ma/admin" style="display: inline-block; padding: 10px 20px; background-color: #D97D55; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Voir la réservation
           </a>
         </div>
         <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-top: 24px;">
-          <h4 style="margin-top: 0; color: #8EBD22;">Informations supplémentaires :</h4>
+          <h4 style="margin-top: 0; color: #D97D55;">Informations supplémentaires :</h4>
           <pre style="white-space: pre-wrap; font-family: Arial; margin: 0;">${JSON.stringify(reservation, null, 2)}</pre>
         </div>
         <p style="margin-top: 24px; font-size: 15px;">
           Cordialement,<br>
-          <strong style="color: #8EBD22;">Système de notification Happy Trip</strong>
+          <strong style="color: #D97D55;">Système de notification Happy Trip</strong>
         </p>
       </div>
       <div style="text-align: center; padding: 16px; color: #64748b; font-size: 12px;">

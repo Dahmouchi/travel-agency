@@ -25,7 +25,6 @@ import { Hotel, Tour, TourDate } from "@prisma/client";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Badge } from "@/components/ui/badge";
 
-
 const DetailRow = ({
   icon: Icon,
   label,
@@ -62,8 +61,12 @@ const PriceBreakdownItem = ({
     <div className="flex items-center gap-1">
       {isMultiplied && multiplier && multiplier > 1 ? (
         <>
-          <span className="text-gray-500">+{price} × {multiplier}</span>
-          <span className="text-gray-700 font-medium">= {price * multiplier} MAD</span>
+          <span className="text-gray-500">
+            +{price} × {multiplier}
+          </span>
+          <span className="text-gray-700 font-medium">
+            = {price * multiplier} MAD
+          </span>
         </>
       ) : (
         <span className="text-gray-700 font-medium">+{price} MAD</span>
@@ -95,7 +98,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
             </CardTitle>
             <StatusBadge status={reservation.status} />
           </div>
-          
+
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Clock className="w-4 h-4" />
@@ -122,7 +125,11 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
               value={`${reservation.nom} ${reservation.prenom}`}
             />
             <DetailRow icon={Mail} label="Email" value={reservation.email} />
-            <DetailRow icon={Phone} label="Téléphone" value={reservation.phone} />
+            <DetailRow
+              icon={Phone}
+              label="Téléphone"
+              value={reservation.phone}
+            />
           </div>
         </div>
 
@@ -145,7 +152,9 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
               label="Période"
               value={
                 <span className="flex flex-col sm:flex-row sm:gap-1">
-                  <span>Du {formatDate(reservation.travelDate?.startDate)}</span>
+                  <span>
+                    Du {formatDate(reservation.travelDate?.startDate)}
+                  </span>
                   <span>au {formatDate(reservation.travelDate?.endDate)}</span>
                 </span>
               }
@@ -160,7 +169,8 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
                   </span>
                   {reservation.data?.childCount > 0 && (
                     <span className="flex items-center gap-1">
-                      <Baby className="w-4 h-4" /> {reservation.data.childCount} enfants
+                      <Baby className="w-4 h-4" /> {reservation.data.childCount}{" "}
+                      enfants
                     </span>
                   )}
                 </div>
@@ -180,7 +190,8 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
             </h3>
             <div className="bg-gray-50 rounded-lg p-4 space-y-2 border border-gray-200">
               {Object.entries(reservation.data).map(([key, value]) => {
-                if (key === 'numberOfAdults' || key === 'childCount') return null;
+                if (key === "numberOfAdults" || key === "childCount")
+                  return null;
                 return (
                   <DetailRow
                     key={key}
@@ -208,45 +219,55 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
               <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                 <span className="font-medium text-gray-700">Prix de base</span>
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-500">{reservation.basePrice} × {numberOfAdults}</span>
-                  <span className="font-medium">= {reservation.basePrice * numberOfAdults} MAD</span>
+                  <span className="text-gray-500">
+                    {reservation.basePrice} × {numberOfAdults}
+                  </span>
+                  <span className="font-medium">
+                    = {reservation.basePrice * numberOfAdults} MAD
+                  </span>
                 </div>
               </div>
 
-              {reservation.tour.reservationForm?.[0]?.fields?.map((field: any) => {
-                const value = reservation.data?.[field.name];
-                
-                // Checkbox fields (multiplied by number of adults)
-                if (field.type === "checkbox" && value === true && field.price) {
-                  return (
-                    <PriceBreakdownItem
-                      key={field.name}
-                      label={field.label}
-                      price={field.price}
-                      multiplier={numberOfAdults}
-                      isMultiplied={true}
-                    />
-                  );
-                }
+              {reservation.tour.reservationForm?.[0]?.fields?.map(
+                (field: any) => {
+                  const value = reservation.data?.[field.name];
 
-                // Select fields (not multiplied)
-                if (field.type === "select" && value) {
-                  const selectedOption = field.options?.find(
-                    (opt: any) => opt.value === value
-                  );
-                  if (selectedOption?.price) {
+                  // Checkbox fields (multiplied by number of adults)
+                  if (
+                    field.type === "checkbox" &&
+                    value === true &&
+                    field.price
+                  ) {
                     return (
                       <PriceBreakdownItem
                         key={field.name}
-                        label={`${field.label} (${selectedOption.label})`}
-                        price={selectedOption.price}
+                        label={field.label}
+                        price={field.price}
+                        multiplier={numberOfAdults}
+                        isMultiplied={true}
                       />
                     );
                   }
-                }
 
-                return null;
-              })}
+                  // Select fields (not multiplied)
+                  if (field.type === "select" && value) {
+                    const selectedOption = field.options?.find(
+                      (opt: any) => opt.value === value
+                    );
+                    if (selectedOption?.price) {
+                      return (
+                        <PriceBreakdownItem
+                          key={field.name}
+                          label={`${field.label} (${selectedOption.label})`}
+                          price={selectedOption.price}
+                        />
+                      );
+                    }
+                  }
+
+                  return null;
+                }
+              )}
 
               <div className="pt-3 mt-3 border-t border-gray-200">
                 <div className="flex justify-between items-center">

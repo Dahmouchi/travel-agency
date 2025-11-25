@@ -114,7 +114,9 @@ const page = async () => {
         </div>
       </section>
       <div className="w-full min-h-[90vh] px-4 lg:px-34 py-3">
-         <h1 className="lg:text-4xl text-xl font-bold text-center py-9">Explorez le Maroc</h1>
+        <h1 className="lg:text-4xl text-xl font-bold text-center py-9">
+          Explorez le Maroc
+        </h1>
         <TourList tourNational={tourNational || []} />
       </div>
     </div>

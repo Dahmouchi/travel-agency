@@ -101,7 +101,7 @@ export default function ModernPageControl({
   const [imagePreview, setImagePreview] = useState<string>(
     initialData.imageHero
   );
-    const [imagePreviewOmrah, setImagePreviewOmrah] = useState<string>(
+  const [imagePreviewOmrah, setImagePreviewOmrah] = useState<string>(
     initialData.imageOmrah
   );
   const [navbarItems, setNavbarItems] = useState<NavbarItem[]>([]);
@@ -116,12 +116,11 @@ export default function ModernPageControl({
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target?.result as string);
-        
       };
       reader.readAsDataURL(cardImage[0]);
       setHasChanges(true);
     }
-     if (cardImageOmrah && cardImageOmrah.length > 0) {
+    if (cardImageOmrah && cardImageOmrah.length > 0) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreviewOmrah(e.target?.result as string);
@@ -129,7 +128,7 @@ export default function ModernPageControl({
       reader.readAsDataURL(cardImageOmrah[0]);
       setHasChanges(true);
     }
-  }, [cardImage,cardImageOmrah]);
+  }, [cardImage, cardImageOmrah]);
 
   useEffect(() => {
     async function fetchNavbarItems() {
@@ -202,7 +201,7 @@ export default function ModernPageControl({
       setIsSaving(false);
     }
   };
- const handleSaveOmrah = async () => {
+  const handleSaveOmrah = async () => {
     setIsSaving(true);
     try {
       await saveOmrahImage(sections, cardImageOmrah);
@@ -299,7 +298,7 @@ export default function ModernPageControl({
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-3 bg-[#8EBD22] rounded-sm p-1 shadow-sm">
+          <TabsList className="grid w-full grid-cols-3 bg-[#D97D55] rounded-sm p-1 shadow-sm">
             <TabsTrigger
               value="content"
               className={`flex items-center space-x-2 ${activeTab === "content" ? "text-slate-800" : "text-white"}`}
@@ -495,12 +494,11 @@ export default function ModernPageControl({
                         id: "discoverTitle",
                         label: "Titre Découvrir le Maroc",
                         placeholder: "Titre section découvrir le maroc",
-
                       },
                       {
                         id: "discoverSubtitle",
                         label: "Description Découvrir le Maroc",
-                        placeholder: "Description section découvrir le maroc",  
+                        placeholder: "Description section découvrir le maroc",
                       },
                     ].map((field) => (
                       <div key={field.id} className="space-y-2">
@@ -525,84 +523,81 @@ export default function ModernPageControl({
                 </CardContent>
               </Card>
               <Card className="my-2 p-4">
-                    <div className="space-y-4">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Image Omrah
-                      </Label>
-                      <FileUploader
-                        value={cardImageOmrah}
-                        onValueChange={setCardImageOmrah}
-                        dropzoneOptions={{
-                          maxFiles: 1,
-                          maxSize: 10 * 1024 * 1024,
-                          accept: {
-                            "image/*": [".jpg", ".jpeg", ".png", ".gif"],
-                          },
-                        }}
-                        className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
-                        orientation="vertical"
-                      >
-                        <FileInput className="text-center">
-                          <div className="flex flex-col items-center space-y-2">
-                            <Upload className="w-8 h-8 text-gray-400" />
-                            <p className="text-sm text-gray-600">
-                              Glissez votre image ici ou cliquez pour parcourir
-                            </p>
-                            <p className="text-xs text-gray-400">
-                              PNG, JPG, GIF jusqu&apos;à 10MB
-                            </p>
-                          </div>
-                        </FileInput>
-
-                        <FileUploaderContent className="mt-4">
-                          {cardImageOmrah?.map((file, index) => (
-                            <FileUploaderItem
-                              key={index}
-                              index={index}
-                              className="bg-white rounded-lg p-3 border"
-                            >
-                              <span className="truncate max-w-[200px] text-sm">
-                                {file.name}
-                              </span>
-                            </FileUploaderItem>
-                          ))}
-                        </FileUploaderContent>
-                      </FileUploader>
-                    </div>
-                     <div className="space-y-4">
-                      <Label className="text-sm font-medium text-gray-700">
-                        Aperçu
-                      </Label>
-                      <div className="aspect-video h-[300px] w-full relative rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-100">
-                        <img
-                          src={imagePreviewOmrah}
-                          alt="Aperçu Hero"
-                          className="object-cover w-full h-full"
-                        />
-                       
+                <div className="space-y-4">
+                  <Label className="text-sm font-medium text-gray-700">
+                    Image Omrah
+                  </Label>
+                  <FileUploader
+                    value={cardImageOmrah}
+                    onValueChange={setCardImageOmrah}
+                    dropzoneOptions={{
+                      maxFiles: 1,
+                      maxSize: 10 * 1024 * 1024,
+                      accept: {
+                        "image/*": [".jpg", ".jpeg", ".png", ".gif"],
+                      },
+                    }}
+                    className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
+                    orientation="vertical"
+                  >
+                    <FileInput className="text-center">
+                      <div className="flex flex-col items-center space-y-2">
+                        <Upload className="w-8 h-8 text-gray-400" />
+                        <p className="text-sm text-gray-600">
+                          Glissez votre image ici ou cliquez pour parcourir
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          PNG, JPG, GIF jusqu&apos;à 10MB
+                        </p>
                       </div>
-                    </div>
-                      <Button
-                      onClick={handleSaveOmrah}
-                      
-                      className="bg-[#6EC207] hover:bg-[#5BA906] text-white flex items-center space-x-2"
-                    >
-                      {isSaving ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                          <span>Sauvegarde...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Save className="w-4 h-4" />
-                          <span>Sauvegarder</span>
-                        </>
-                      )}
-                    </Button>
-                   
+                    </FileInput>
+
+                    <FileUploaderContent className="mt-4">
+                      {cardImageOmrah?.map((file, index) => (
+                        <FileUploaderItem
+                          key={index}
+                          index={index}
+                          className="bg-white rounded-lg p-3 border"
+                        >
+                          <span className="truncate max-w-[200px] text-sm">
+                            {file.name}
+                          </span>
+                        </FileUploaderItem>
+                      ))}
+                    </FileUploaderContent>
+                  </FileUploader>
+                </div>
+                <div className="space-y-4">
+                  <Label className="text-sm font-medium text-gray-700">
+                    Aperçu
+                  </Label>
+                  <div className="aspect-video h-[300px] w-full relative rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-100">
+                    <img
+                      src={imagePreviewOmrah}
+                      alt="Aperçu Hero"
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                </div>
+                <Button
+                  onClick={handleSaveOmrah}
+                  className="bg-[#6EC207] hover:bg-[#5BA906] text-white flex items-center space-x-2"
+                >
+                  {isSaving ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Sauvegarde...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      <span>Sauvegarder</span>
+                    </>
+                  )}
+                </Button>
               </Card>
               <FaqDashboard />
-              <ConditionGenerale section={sections}/>
+              <ConditionGenerale section={sections} />
             </motion.div>
           </TabsContent>
 
@@ -688,7 +683,7 @@ export default function ModernPageControl({
                         const sectionLabels: Record<string, string> = {
                           navbar: "Barre de Navigation",
                           search: "Recherche",
-                          discover:"Découvrir le Maroc",
+                          discover: "Découvrir le Maroc",
                           hero: "Section Hero",
                           thisMount: "Voyage du Mois",
                           national: "Section Nationale",
@@ -699,7 +694,6 @@ export default function ModernPageControl({
                           expert: "Section Expert",
                           trust: "Section Confiance",
                           footer: "Pied de Page",
-                          
                         };
 
                         return (

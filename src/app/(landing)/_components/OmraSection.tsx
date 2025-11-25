@@ -2,11 +2,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
-"use client"
-import Loading from "@/components/Loading"
-import SafeHTML from "@/components/SafeHTML"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Card, CardContent } from "@/components/ui/card"
+"use client";
+import Loading from "@/components/Loading";
+import SafeHTML from "@/components/SafeHTML";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -28,45 +33,45 @@ import {
   MessageCircle,
   Star,
   TicketX as Tickets,
-} from "lucide-react"
-import React, { useEffect, useMemo, useRef, useState } from "react"
-import Autoplay from "embla-carousel-autoplay"
-import clsx from "clsx"
-import { Rating } from "react-simple-star-rating"
-import { ReviewModal } from "./ReviewsForm"
+} from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import clsx from "clsx";
+import { Rating } from "react-simple-star-rating";
+import { ReviewModal } from "./ReviewsForm";
 
 type Props = {
   tour: any & {
-    dates: any[]
-    reviews: any[]
-    inclus?: string
-    exclus?: string
-    extracts?: string
-  }
-  programss: any[]
-}
+    dates: any[];
+    reviews: any[];
+    inclus?: string;
+    exclus?: string;
+    extracts?: string;
+  };
+  programss: any[];
+};
 
 const TourDetailsAr = ({ tour, programss }: Props) => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(null)
-  const [availableDates, setAvailableDates] = useState<any[]>([])
-  const [expanded, setExpanded] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [availableDates, setAvailableDates] = useState<any[]>([]);
+  const [expanded, setExpanded] = useState(false);
   const [landing, setLanding] = useState<any>(null);
   const [sampleFaqData, setSampleFaqData] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }))
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   useEffect(() => {
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const future =
       tour.dates?.filter((date: any) => {
-        const start = new Date(date.startDate)
-        start.setHours(0, 0, 0, 0)
-        return start >= now
-      }) || []
-    setAvailableDates(future)
-    setSelectedDate(future[0]?.id ?? null)
-  }, [tour.dates])
+        const start = new Date(date.startDate);
+        start.setHours(0, 0, 0, 0);
+        return start >= now;
+      }) || [];
+    setAvailableDates(future);
+    setSelectedDate(future[0]?.id ?? null);
+  }, [tour.dates]);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -90,15 +95,23 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
       day: "2-digit",
       month: "long",
       year: "numeric",
-    })
+    });
   }
 
-  const approvedReviews = useMemo(() => tour.reviews?.filter((r: any) => r.status === true) ?? [], [tour.reviews])
+  const approvedReviews = useMemo(
+    () => tour.reviews?.filter((r: any) => r.status === true) ?? [],
+    [tour.reviews]
+  );
 
   const averageRating = useMemo(() => {
-    const total = approvedReviews.reduce((sum: any, r: any) => sum + r.rating, 0)
-    return approvedReviews.length > 0 ? (total / approvedReviews.length).toFixed(1) : "0"
-  }, [approvedReviews])
+    const total = approvedReviews.reduce(
+      (sum: any, r: any) => sum + r.rating,
+      0
+    );
+    return approvedReviews.length > 0
+      ? (total / approvedReviews.length).toFixed(1)
+      : "0";
+  }, [approvedReviews]);
 
   const includes = useMemo(
     () =>
@@ -106,8 +119,8 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.inclus],
-  )
+    [tour.inclus]
+  );
 
   const excludes = useMemo(
     () =>
@@ -115,8 +128,8 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.exclus],
-  )
+    [tour.exclus]
+  );
 
   const extract = useMemo(
     () =>
@@ -124,34 +137,41 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.extracts],
-  )
+    [tour.extracts]
+  );
 
   const getNextTourDate = useMemo(() => {
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
     const sorted =
       tour.dates
         ?.filter((d: any) => {
-          const date = new Date(d.startDate)
-          date.setHours(0, 0, 0, 0)
-          return date >= now
+          const date = new Date(d.startDate);
+          date.setHours(0, 0, 0, 0);
+          return date >= now;
         })
-        .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()) || []
+        .sort(
+          (a: any, b: any) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        ) || [];
 
-    return sorted.length > 0 ? formatDate(new Date(sorted[0].startDate)) : null
-  }, [tour.dates])
+    return sorted.length > 0 ? formatDate(new Date(sorted[0].startDate)) : null;
+  }, [tour.dates]);
 
   if (!tour) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
     <div className="relative" dir="rtl">
       <div className="block lg:hidden bg-[#F6F3F2]">
-        {tour.discountEndDate && tour.showDiscount && tour.priceOriginal !== tour.priceDiscounted && (
-          <div className="p-4 bg-red-100 text-red-800 text-center font-semibold">عرض محدود الوقت</div>
-        )}
+        {tour.discountEndDate &&
+          tour.showDiscount &&
+          tour.priceOriginal !== tour.priceDiscounted && (
+            <div className="p-4 bg-red-100 text-red-800 text-center font-semibold">
+              عرض محدود الوقت
+            </div>
+          )}
       </div>
 
       <div className="bg-[#F6F3F2] p-4 md:p-8 lg:p-8">
@@ -167,12 +187,16 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                 {tour.destinations?.[0]?.name || "وجهة"}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{tour.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              {tour.title}
+            </h1>
 
             {tour.showReviews && (
               <div className="flex items-center mb-6">
                 <div className="flex mr-2">
-                  <StarRatingDisplay averageRating={Number.parseInt(averageRating)} />
+                  <StarRatingDisplay
+                    averageRating={Number.parseInt(averageRating)}
+                  />
                 </div>
                 <span className="text-gray-600 text-sm ml-1">
                   ({approvedReviews.length} تقييم) • {averageRating}/5
@@ -185,7 +209,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               <div
                 className={clsx(
                   "text-gray-700 leading-relaxed transition-all duration-300",
-                  !expanded && "line-clamp-6",
+                  !expanded && "line-clamp-6"
                 )}
               >
                 <SafeHTML html={tour.description || ""} />
@@ -204,7 +228,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
           <div className="lg:w-1/2 w-full h-full relative">
             <img
-              src={tour.imageUrl || "/placeholder.svg?height=600&width=800&query=tour"}
+              src={
+                tour.imageUrl ||
+                "/placeholder.svg?height=600&width=800&query=tour"
+              }
               alt={tour.title}
               className="rounded-lg shadow-md w-full lg:h-[60vh] h-[30vh] object-cover"
             />
@@ -218,7 +245,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             <div className="flex items-center gap-2">
               <Tickets className="w-6 h-6" />
               <span className="whitespace-nowrap text-2xl font-bold">
-                {selectedDate ? `من ${tour.priceDiscounted} درهم` : "اختر تاريخ"}
+                {selectedDate
+                  ? `من ${tour.priceDiscounted} درهم`
+                  : "اختر تاريخ"}
               </span>
             </div>
 
@@ -233,13 +262,22 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                     {availableDates
                       .filter((date) => date.visible)
                       .map((date: any) => (
-                        <option key={date.id} value={date.id} className="text-gray-900">
-                          {new Date(date.startDate).toLocaleDateString("fr-FR")} - {date?.price} درهم
+                        <option
+                          key={date.id}
+                          value={date.id}
+                          className="text-gray-900"
+                        >
+                          {new Date(date.startDate).toLocaleDateString("fr-FR")}{" "}
+                          - {date?.price} درهم
                         </option>
                       ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-white">
-                    <svg className="h-4 w-4 md:h-3 md:w-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      className="h-4 w-4 md:h-3 md:w-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path
                         fillRule="evenodd"
                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -249,7 +287,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                   </div>
                 </div>
               ) : (
-                <div className="text-white/80 italic text-base md:text-sm">لا توجد تواريخ متاحة</div>
+                <div className="text-white/80 italic text-base md:text-sm">
+                  لا توجد تواريخ متاحة
+                </div>
               )}
 
               <div
@@ -259,9 +299,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 onClick={(e) => {
-                  const el = document.getElementById("reservation-form")
+                  const el = document.getElementById("reservation-form");
                   if (el) {
-                    el.scrollIntoView({ behavior: "smooth" })
+                    el.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
               >
@@ -272,7 +312,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
           <div className="flex lg:hidden flex-col gap-2 items-start lg:items-center lg:px-0 px-8 justify-start lg:text-nowrap text-xl md:text-lg lg:justify-center py-4">
             <div className="flex items-center gap-2">
-              <img src="/icons/calendar.png" className="w-7 h-7 md:w-6 md:h-6" />
+              <img
+                src="/icons/calendar.png"
+                className="w-7 h-7 md:w-6 md:h-6"
+              />
               <span className="md:text-lg text-xl">التاريخ القادم</span>
             </div>
             <div className="md:text-base text-xl w-full text-center font-semibold bg-white/20 px-4 py-1 rounded-full shadow text-white border border-white/30">
@@ -281,7 +324,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
           </div>
 
           <div className="flex items-center lg:px-0 px-8 justify-start lg:text-nowrap text-xl md:text-lg lg:justify-center gap-2 w-full lg:border-l-2 border-t-2 lg:border-t-0 lg:border-b-0 py-4 border-white lg:my-4">
-            <img src="/icons/night-mode.png" className="w-7 h-7 md:w-6 md:h-6" />
+            <img
+              src="/icons/night-mode.png"
+              className="w-7 h-7 md:w-6 md:h-6"
+            />
             <span className="md:text-lg text-xl">
               {tour.durationDays} أيام / {tour.durationNights} ليالي
             </span>
@@ -289,7 +335,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
           <div className="lg:flex hidden flex-col gap-2 items-start lg:items-center lg:px-0 px-8 justify-start lg:text-nowrap text-xl md:text-lg lg:justify-center py-4">
             <div className="flex items-center gap-2">
-              <img src="/icons/calendar.png" className="w-7 h-7 md:w-6 md:h-6" />
+              <img
+                src="/icons/calendar.png"
+                className="w-7 h-7 md:w-6 md:h-6"
+              />
               <span className="md:text-lg text-xl">التاريخ القادم</span>
             </div>
             <div className="md:text-base text-center text-xl w-full font-semibold bg-white/20 px-4 py-1 rounded-full shadow text-white border border-white/30">
@@ -301,7 +350,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             <div className="flex items-center gap-2">
               <Tickets className="w-6 h-6" />
               <span className="whitespace-nowrap text-2xl font-bold">
-                {selectedDate ? `من ${tour.priceDiscounted} درهم` : "اختر تاريخ"}
+                {selectedDate
+                  ? `من ${tour.priceDiscounted} درهم`
+                  : "اختر تاريخ"}
               </span>
             </div>
 
@@ -316,13 +367,22 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                     {availableDates
                       .filter((date) => date.visible)
                       .map((date: any) => (
-                        <option key={date.id} value={date.id} className="text-gray-900">
-                          {new Date(date.startDate).toLocaleDateString("fr-FR")} - {date?.price} درهم
+                        <option
+                          key={date.id}
+                          value={date.id}
+                          className="text-gray-900"
+                        >
+                          {new Date(date.startDate).toLocaleDateString("fr-FR")}{" "}
+                          - {date?.price} درهم
                         </option>
                       ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-white">
-                    <svg className="h-4 w-4 md:h-3 md:w-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      className="h-4 w-4 md:h-3 md:w-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path
                         fillRule="evenodd"
                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -332,7 +392,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                   </div>
                 </div>
               ) : (
-                <div className="text-white/80 italic text-base md:text-sm">لا توجد تواريخ متاحة</div>
+                <div className="text-white/80 italic text-base md:text-sm">
+                  لا توجد تواريخ متاحة
+                </div>
               )}
 
               <div
@@ -342,9 +404,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
                 onClick={(e) => {
-                  const el = document.getElementById("reservation-form")
+                  const el = document.getElementById("reservation-form");
                   if (el) {
-                    el.scrollIntoView({ behavior: "smooth" })
+                    el.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
               >
@@ -356,12 +418,16 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
         <div className="lg:col-span-1 space-y-2 lg:hidden px-2">
           <div className="bg-[#F6F3F2] rounded-lg shadow border border-slate-200 p-4 space-y-4">
-            <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">تفاصيل الرحلة</h3>
+            <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">
+              تفاصيل الرحلة
+            </h3>
 
             {tour.showDifficulty && (
               <div className="flex items-center gap-3 border-b pb-3 justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 font-medium w-24">المستوى</span>
+                  <span className="text-gray-600 font-medium w-24">
+                    المستوى
+                  </span>
                 </div>
                 <div className="flex gap-2">
                   {[...Array(5)].map((_, i) => (
@@ -442,9 +508,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             <button
               className="w-full bg-green-800 text-white py-3 rounded-lg font-semibold hover:bg-green-900 transition-colors mt-4"
               onClick={() => {
-                const el = document.getElementById("reservation-form")
+                const el = document.getElementById("reservation-form");
                 if (el) {
-                  el.scrollIntoView({ behavior: "smooth" })
+                  el.scrollIntoView({ behavior: "smooth" });
                 }
               }}
             >
@@ -473,7 +539,11 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             <div className="mt-8">
               <h1 className="text-2xl font-bold">البرنامج:</h1>
             </div>
-            <Accordion type="multiple" className="space-y-3" defaultValue={[programss[0]?.id]}>
+            <Accordion
+              type="multiple"
+              className="space-y-3"
+              defaultValue={[programss[0]?.id]}
+            >
               {programss.map((prog: any) => (
                 <AccordionItem value={prog.id} key={prog.id}>
                   <AccordionTrigger className="bg-[#8ebd21] text-left rounded-t-lg cursor-pointer px-4 py-3 text-white">
@@ -504,13 +574,18 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 {tour.inclus !== "" && (
                   <div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-1">ما هو مشمول في الرحلة</h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-1">
+                      ما هو مشمول في الرحلة
+                    </h2>
                     <p className="text-sm text-gray-500 mb-4 pb-2 border-b border-gray-200">
                       العناصر المشمولة في سعر الرحلة
                     </p>
                     <ul className="list-none p-0 m-0">
                       {includes.map((item: any, index: any) => (
-                        <div key={`inc-${index}`} className="flex items-center gap-2 mt-2">
+                        <div
+                          key={`inc-${index}`}
+                          className="flex items-center gap-2 mt-2"
+                        >
                           <span className="pt-1 text-green-600">
                             <BadgeCheck className="w-6.5 h-6.5 min-w-[20px] min-h-[20px] bg-green-100 rounded-full p-1" />
                           </span>
@@ -523,13 +598,18 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
                 {tour.exclus !== "" && (
                   <div>
-                    <h2 className="text-xl font-bold text-gray-800 mb-1">ما هو غير مشمول في الرحلة</h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-1">
+                      ما هو غير مشمول في الرحلة
+                    </h2>
                     <p className="text-sm text-gray-500 mb-4 pb-2 border-b border-gray-200">
                       العناصر التي لا تشملها سعر الرحلة
                     </p>
                     <ul className="list-none p-0 m-0">
                       {excludes.map((item: any, index: any) => (
-                        <div key={`exc-${index}`} className="flex items-center gap-2 mt-2">
+                        <div
+                          key={`exc-${index}`}
+                          className="flex items-center gap-2 mt-2"
+                        >
                           <span className="pt-1 text-red-600">
                             <BadgeX className="w-6.5 h-6.5 min-w-[20px] min-h-[20px] bg-red-100 rounded-full p-1" />
                           </span>
@@ -543,13 +623,18 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
               {tour.extracts !== "" && (
                 <div>
-                  <h2 className="text-xl font-bold mt-3 text-gray-800 mb-1">الإضافيات والخدمات الإضافية</h2>
+                  <h2 className="text-xl font-bold mt-3 text-gray-800 mb-1">
+                    الإضافيات والخدمات الإضافية
+                  </h2>
                   <p className="text-sm text-gray-500 mb-4 pb-2 border-b border-gray-200">
                     الخدمات الاختيارية أو الرسوم الإضافية
                   </p>
                   <ul className="list-none p-0 m-0">
                     {extract.map((item: any, index: any) => (
-                      <div key={`ext-${index}`} className="flex items-center gap-2 mt-2">
+                      <div
+                        key={`ext-${index}`}
+                        className="flex items-center gap-2 mt-2"
+                      >
                         <span className="pt-1 text-blue-600">
                           <BadgePlus className="w-6.5 h-6.5 min-w-[20px] min-h-[20px] bg-blue-100 rounded-full p-1" />
                         </span>
@@ -564,12 +649,16 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
           <div className="lg:col-span-1 space-y-2">
             <div className="bg-[#F6F3F2] rounded-lg shadow border lg:block hidden border-slate-200 p-4 space-y-4">
-              <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">تفاصيل الرحلة</h3>
+              <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">
+                تفاصيل الرحلة
+              </h3>
 
               {tour.showDifficulty && (
                 <div className="flex items-center gap-3 border-b pb-3 justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600 font-medium w-24">المستوى</span>
+                    <span className="text-gray-600 font-medium w-24">
+                      المستوى
+                    </span>
                   </div>
                   <div className="flex gap-2">
                     {[...Array(5)].map((_, i) => (
@@ -619,21 +708,27 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
               <div className="flex items-center gap-3 border-b pb-3 justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 font-medium">حجم المجموعة</span>
+                  <span className="text-gray-600 font-medium">
+                    حجم المجموعة
+                  </span>
                 </div>
                 <span className="text-gray-800">{tour.groupSizeMax}</span>
               </div>
 
               <div className="flex items-center gap-3 border-b pb-3 justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 font-medium w-24">الإقامة</span>
+                  <span className="text-gray-600 font-medium w-24">
+                    الإقامة
+                  </span>
                 </div>
                 <span className="text-gray-800">{tour.accommodationType}</span>
               </div>
 
               <div className="flex items-center gap-3 pb-3 justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-600 font-medium w-24">الخدمات</span>
+                  <span className="text-gray-600 font-medium w-24">
+                    الخدمات
+                  </span>
                 </div>
                 <div className="gap-2 flex flex-col">
                   {tour.services?.map((ser: any, index: any) => (
@@ -650,9 +745,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               <button
                 className="w-full bg-green-800 text-white py-3 rounded-lg font-semibold hover:bg-green-900 transition-colors mt-4"
                 onClick={() => {
-                  const el = document.getElementById("reservation-form")
+                  const el = document.getElementById("reservation-form");
                   if (el) {
-                    el.scrollIntoView({ behavior: "smooth" })
+                    el.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
               >
@@ -668,7 +763,9 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                   آراء عملائنا
                 </h2>
                 {approvedReviews.length === 0 ? (
-                  <div className="text-center text-gray-500 py-8">لا توجد تقييمات حتى الآن</div>
+                  <div className="text-center text-gray-500 py-8">
+                    لا توجد تقييمات حتى الآن
+                  </div>
                 ) : (
                   <div className="w-full">
                     <ReviewsCardAr
@@ -711,16 +808,22 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                       <span className="md:hidden font-semibold">إلى: </span>
                       {new Date(item.endDate).toLocaleDateString("fr-FR")}
                     </div>
-                    <div className="text-sm font-bold text-gray-800">{item?.description}</div>
                     <div className="text-sm font-bold text-gray-800">
-                      {item.price !== 0 ? item.price : tour.priceDiscounted} درهم
+                      {item?.description}
+                    </div>
+                    <div className="text-sm font-bold text-gray-800">
+                      {item.price !== 0 ? item.price : tour.priceDiscounted}{" "}
+                      درهم
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-             {landing?.reviews && (
-              <div dir="ltr" className="bg-[#F6F3F2] my-4 p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans">
+            {landing?.reviews && (
+              <div
+                dir="ltr"
+                className="bg-[#F6F3F2] my-4 p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
+              >
                 <div className="flex items-center justify-center mb-4 gap-3">
                   {/* Reviews Section <img
                     src="/icons/google-logo-Photoroom.png"
@@ -802,7 +905,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               </div>
             )}
             {tour.showReviews && (
-              <div dir="ltr" className="bg-[#F6F3F2]  p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans">
+              <div
+                dir="ltr"
+                className="bg-[#F6F3F2]  p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
+              >
                 <h2 className="text-xl text-center font-bold text-gray-800 mb-6 flex flex-col gap-2 items-center justify-center">
                   <MessageCircle />
                   Les avis de nos clients à propos de ce voyage
@@ -863,7 +969,10 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               </div>
             )}
             {tour?.bookinSteps?.length > 0 && (
-              <div dir="ltr" className="w-full max-w-4xl mx-auto p-6 md:p-8 font-sans bg-[#F6F3F2] rounded-lg shadow border border-slate-200">
+              <div
+                dir="ltr"
+                className="w-full max-w-4xl mx-auto p-6 md:p-8 font-sans bg-[#F6F3F2] rounded-lg shadow border border-slate-200"
+              >
                 <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
                   Comment faire la réservation
                 </h2>
@@ -916,7 +1025,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
           </div>
         </div>
       </div>
- <div id="reservation-form" dir="ltr">
+      <div id="reservation-form" dir="ltr">
         <ReservationsForm
           fields={tour.reservationForm[0]?.fields || []}
           tourId={tour.id}
@@ -952,8 +1061,8 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 const StarRatingDisplay = ({ averageRating }: { averageRating: number }) => {
   return (
@@ -968,11 +1077,11 @@ const StarRatingDisplay = ({ averageRating }: { averageRating: number }) => {
         emptyColor="#d1d5db"
       />
     </div>
-  )
-}
+  );
+};
 
 const ReviewsCardAr = ({ review }: { review: any }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <Card className="mx-2 border border-gray-200 rounded-lg shadow-sm overflow-hidden mb-4">
@@ -982,14 +1091,18 @@ const ReviewsCardAr = ({ review }: { review: any }) => {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={i < review?.rating ? "text-yellow-400" : "text-gray-300"}
+                className={
+                  i < review?.rating ? "text-yellow-400" : "text-gray-300"
+                }
                 fill={i < review?.rating ? "#facc15" : "none"}
               />
             ))}
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm mb-4 leading-relaxed">&quot;{review?.message}&quot;</p>
+        <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+          &quot;{review?.message}&quot;
+        </p>
 
         <div className="flex items-center mt-auto pt-4 border-t border-gray-100 w-full">
           <img
@@ -998,16 +1111,18 @@ const ReviewsCardAr = ({ review }: { review: any }) => {
             className="w-10 h-10 rounded-full ml-3 object-cover"
           />
           <div>
-            <p className="font-semibold text-gray-800 text-sm">{review?.name}</p>
+            <p className="font-semibold text-gray-800 text-sm">
+              {review?.name}
+            </p>
             <p className="text-gray-500 text-xs">{review?.role}</p>
           </div>
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default TourDetailsAr
+export default TourDetailsAr;
 import {
   AlertDialog,
   AlertDialogContent,
@@ -1118,7 +1233,7 @@ const ReviewsCard = ({ review }: { review: any }) => {
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>
@@ -1172,8 +1287,8 @@ interface CombinedButtonsProps {
   reservationFormId: string; // ID of your reservation form element
 }
 import WhatsappShare from "./whatsappShare";
-import { GetFAQ, getLanding } from "@/actions/saveLandingConfig"
-import { Review } from "@prisma/client"
+import { GetFAQ, getLanding } from "@/actions/saveLandingConfig";
+import { Review } from "@prisma/client";
 
 const CombinedButtons: React.FC<CombinedButtonsProps> = ({
   whatsappProps,
@@ -1490,7 +1605,7 @@ const ReviewItem = ({ review }: { review: any }) => {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

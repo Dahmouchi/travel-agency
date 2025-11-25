@@ -122,7 +122,7 @@ export default function TourOrderManager({
               variant={activeTab === "NATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "NATIONAL"
-                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
+                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("NATIONAL")}
@@ -133,7 +133,7 @@ export default function TourOrderManager({
               variant={activeTab === "INTERNATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "INTERNATIONAL"
-                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
+                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("INTERNATIONAL")}
@@ -182,8 +182,8 @@ export default function TourOrderManager({
                               setOpen(true);
                             }}
                           >
-                            <Archive className="w-5 h-5 cursor-pointer text-[#8EBD22] group-hover:scale-110 transition-transform" />
-                            <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#8EBD22]/70" />
+                            <Archive className="w-5 h-5 cursor-pointer text-[#D97D55] group-hover:scale-110 transition-transform" />
+                            <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#D97D55]/70" />
                           </div>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -192,7 +192,6 @@ export default function TourOrderManager({
                               Êtes-vous sûr de vouloir archiver ce tour ?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              
                               Le tour ne sera plus visible publiquement mais
                               restera accessible dans les archives. Vous pourrez
                               le réactiver ultérieurement.

@@ -26,7 +26,11 @@ type ReviewData = Review & {
   tourTitle: string;
 };
 
-export const reviewColumns = ({ refresh }: { refresh: () => void }): ColumnDef<ReviewData, unknown>[] => [
+export const reviewColumns = ({
+  refresh,
+}: {
+  refresh: () => void;
+}): ColumnDef<ReviewData, unknown>[] => [
   {
     accessorKey: "tourTitle",
     header: "Titre du circuit",
@@ -38,38 +42,38 @@ export const reviewColumns = ({ refresh }: { refresh: () => void }): ColumnDef<R
     cell: ({ row }) => row.getValue("rating"),
   },
   {
-  accessorKey: "message",
-  header: "Commentaire",
-  cell: ({ row }) => {
-    const message = row.getValue("message") as string;
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    
-    return (
-      <>
-        <div 
-          className="line-clamp-2 cursor-pointer hover:underline max-w-[280px]" 
-          onClick={() => setIsDialogOpen(true)}
-        >
-          {message}
-        </div>
-        
-        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Commentaire complet</AlertDialogTitle>
-            </AlertDialogHeader>
-            <div className="max-h-[60vh] overflow-y-auto p-4 bg-gray-50 rounded-md">
-              {message}
-            </div>
-            <AlertDialogFooter>
-              <AlertDialogAction>Fermer</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </>
-    );
+    accessorKey: "message",
+    header: "Commentaire",
+    cell: ({ row }) => {
+      const message = row.getValue("message") as string;
+      const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+      return (
+        <>
+          <div
+            className="line-clamp-2 cursor-pointer hover:underline max-w-[280px]"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            {message}
+          </div>
+
+          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Commentaire complet</AlertDialogTitle>
+              </AlertDialogHeader>
+              <div className="max-h-[60vh] overflow-y-auto p-4 bg-gray-50 rounded-md">
+                {message}
+              </div>
+              <AlertDialogFooter>
+                <AlertDialogAction>Fermer</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </>
+      );
+    },
   },
-},
   {
     accessorKey: "fullName",
     header: "Nom complet",
@@ -78,13 +82,13 @@ export const reviewColumns = ({ refresh }: { refresh: () => void }): ColumnDef<R
   {
     accessorKey: "createdAt",
     header: "Créé le",
-    cell: ({ row }) => new Date(row.getValue("createdAt")).toLocaleString("fr-FR", {
+    cell: ({ row }) =>
+      new Date(row.getValue("createdAt")).toLocaleString("fr-FR", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
-       
       }),
   },
   {
@@ -155,16 +159,18 @@ export const reviewColumns = ({ refresh }: { refresh: () => void }): ColumnDef<R
             <AlertDialogHeader>
               <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
               <AlertDialogDescription>
-                Cette action est irréversible. L’avis sera définitivement supprimé.
+                Cette action est irréversible. L’avis sera définitivement
+                supprimé.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel>Annuler</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}         
-                    className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
-                    >
-                    Supprimer
-                </AlertDialogAction>
+              <AlertDialogCancel>Annuler</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDelete}
+                className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+              >
+                Supprimer
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

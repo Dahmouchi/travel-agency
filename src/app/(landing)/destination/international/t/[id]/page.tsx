@@ -7,44 +7,42 @@ import React from "react";
 import { Tour } from "@prisma/client";
 import TourDetails from "@/app/(landing)/_components/ProductDetails";
 
-
-
-const TourDetailsMain = async (params:any) => {
- const tour: Tour | null = await prisma.tour.findUnique({
+const TourDetailsMain = async (params: any) => {
+  const tour: Tour | null = await prisma.tour.findUnique({
     where: {
-      id:params.params.id,
+      id: params.params.id,
     },
-    include:{
+    include: {
       reservationForm: true,
-       dates:{
-          orderBy:{
-            startDate:"asc",
-          }
+      dates: {
+        orderBy: {
+          startDate: "asc",
         },
-        images:true,
-        natures:true,
-        destinations:true,
-        
-        categories:true,
-        reviews:true,
-        services:true,
-        hotels:true,
-    }
-  });
- const programs = await prisma.program.findMany({
-      where:{
-        tourId:tour?.id
       },
-      orderBy:{
-        orderIndex:"asc",
-      }
-    })
+      images: true,
+      natures: true,
+      destinations: true,
+
+      categories: true,
+      reviews: true,
+      services: true,
+      hotels: true,
+    },
+  });
+  const programs = await prisma.program.findMany({
+    where: {
+      tourId: tour?.id,
+    },
+    orderBy: {
+      orderIndex: "asc",
+    },
+  });
   if (!tour) {
     return <div>Tour not found</div>;
   }
   return (
     <div>
-      <TourDetails tour={tour} programss={programs}/>
+      <TourDetails tour={tour} programss={programs} />
     </div>
   );
 };

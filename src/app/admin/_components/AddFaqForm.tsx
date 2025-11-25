@@ -141,144 +141,140 @@ const FaqManagement = () => {
   return (
     <div className="mt-4">
       {/* Header */}
-            <Card>
-              <CardHeader className="pb-4 flex items-center justify-between lg:flex-row flex-col">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <FileQuestion className="w-5 h-5 text-[#8EBD22]" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl">Manage FAQs</CardTitle>
-                    <CardDescription>
-                      Configurez FAQs et les textes de votre section FAQs
-                    </CardDescription>
-                  </div>
+      <Card>
+        <CardHeader className="pb-4 flex items-center justify-between lg:flex-row flex-col">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <FileQuestion className="w-5 h-5 text-[#D97D55]" />
+            </div>
+            <div>
+              <CardTitle className="text-xl">Manage FAQs</CardTitle>
+              <CardDescription>
+                Configurez FAQs et les textes de votre section FAQs
+              </CardDescription>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Sélecteur de mode d'aperçu */}
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="inline-flex items-center px-6 py-3 bg-[#D97D55] text-white font-semibold rounded-lg hover:bg-[#50bd22] transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Mise à jour
+            </button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {faqs.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-24 h-24 mx-auto mb-4 text-gray-400">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1}
+                      d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  {/* Sélecteur de mode d'aperçu */}
-                  <button
-                    onClick={() => setShowCreateModal(true)}
-                    className="inline-flex items-center px-6 py-3 bg-[#8EBD22] text-white font-semibold rounded-lg hover:bg-[#50bd22] transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Aucune FAQ trouvée
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  Commencez par créer votre première FAQ
+                </p>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="inline-flex items-center px-4 py-2 bg-[#D97D55] text-white font-medium rounded-lg hover:bg-[#819551] transition-colors"
+                >
+                  Créer une FAQ
+                </button>
+              </div>
+            ) : (
+              <div className="grid gap-6">
+                {faqs.map((faq, index) => (
+                  <div
+                    key={faq.id}
+                    className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300"
                   >
-                    <svg
-                      className="w-5 h-5 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
-                    Mise à jour
-                  </button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                  {faqs.length === 0 ? (
-                    <div className="text-center py-12">
-                      <div className="w-24 h-24 mx-auto mb-4 text-gray-400">
-                        <svg
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1}
-                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        Aucune FAQ trouvée
-                      </h3>
-                      <p className="text-gray-500 mb-6">
-                        Commencez par créer votre première FAQ
-                      </p>
-                      <button
-                        onClick={() => setShowCreateModal(true)}
-                        className="inline-flex items-center px-4 py-2 bg-[#8EBD22] text-white font-medium rounded-lg hover:bg-[#819551] transition-colors"
-                      >
-                        Créer une FAQ
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="grid gap-6">
-                      {faqs.map((faq, index) => (
-                        <div
-                          key={faq.id}
-                          className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                        >
-                          <div className="p-6">
-                            <div className="flex items-start justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center mb-3">
-                                  <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mr-3">
-                                    {faq.orderIndex}
-                                  </span>
-                                  <h3 className="text-lg font-semibold text-gray-900 flex-1">
-                                    {faq.question}
-                                  </h3>
-                                </div>
-                                <p className="text-gray-600 leading-relaxed ml-11">
-                                  {faq.answer}
-                                </p>
-                              </div>
-                              <div className="flex items-center space-x-2 ml-4">
-                                <button
-                                  onClick={() => openEditModal(faq)}
-                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
-                                  title="Modifier"
-                                >
-                                  <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                    />
-                                  </svg>
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteFaq(faq.id)}
-                                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-                                  title="Supprimer"
-                                >
-                                  <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                  </svg>
-                                </button>
-                              </div>
-                            </div>
+                    <div className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center mb-3">
+                            <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mr-3">
+                              {faq.orderIndex}
+                            </span>
+                            <h3 className="text-lg font-semibold text-gray-900 flex-1">
+                              {faq.question}
+                            </h3>
                           </div>
+                          <p className="text-gray-600 leading-relaxed ml-11">
+                            {faq.answer}
+                          </p>
                         </div>
-                      ))}
+                        <div className="flex items-center space-x-2 ml-4">
+                          <button
+                            onClick={() => openEditModal(faq)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                            title="Modifier"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => handleDeleteFaq(faq.id)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                            title="Supprimer"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Contenu principal */}
 
@@ -374,7 +370,7 @@ const FaqManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-[#8EBD22] text-white rounded-lg hover:bg-[#94ab5f] transition-colors font-medium shadow-lg"
+                  className="px-6 py-3 bg-[#D97D55] text-white rounded-lg hover:bg-[#94ab5f] transition-colors font-medium shadow-lg"
                 >
                   Créer la FAQ
                 </button>
@@ -476,7 +472,7 @@ const FaqManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-[#8EBD22] text-white rounded-lg hover:bg-[#788a4d] transition-colors font-medium shadow-lg"
+                  className="px-6 py-3 bg-[#D97D55] text-white rounded-lg hover:bg-[#788a4d] transition-colors font-medium shadow-lg"
                 >
                   Mettre à jour
                 </button>

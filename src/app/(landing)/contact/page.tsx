@@ -23,7 +23,7 @@ const Contact = () => {
       prenom: form.prenom.value,
       nom: form.nom.value,
       email: form.email.value,
-      phone:form.phone.value,
+      phone: form.phone.value,
       message: form.message.value,
     };
 
@@ -154,7 +154,7 @@ const Contact = () => {
                   required
                   className="rounded bg-white p-2 text-black placeholder:text-gray-400 focus:border-lime-900 focus:outline-none focus:ring-2 focus:ring-lime-900"
                 />
-                 <input
+                <input
                   type="phone"
                   name="phone"
                   placeholder="Téléphone"
@@ -191,7 +191,6 @@ const Contact = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
-
               </div>
             </div>
 
@@ -218,7 +217,7 @@ const Contact = () => {
             </div>
 
             {/* Emergency Contact */}
-            <div className="bg-[#8EBD22] rounded-xl shadow-md p-6 border-l-4 border-[#628315]">
+            <div className="bg-[#D97D55] rounded-xl shadow-md p-6 border-l-4 border-[#628315]">
               <h3 className="text-xl font-semibold mb-3 flex items-center text-white">
                 <MessageSquareText className="w-5 h-5 mr-2 text-white" />
                 Contact Rapide
@@ -295,8 +294,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-
-        
       </div>
     </div>
   );

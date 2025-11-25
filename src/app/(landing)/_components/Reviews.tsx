@@ -306,7 +306,7 @@ const ReviewItem = ({ review }: { review: any }) => {
     }
   }, [review.text]);
 
-    const getInitialsAvatar = (fullName: string) => {
+  const getInitialsAvatar = (fullName: string) => {
     // Split the name into parts
     const nameParts = fullName.trim().split(" ");
 
@@ -457,11 +457,11 @@ const ReviewItem = ({ review }: { review: any }) => {
           {isClamped && !isExpanded && (
             <button
               onClick={() => {
-                 setSelectedReview({
-                                            text: review.text,
-                                            authorName: review.authorName,
-                                            rating: review.rating,
-                                          })
+                setSelectedReview({
+                  text: review.text,
+                  authorName: review.authorName,
+                  rating: review.rating,
+                });
               }}
               className="text-blue-400 hover:text-blue-300 ml-1 font-medium"
             >
@@ -531,7 +531,7 @@ const ReviewItem = ({ review }: { review: any }) => {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

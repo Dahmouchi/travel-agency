@@ -1,94 +1,96 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllTours } from '@/actions/toursActions'
-import HeroSectionWithSearchForm1 from '@/components/hero-sections/HeroSectionWithSearchForm1'
-import { StaySearchForm } from '@/components/HeroSearchForm/StaySearchForm'
-import ListingFilterTabs from '@/components/ListingFilterTabs'
-import StayCard2 from '@/components/StayCard2'
-import { getStayCategoryByHandle } from '@/data/categories'
-import { getStayListingFilterOptions, getStayListings } from '@/data/listings'
-import { Button } from '@/shared/Button'
-import { Divider } from '@/shared/divider'
-import Pagination from '@/shared/Pagination'
-import convertNumbThousand from '@/utils/convertNumbThousand'
-import { House04Icon, MapPinpoint02Icon, MapsLocation01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Metadata } from 'next'
-import { redirect } from 'next/navigation'
+import { getTourFilterOptionsForUI } from "@/actions/tour-filter-actions";
+import { getFilteredTours } from "@/actions/tour-filter-actions";
+import HeroSectionWithSearchForm1 from "@/components/hero-sections/HeroSectionWithSearchForm1";
+import { StaySearchForm } from "@/components/HeroSearchForm/StaySearchForm";
+import TourListingFilterTabs from "@/components/TourListingFilterTabs";
+import StayCard2 from "@/components/StayCard2";
+import { Divider } from "@/shared/divider";
+import convertNumbThousand from "@/utils/convertNumbThousand";
+import { House04Icon, MapPinpoint02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import type { Metadata } from "next";
+import { parseFilterParams } from "@/lib/tour-filters";
+import { getStayCategoryByHandle } from "@/data/categories";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/prisma";
+import { Landing } from "@prisma/client";
+import Hero from "@/app/(landing)/_components/Hero";
 
-export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
-  const { handle } = await params
-  const category = await getStayCategoryByHandle(handle?.[0])
-  if (!category) {
-    return {
-      title: 'Collection not found',
-      description: 'The collection you are looking for does not exist.',
+export const metadata: Metadata = {
+  title: "Tours",
+  description: "Browse our available tours",
+};
+
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  const params = await searchParams;
+
+  // Convert searchParams to URLSearchParams format
+  const urlSearchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => urlSearchParams.append(key, v));
+    } else if (value) {
+      urlSearchParams.append(key, value);
     }
-  }
-  const { name, description } = category
-  return { title: name, description }
-}
+  });
+  const category = await getStayCategoryByHandle(params.handle?.[0]);
 
-const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {
-  const { handle } = await params
-
-  const category = await getStayCategoryByHandle(handle?.[0])
-  const listings = await getAllTours()
-  const filterOptions = await getStayListingFilterOptions()
+  const filterParams = parseFilterParams(urlSearchParams);
+  const listings = await getFilteredTours(filterParams);
+  const filterOptions = await getTourFilterOptionsForUI();
+  const sections: Landing | null = await prisma.landing.findFirst({});
+  const allTours = await prisma.tour.findMany({});
 
   if (!category?.id) {
-    return redirect('/stay-categories/all')
+    return redirect("/stay-categories/all");
   }
-
   return (
     <div className="pb-28">
       {/* Hero section */}
-      <div className="container">
-        <HeroSectionWithSearchForm1
-          heading={category.name}
-          image={category.coverImage}
-          imageAlt={category.name}
-          searchForm={<StaySearchForm formStyle="default" />}
-          description={
-            <div className="flex items-center sm:text-lg">
-              <HugeiconsIcon icon={MapPinpoint02Icon} size={20} color="currentColor" strokeWidth={1.5} />
-              <span className="ms-2.5">{category.region} </span>
-              <span className="mx-5"></span>
-              <HugeiconsIcon icon={House04Icon} size={20} color="currentColor" strokeWidth={1.5} />
-              <span className="ms-2.5">{convertNumbThousand(category.count)} stays</span>
-            </div>
-          }
-        />
-      </div>
+      {(sections?.hero ?? true) && <Hero inp={sections} tours={allTours} />}
 
       {/* Content */}
-      <div className="relative container mt-14 lg:mt-24">
+      <div className="relative container lg:px-24 px-4 mt-14 lg:mt-24">
         {/* start heading */}
         <div className="flex flex-wrap items-end justify-between gap-x-2.5 gap-y-5">
-          <h2 id="heading" className="scroll-mt-20 text-lg font-semibold sm:text-xl">
-            Over {convertNumbThousand(category.count)} places
-            {category.handle !== 'all' ? ` in ${category.name}` : null}
+          <h2
+            id="heading"
+            className="scroll-mt-20 text-lg font-semibold sm:text-xl"
+          >
+            {listings.length > 0
+              ? `${convertNumbThousand(listings.length)} tours available`
+              : "No tours found"}
           </h2>
-          <Button color="white" className="ms-auto" href={'/stay-categories-map/' + category.handle}>
-            <span className="me-1">Show map</span>
-            <HugeiconsIcon icon={MapsLocation01Icon} size={20} color="currentColor" strokeWidth={1.5} />
-          </Button>
         </div>
         <Divider className="my-8 md:mb-12" />
         {/* end heading */}
 
-        <ListingFilterTabs filterOptions={filterOptions} />
-        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 md:gap-x-8 md:gap-y-12 lg:mt-10 lg:grid-cols-3 xl:grid-cols-4">
-          {listings.map((listing:any) => (
-            <StayCard2 key={listing.id} data={listing} />
-          ))}
-        </div>
-        <div className="mt-16 flex items-center justify-center">
-          <Pagination />
-        </div>
+        <TourListingFilterTabs filterOptions={filterOptions} />
+
+        {listings.length > 0 ? (
+          <>
+            <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 md:gap-x-8 md:gap-y-12 lg:mt-10 lg:grid-cols-3 xl:grid-cols-4">
+              {listings.map((listing: any) => (
+                <StayCard2 key={listing.id} data={listing} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="mt-16 text-center">
+            <p className="text-lg text-muted-foreground">
+              No tours match your current filters. Try adjusting your search
+              criteria.
+            </p>
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-type FieldType = 'text' | 'checkbox' | 'select' | 'date';
+type FieldType = "text" | "checkbox" | "select" | "date";
 
 interface FieldOption {
   label: string;
@@ -30,7 +30,7 @@ export default function ReservationFormBuilder({
   initialFields?: Field[];
 }) {
   const [fields, setFields] = useState<Field[]>(initialFields);
-  const [newField, setNewField] = useState<Partial<Field>>({ type: 'text' });
+  const [newField, setNewField] = useState<Partial<Field>>({ type: "text" });
 
   useEffect(() => {
     setFields(initialFields);
@@ -41,7 +41,7 @@ export default function ReservationFormBuilder({
     const updated = [...fields, newField as Field];
     setFields(updated);
     onChange?.(updated);
-    setNewField({ type: 'text' });
+    setNewField({ type: "text" });
   };
 
   const removeField = (index: number) => {
@@ -70,20 +70,22 @@ export default function ReservationFormBuilder({
         <input
           placeholder="Label"
           className="border p-2 rounded"
-          value={newField.label || ''}
+          value={newField.label || ""}
           onChange={(e) => setNewField({ ...newField, label: e.target.value })}
         />
         <input
           placeholder="Name"
           className="border p-2 rounded"
-          value={newField.name || ''}
+          value={newField.name || ""}
           onChange={(e) => setNewField({ ...newField, name: e.target.value })}
         />
 
         <select
           className="border p-2 rounded"
           value={newField.type}
-          onChange={(e) => setNewField({ ...newField, type: e.target.value as FieldType })}
+          onChange={(e) =>
+            setNewField({ ...newField, type: e.target.value as FieldType })
+          }
         >
           <option value="text">Text</option>
           <option value="checkbox">Checkbox (with price)</option>
@@ -95,23 +97,27 @@ export default function ReservationFormBuilder({
           <input
             type="checkbox"
             checked={newField.required || false}
-            onChange={(e) => setNewField({ ...newField, required: e.target.checked })}
+            onChange={(e) =>
+              setNewField({ ...newField, required: e.target.checked })
+            }
           />
           Required
         </label>
 
-        {newField.type === 'checkbox' && (
+        {newField.type === "checkbox" && (
           <input
             type="number"
             placeholder="Price (optional)"
             className="border p-2 rounded col-span-2"
-            onChange={(e) => setNewField({ ...newField, price: Number(e.target.value) })}
+            onChange={(e) =>
+              setNewField({ ...newField, price: Number(e.target.value) })
+            }
           />
         )}
 
         <div
           onClick={addField}
-          className="col-span-2 cursor-pointer text-center bg-[#8EBD22] text-white px-4 py-2 rounded-lg hover:bg-[#7DA61D]"
+          className="col-span-2 cursor-pointer text-center bg-[#D97D55] text-white px-4 py-2 rounded-lg hover:bg-[#7DA61D]"
         >
           Add Field
         </div>
@@ -122,7 +128,8 @@ export default function ReservationFormBuilder({
         <div key={index} className="border p-3 rounded space-y-2">
           <div className="flex justify-between items-center">
             <span>
-              <strong>{field.label}</strong> ({field.type}) {field.required && <span className="text-red-500">*</span>}
+              <strong>{field.label}</strong> ({field.type}){" "}
+              {field.required && <span className="text-red-500">*</span>}
             </span>
             <div
               onClick={() => removeField(index)}
@@ -132,7 +139,7 @@ export default function ReservationFormBuilder({
             </div>
           </div>
 
-          {field.type === 'select' && (
+          {field.type === "select" && (
             <div className="space-y-2">
               <strong>Options:</strong>
               {(field.options || []).map((opt, optIndex) => (
@@ -140,30 +147,45 @@ export default function ReservationFormBuilder({
                   <input
                     className="border p-1"
                     value={opt.label}
-                    onChange={(e) => updateOption(index, optIndex, 'label', e.target.value)}
+                    onChange={(e) =>
+                      updateOption(index, optIndex, "label", e.target.value)
+                    }
                     placeholder="Label"
                   />
                   <input
                     className="border p-1"
                     value={opt.value}
-                    onChange={(e) => updateOption(index, optIndex, 'value', e.target.value)}
+                    onChange={(e) =>
+                      updateOption(index, optIndex, "value", e.target.value)
+                    }
                     placeholder="Value"
                   />
                   <input
                     type="number"
                     className="border p-1"
                     value={opt.price || 0}
-                    onChange={(e) => updateOption(index, optIndex, 'price', Number(e.target.value))}
+                    onChange={(e) =>
+                      updateOption(
+                        index,
+                        optIndex,
+                        "price",
+                        Number(e.target.value)
+                      )
+                    }
                     placeholder="Price"
                   />
                 </div>
               ))}
               <div
-                className="text-[#8EBD22] cursor-pointer"
+                className="text-[#D97D55] cursor-pointer"
                 onClick={() => {
                   const updated = [...fields];
                   if (!updated[index].options) updated[index].options = [];
-                  updated[index].options!.push({ label: '', value: '', price: 0 });
+                  updated[index].options!.push({
+                    label: "",
+                    value: "",
+                    price: 0,
+                  });
                   setFields(updated);
                   onChange?.(updated);
                 }}
@@ -180,7 +202,7 @@ export default function ReservationFormBuilder({
         {onSubmit && (
           <button
             onClick={() => onSubmit(fields)}
-            className="mt-4 bg-[#8EBD22] text-white hover:bg-[#7DA61D] hover:cursor-pointer mr-8 px-4 py-2 rounded"
+            className="mt-4 bg-[#D97D55] text-white hover:bg-[#7DA61D] hover:cursor-pointer mr-8 px-4 py-2 rounded"
           >
             Enregistrer
           </button>

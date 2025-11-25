@@ -198,7 +198,7 @@ export default function BlogManagementPage() {
       <div className="flex flex-col space-y-6">
         {/* Header with search and add button */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-3xl font-bold">Gestion des Blogs</h1>
+          <h1 className="text-3xl font-bold">Gestion des Blogs</h1>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <Input
               placeholder="Search blogs..."
@@ -232,11 +232,11 @@ export default function BlogManagementPage() {
                           name="title"
                           render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Titre</FormLabel>
+                              <FormLabel>Titre</FormLabel>
 
-                                <FormControl>
+                              <FormControl>
                                 <Input placeholder="Titre du blog" {...field} />
-                                </FormControl>
+                              </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -249,30 +249,30 @@ export default function BlogManagementPage() {
                             <FormItem>
                               <FormLabel>Image du blog</FormLabel>
                               <FormDescription>
-                              Téléchargez une image pour ce blog
+                                Téléchargez une image pour ce blog
                               </FormDescription>
                               <FormControl>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                className="block w-full text-sm text-gray-500
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleFileChange}
+                                  className="block w-full text-sm text-gray-500
                                 file:mr-4 file:py-2 file:px-4
                                 file:rounded-md file:border-0
                                 file:text-sm file:font-semibold
                                 file:bg-blue-50 file:text-blue-700
                                 hover:file:bg-blue-100"
-                              />
+                                />
                               </FormControl>
                               {selectedFile && (
-                              <p className="text-sm text-muted-foreground mt-2">
-                                Fichier sélectionné : {selectedFile.name}
-                              </p>
+                                <p className="text-sm text-muted-foreground mt-2">
+                                  Fichier sélectionné : {selectedFile.name}
+                                </p>
                               )}
                               {currentBlog?.imageUrl && !selectedFile && (
-                              <p className="text-sm text-muted-foreground mt-2">
-                                Image actuelle : {currentBlog.imageUrl}
-                              </p>
+                                <p className="text-sm text-muted-foreground mt-2">
+                                  Image actuelle : {currentBlog.imageUrl}
+                                </p>
                               )}
                               <FormMessage />
                             </FormItem>
@@ -284,7 +284,7 @@ export default function BlogManagementPage() {
                           name="category"
                           render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Catégorie</FormLabel>
+                              <FormLabel>Catégorie</FormLabel>
                               <Select
                                 onValueChange={field.onChange}
                                 value={field.value}
@@ -295,14 +295,14 @@ export default function BlogManagementPage() {
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="technology">
+                                  <SelectItem value="technology">
                                     Technologie
-                                    </SelectItem>
-                                    <SelectItem value="travel">Voyage</SelectItem>
-                                    <SelectItem value="food">Cuisine</SelectItem>
-                                    <SelectItem value="lifestyle">
+                                  </SelectItem>
+                                  <SelectItem value="travel">Voyage</SelectItem>
+                                  <SelectItem value="food">Cuisine</SelectItem>
+                                  <SelectItem value="lifestyle">
                                     Style de vie
-                                    </SelectItem>
+                                  </SelectItem>
                                 </SelectContent>
                               </Select>
                               <FormMessage />
@@ -337,7 +337,7 @@ export default function BlogManagementPage() {
                           name="description"
                           render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Description</FormLabel>
+                              <FormLabel>Description</FormLabel>
                               <FormControl>
                                 <RichTextEditor
                                   value={field.value || ""}
@@ -353,13 +353,13 @@ export default function BlogManagementPage() {
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4">
-                        <Button
+                      <Button
                         type="button"
                         variant="outline"
                         onClick={() => setIsDialogOpen(false)}
-                        >
+                      >
                         Annuler
-                        </Button>
+                      </Button>
                       <Button type="submit">
                         {currentBlog ? "Update" : "Create"}
                       </Button>
@@ -380,10 +380,10 @@ export default function BlogManagementPage() {
               {searchTerm ? "No matching blogs found" : "No blogs available"}
             </p>
             {!searchTerm && (
-                <Button onClick={openCreateDialog} className="mt-4">
+              <Button onClick={openCreateDialog} className="mt-4">
                 <Plus className="mr-2 h-4 w-4" />
                 Créez votre premier blog
-                </Button>
+              </Button>
             )}
           </div>
         ) : (
@@ -416,49 +416,52 @@ export default function BlogManagementPage() {
                       )}
                     </div>
                     <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="ghost" size="icon">
-      <MoreVertical className="h-4 w-4" />
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end">
-    {/* Edit Option */}
-    <DropdownMenuItem onClick={() => openEditDialog(blog)}>
-      <Edit className="mr-2 h-4 w-4" />
-      Modifier
-    </DropdownMenuItem>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {/* Edit Option */}
+                        <DropdownMenuItem onClick={() => openEditDialog(blog)}>
+                          <Edit className="mr-2 h-4 w-4" />
+                          Modifier
+                        </DropdownMenuItem>
 
-    {/* Delete Option with Confirmation Dialog */}
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <DropdownMenuItem 
-          className="text-red-600 focus:text-red-600 focus:bg-red-50"
-          onSelect={(e) => e.preventDefault()} // Empêche la fermeture immédiate
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Supprimer
-        </DropdownMenuItem>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-            <AlertDialogTitle>Êtes-vous absolument sûr ?</AlertDialogTitle>
-            <AlertDialogDescription>
-            Cette action est irréversible. Cela supprimera définitivement ce blog.
-            </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
-          <AlertDialogAction 
-            className="bg-red-600 hover:bg-red-700"
-            onClick={() => handleDelete(blog.id)}
-          >
-            Supprimer
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  </DropdownMenuContent>
-</DropdownMenu>
+                        {/* Delete Option with Confirmation Dialog */}
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                              className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                              onSelect={(e) => e.preventDefault()} // Empêche la fermeture immédiate
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Supprimer
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Êtes-vous absolument sûr ?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette action est irréversible. Cela supprimera
+                                définitivement ce blog.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-red-600 hover:bg-red-700"
+                                onClick={() => handleDelete(blog.id)}
+                              >
+                                Supprimer
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </CardHeader>
                 <CardFooter className="flex justify-between text-sm text-muted-foreground">

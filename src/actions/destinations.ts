@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-"use server"
+"use server";
 
-import prisma from "@/lib/prisma"
-import { revalidatePath } from "next/cache"
+import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import { getFileUrl, uploadFile } from "@/lib/cloudeFlare";
 import { Destination, Prisma } from "@prisma/client";
@@ -93,18 +93,17 @@ export async function updateDestination(id: string, formData: FormData) {
   }
 }
 
-
 export async function deleteDestination(id: string) {
   try {
     await prisma.destination.delete({
       where: { id },
-    })
+    });
 
-    revalidatePath("/")
-    return { success: true }
+    revalidatePath("/");
+    return { success: true };
   } catch (error) {
-    console.error("Error deleting destination:", error)
-    return { success: false, error: "Failed to delete destination" }
+    console.error("Error deleting destination:", error);
+    return { success: false, error: "Failed to delete destination" };
   }
 }
 
@@ -112,39 +111,50 @@ export async function getDestinations() {
   try {
     const destinations = await prisma.destination.findMany({
       orderBy: { name: "asc" },
-    })
-    return destinations
+    });
+    return destinations;
   } catch (error) {
-    console.error("Error fetching destinations:", error)
-    return []
+    console.error("Error fetching destinations:", error);
+    return [];
   }
 }
-
+export async function getDestinationsWithTours() {
+  try {
+    const destinations = await prisma.destination.findMany({
+      orderBy: { name: "asc" },
+      include: {
+        tours: true,
+      },
+    });
+    return destinations;
+  } catch (error) {
+    console.error("Error fetching destinations:", error);
+    return [];
+  }
+}
 
 export async function getNationalDestinations() {
   try {
     const destinations = await prisma.destination.findMany({
-      where: { type: "NATIONAL"},
+      where: { type: "NATIONAL" },
       orderBy: { name: "asc" },
-    })
-    return destinations
-  }
-  catch (error) {
-    console.error("Error fetching national destinations:", error)
-    return []
+    });
+    return destinations;
+  } catch (error) {
+    console.error("Error fetching national destinations:", error);
+    return [];
   }
 }
 
 export async function getInternationalDestinations() {
   try {
     const destinations = await prisma.destination.findMany({
-      where: { type: "INTERNATIONAL"},
+      where: { type: "INTERNATIONAL" },
       orderBy: { name: "asc" },
-    })
-    return destinations
-  }
-  catch (error) {
-    console.error("Error fetching international destinations:", error)
-    return []
+    });
+    return destinations;
+  } catch (error) {
+    console.error("Error fetching international destinations:", error);
+    return [];
   }
 }

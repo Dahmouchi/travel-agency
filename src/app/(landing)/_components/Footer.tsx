@@ -129,21 +129,21 @@ const Footer = ({
                     />
                   </div>
                   <div className="gap-4 flex items-center lg:flex-row flex-col w-full">
-                   <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    className="rounded w-full bg-white p-2 text-black placeholder:text-gray-400 focus:border-lime-900 focus:outline-none focus:ring-2 focus:ring-lime-900"
-                  />
-                   <input
-                    type="phone"
-                    name="phone"
-                    placeholder="Téléphone"
-                    required
-                    className="rounded w-full bg-white p-2 text-black placeholder:text-gray-400 focus:border-lime-900 focus:outline-none focus:ring-2 focus:ring-lime-900"
-                  />
-                 </div>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      required
+                      className="rounded w-full bg-white p-2 text-black placeholder:text-gray-400 focus:border-lime-900 focus:outline-none focus:ring-2 focus:ring-lime-900"
+                    />
+                    <input
+                      type="phone"
+                      name="phone"
+                      placeholder="Téléphone"
+                      required
+                      className="rounded w-full bg-white p-2 text-black placeholder:text-gray-400 focus:border-lime-900 focus:outline-none focus:ring-2 focus:ring-lime-900"
+                    />
+                  </div>
                   <textarea
                     name="message"
                     placeholder="Votre message"
@@ -171,7 +171,7 @@ const Footer = ({
         </div>
       </div>
 
-      <div className="bg-[#8EBD22] w-full pt-10 md:pt-10 lg:pt-10 pb-4 md:pb-4 px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="bg-[#D97D55] w-full pt-10 md:pt-10 lg:pt-10 pb-4 md:pb-4 px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 lg:pr-20">
             {/* Logo Section */}
@@ -209,7 +209,11 @@ const Footer = ({
                       rel="noopener noreferrer"
                       className={`p-2 rounded-full text-gray-600 transition-all duration-300  hover:scale-110`}
                     >
-                      <img src="/icons/tik-tok.png" alt="" className="w-5 h-5" />
+                      <img
+                        src="/icons/tik-tok.png"
+                        alt=""
+                        className="w-5 h-5"
+                      />
                     </a>
                   </div>
                 </div>
@@ -395,14 +399,12 @@ const Footer = ({
               >
                 Politique de confidentialité |
               </Link>{" "}
-              
               <Link
                 href="/conditions-generales-de-vente"
                 rel="noopener noreferrer"
                 className="hover:text-gray-200 transition-colors duration-300 ml-1"
               >
                 Conditions générales de vente
-
               </Link>{" "}
             </p>
           </div>

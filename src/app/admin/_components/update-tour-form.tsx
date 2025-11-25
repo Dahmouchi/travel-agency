@@ -114,7 +114,10 @@ const tourSchema = z.object({
     .string({ required_error: "La description est requise" })
     .min(1, "La description est requise"),
   titleCkecklist: z.string().min(1, "Le titre est requis").optional(),
-  descriptionCkecklist: z.string().min(1, "La description est requise").optional(),
+  descriptionCkecklist: z
+    .string()
+    .min(1, "La description est requise")
+    .optional(),
   type: z.enum(["NATIONAL", "INTERNATIONAL"], {
     required_error: "Le type de circuit est requis",
   }),
@@ -241,7 +244,7 @@ const tourSchema = z.object({
       })
     )
     .optional(),
-    checklist: z
+  checklist: z
     .array(
       z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
@@ -1836,121 +1839,119 @@ export function UpdateTourForm({
                     />
                   </div>
                 </div>
-<div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
-                  <CheckSquare className="inline mr-2" />
-                  Checkliste
-                </h3>
-                <p className="text-lime-800 text-md  mb-4">
-                 Définissez les éléments supplémentaires du circuit.
-                </p>
-                <Separator className="mb-6" />
+                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+                  <h3 className="text-lime-600 text-l font-medium">
+                    <CheckSquare className="inline mr-2" />
+                    Checkliste
+                  </h3>
+                  <p className="text-lime-800 text-md  mb-4">
+                    Définissez les éléments supplémentaires du circuit.
+                  </p>
+                  <Separator className="mb-6" />
 
-                <div className="space-y-4 grid lg:grid-cols-2 grid-cols-1 gap-4 ">
-                  <div>
+                  <div className="space-y-4 grid lg:grid-cols-2 grid-cols-1 gap-4 ">
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="titleCkecklist"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Titre <span className="text-red-600">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Entrez le titre de checklist du circuit"
+                                required
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Entrez le titre de checklist du circuit.
+                            </FormDescription>{" "}
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="showChecklist"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Afficher checkliste</FormLabel>
+                              <FormDescription>
+                                Afficher checkliste pour ce circuit
+                              </FormDescription>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <FormField
                       control={form.control}
-                      name="titleCkecklist"
+                      name="descriptionCkecklist"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col items-start w-full">
                           <FormLabel>
-                            Titre <span className="text-red-600">*</span>
+                            Description<span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="Entrez le titre de checklist du circuit"
-                              required
-                              {...field}
-                            />
+                            <div className="w-full flex justify-start">
+                              <div className="w-full">
+                                <RichTextEditor
+                                  value={field.value || ""}
+                                  onChange={field.onChange}
+                                  className="w-full" // Remove max-h and overflow
+                                />
+                              </div>
+                            </div>
                           </FormControl>
-                          <FormDescription>
-                            Entrez le titre de checklist du circuit.
-                          </FormDescription>{" "}
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                     <FormField
-                      control={form.control}
-                      name="showChecklist"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Afficher checkliste</FormLabel>
-                            <FormDescription>
-                              Afficher checkliste pour ce circuit
-                            </FormDescription>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
                   </div>
-                  
-                     <FormField
-                    control={form.control}
-                    name="descriptionCkecklist"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col items-start w-full">
-                        <FormLabel>
-                          Description<span className="text-red-600">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div className="w-full flex justify-start">
-                            <div className="w-full">
-                              <RichTextEditor
-                                value={field.value || ""}
-                                onChange={field.onChange}
-                                className="w-full" // Remove max-h and overflow
-                              />
-                            </div>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
                 </div>
+                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
+                  <h3 className="text-lime-600 text-l font-medium">
+                    <ClipboardType className="inline mr-2" />
+                    Autre Checklist
+                  </h3>
 
-              </div>
-               <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-            <h3 className="text-lime-600 text-l font-medium">
-              <ClipboardType className="inline mr-2" />
-              Autre Checklist 
-            </h3>
-        
-            <Separator className="mb-6" />
+                  <Separator className="mb-6" />
 
-            <div className="space-y-4">
-              <div>
-                <ChecklistForm
-                  steps={(form.watch("checklist") || []).map(
-                    (p: any, idx: number) => ({
-                      id: p.id ?? idx.toString(),
-                      title: p.title,
-                      description: p.description,
-                      orderIndex: p.orderIndex ?? idx,
-                    })
-                  )}
-                  isNewTour={false}
-                  onChange={(programs: any[]) => {
-                    form.setValue(
-                      "checklist",
-                      programs
-                        .sort((a, b) => a.orderIndex - b.orderIndex)
-                        .map(({ id, ...rest }) => rest)
-                    );
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+                  <div className="space-y-4">
+                    <div>
+                      <ChecklistForm
+                        steps={(form.watch("checklist") || []).map(
+                          (p: any, idx: number) => ({
+                            id: p.id ?? idx.toString(),
+                            title: p.title,
+                            description: p.description,
+                            orderIndex: p.orderIndex ?? idx,
+                          })
+                        )}
+                        isNewTour={false}
+                        onChange={(programs: any[]) => {
+                          form.setValue(
+                            "checklist",
+                            programs
+                              .sort((a, b) => a.orderIndex - b.orderIndex)
+                              .map(({ id, ...rest }) => rest)
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
                 {/* Extras */}
                 <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
                   <h3 className="text-lime-600 text-l font-medium">
@@ -2112,7 +2113,6 @@ export function UpdateTourForm({
               </div>
             </div>
           </div>
-          
           <div className="flex justify-end">
             <Button
               type="submit"

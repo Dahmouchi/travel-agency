@@ -4,7 +4,7 @@
 
 import type React from "react";
 
-import { useState,startTransition } from "react";
+import { useState, startTransition } from "react";
 import { Briefcase, User } from "lucide-react";
 import { toast } from "react-toastify";
 import { createEventForm } from "@/actions/team-building";
@@ -79,76 +79,81 @@ const TeamBuildingFomr = () => {
     }));
   };
 
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  // Example validation: required fields
-  if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.destination.trim()) {
-    toast.error("Veuillez remplir tous les champs obligatoires !");
-    return;
-  }
-
-  console.log("Event form submitted:", formData);
-
-  startTransition(async () => {
-    const res = await createEventForm(formData);
-    if (res.success) {
-      toast.success("Formulaire envoyé avec succès !");
-      setFormData({
-        // Vous
-        company: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        eventType: "",
-        participants: "",
-        projectDescription: "",
-
-        // Dates
-        departureDate: "",
-        returnDate: "",
-        dateFlexibility: "non",
-        dateComments: "",
-
-        // Hébergement
-        accommodationLevel: "Milieu de gamme",
-        hasAccommodation: "oui",
-        roomType: "Double",
-        hasMeetingRoom: "oui",
-        accommodationComments: "",
-
-        // Destination & Transport
-        destination: "",
-        hasTransport: "oui",
-        departureCity: "",
-
-        // Activités
-        activities: [],
-        activitiesComments: "",
-
-        // Enjeux
-        objectives: [],
-        objectivesComments: "",
-
-        // Réunion
-        halfDays: "0",
-
-        // Budget
-        budgetPerPerson: "",
-        budgetComments: "",
-
-        // Contact
-        contactPreference: "Email",
-
-        // Message global
-        message: "",
-      });
-    } else {
-      toast.error("Erreur lors de l’envoi du formulaire.");
+    // Example validation: required fields
+    if (
+      !formData.firstName.trim() ||
+      !formData.lastName.trim() ||
+      !formData.email.trim() ||
+      !formData.destination.trim()
+    ) {
+      toast.error("Veuillez remplir tous les champs obligatoires !");
+      return;
     }
-  });
-};
+
+    console.log("Event form submitted:", formData);
+
+    startTransition(async () => {
+      const res = await createEventForm(formData);
+      if (res.success) {
+        toast.success("Formulaire envoyé avec succès !");
+        setFormData({
+          // Vous
+          company: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          eventType: "",
+          participants: "",
+          projectDescription: "",
+
+          // Dates
+          departureDate: "",
+          returnDate: "",
+          dateFlexibility: "non",
+          dateComments: "",
+
+          // Hébergement
+          accommodationLevel: "Milieu de gamme",
+          hasAccommodation: "oui",
+          roomType: "Double",
+          hasMeetingRoom: "oui",
+          accommodationComments: "",
+
+          // Destination & Transport
+          destination: "",
+          hasTransport: "oui",
+          departureCity: "",
+
+          // Activités
+          activities: [],
+          activitiesComments: "",
+
+          // Enjeux
+          objectives: [],
+          objectivesComments: "",
+
+          // Réunion
+          halfDays: "0",
+
+          // Budget
+          budgetPerPerson: "",
+          budgetComments: "",
+
+          // Contact
+          contactPreference: "Email",
+
+          // Message global
+          message: "",
+        });
+      } else {
+        toast.error("Erreur lors de l’envoi du formulaire.");
+      }
+    });
+  };
   const activities = [
     "Voyage",
     "Découverte",
@@ -174,10 +179,17 @@ const handleSubmit = (e: React.FormEvent) => {
 
   return (
     <main className="relative -top-20 z-50">
-      <form onSubmit={handleSubmit} className="max-w-[95%] relative border-4 border-[#8EBD22] lg:max-w-[90%] bg-white mx-auto shadow-lg p-4 lg:p-8 md:p-12 rounded-lg">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-[95%] relative border-4 border-[#D97D55] lg:max-w-[90%] bg-white mx-auto shadow-lg p-4 lg:p-8 md:p-12 rounded-lg"
+      >
         {/* Header Sections */}
         <div className="absolute top-4 right-4">
-          <img src="/images/chape3.png" alt="" className="lg:w-24 w-14 h-auto" />
+          <img
+            src="/images/chape3.png"
+            alt=""
+            className="lg:w-24 w-14 h-auto"
+          />
         </div>
         <div className="grid md:grid-cols-2 gap-12 mb-12">
           <div className="flex items-center gap-3">
@@ -186,8 +198,6 @@ const handleSubmit = (e: React.FormEvent) => {
             </div>
             <h2 className="text-2xl font-bold text-gray-900">Vous</h2>
           </div>
-
-         
         </div>
 
         {/* Main Content Grid */}
@@ -196,7 +206,7 @@ const handleSubmit = (e: React.FormEvent) => {
           <div className="space-y-8">
             {/* Vous Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 bg-[#8EBD22] w-fit px-4 rounded-full "> 
+              <h3 className="text-lg font-semibold mb-4 bg-[#D97D55] w-fit px-4 rounded-full ">
                 Informations
               </h3>
               <div className="space-y-4">
@@ -307,7 +317,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
             {/* Dates */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Dates de séjour
               </h3>
               <div className="space-y-4">
@@ -386,7 +396,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
             {/* Hébergement */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Hébergement
               </h3>
               <div className="space-y-4">
@@ -508,7 +518,7 @@ const handleSubmit = (e: React.FormEvent) => {
           {/* Right Column - Message Section */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Destination & Transport
               </h3>
               <div className="space-y-4">
@@ -576,7 +586,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
             {/* Activités */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Activités
               </h3>
               <div className="space-y-3 mb-4">
@@ -610,7 +620,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
             {/* Enjeux */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Vos enjeux
               </h3>
               <div className="space-y-3 mb-4">
@@ -662,7 +672,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
             {/* Budget */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
                 Budget
               </h3>
               <div className="space-y-4">

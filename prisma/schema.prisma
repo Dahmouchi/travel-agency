@@ -6,115 +6,130 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Favorite {
+  id     String @id @default(cuid())
+  userId String
+  tourId String
+
+  user User @relation(fields: [userId], references: [id])
+  tour Tour @relation(fields: [tourId], references: [id])
+
+  @@unique([userId, tourId])
+}
+
 model EventForm {
-  id                  String    @id @default(cuid())
-  status               TravelRequestStatus @default(PENDING)
+  id                 String              @id @default(cuid())
+  status             TravelRequestStatus @default(PENDING)
   // Vous
-  company             String?
-  firstName           String
-  lastName            String
-  email               String
-  phone               String
-  eventType           String
-  participants        String?
-  projectDescription  String?
+  company            String?
+  firstName          String
+  lastName           String
+  email              String
+  phone              String
+  eventType          String
+  participants       String?
+  projectDescription String?
 
   // Dates
-  departureDate       DateTime?
-  returnDate          DateTime?
-  dateFlexibility     Boolean   @default(false)
-  dateComments        String?
+  departureDate   DateTime?
+  returnDate      DateTime?
+  dateFlexibility Boolean   @default(false)
+  dateComments    String?
 
   // Hébergement
-  accommodationLevel  String    @default("Milieu de gamme")
-  hasAccommodation    Boolean   @default(true)
-  roomType            String    @default("Double")
-  hasMeetingRoom      Boolean   @default(true)
+  accommodationLevel    String  @default("Milieu de gamme")
+  hasAccommodation      Boolean @default(true)
+  roomType              String  @default("Double")
+  hasMeetingRoom        Boolean @default(true)
   accommodationComments String?
 
   // Destination & Transport
-  destination         String
-  hasTransport        Boolean   @default(true)
-  departureCity       String?
+  destination   String
+  hasTransport  Boolean @default(true)
+  departureCity String?
 
   // Activités
-  activities          String[]
-  activitiesComments  String?
+  activities         String[]
+  activitiesComments String?
 
   // Enjeux
-  objectives          String[]
-  objectivesComments  String?
+  objectives         String[]
+  objectivesComments String?
 
   // Réunion
-  halfDays            Int       @default(0)
+  halfDays Int @default(0)
 
   // Budget
-  budgetPerPerson     String?
-  budgetComments      String?
+  budgetPerPerson String?
+  budgetComments  String?
 
   // Contact
-  contactPreference   String    @default("Email")
+  contactPreference String @default("Email")
 
   // Message global
-  message             String?
+  message String?
 
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model TravelRequest {
-  id                   String   @id @default(cuid())
-  destination          String
-  departureDate        DateTime
-  status               TravelRequestStatus @default(PENDING)
-  returnDate           DateTime
-  isFlexible           String   @default("non")
-  departureCity        String
-  needsTransport       String   @default("non")
-  needsFlight          String   @default("non")
-  adults               Int
-  children             Int
-  accommodationWishes  String?
-  numberOfRooms        Int
-  accommodationCategory String   @default("Standard")
-  budget               Float
-  duration             Int
-  title                String
-  firstName            String
-  lastName             String
-  email                String
-  countryCode          String   @default("France (+33)")
-  phone                String
-  message              String?
+  id                    String              @id @default(cuid())
+  destination           String
+  departureDate         DateTime
+  status                TravelRequestStatus @default(PENDING)
+  returnDate            DateTime
+  isFlexible            String              @default("non")
+  departureCity         String
+  needsTransport        String              @default("non")
+  needsFlight           String              @default("non")
+  adults                Int
+  children              Int
+  accommodationWishes   String?
+  numberOfRooms         Int
+  accommodationCategory String              @default("Standard")
+  budget                Float
+  duration              Int
+  title                 String
+  firstName             String
+  lastName              String
+  email                 String
+  countryCode           String              @default("France (+33)")
+  phone                 String
+  message               String?
 
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 enum TravelRequestStatus {
   PENDING
   IN_PROGRESS
   COMPLETED
   CANCELED
 }
+
 model GoogleReview {
-  id          String   @id @default(cuid())
-  authorName  String   // Name of the reviewer
-  authorUrl  String?  // URL to reviewer's Google profile
+  id              String    @id @default(cuid())
+  authorName      String // Name of the reviewer
+  authorUrl       String? // URL to reviewer's Google profile
   profilePhotoUrl String? // Reviewer's profile photo
-  rating      Int      // Rating (1-5)
-  text        String?  // The review text (nullable if no text)
-  time        DateTime // When the review was created
-  language    String?  // Language of the review
-  originalText String? // Original text if translated
-  responseText String? // Business owner's response
-  responseTime DateTime? // When response was posted
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  status      Boolean  @default(true)
+  rating          Int // Rating (1-5)
+  text            String? // The review text (nullable if no text)
+  time            DateTime // When the review was created
+  language        String? // Language of the review
+  originalText    String? // Original text if translated
+  responseText    String? // Business owner's response
+  responseTime    DateTime? // When response was posted
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  status          Boolean   @default(true)
 
   @@index([rating])
   @@index([time])
 }
+
 model Meeting {
   id          String   @id @default(cuid())
   title       String // Meeting subject/title
@@ -187,7 +202,6 @@ model Landing {
   thisMountText      String?
   condition          String?
   plitique           String?
-
 }
 
 model NavbarItem {
@@ -271,12 +285,12 @@ model Reservations {
   data       Json
   finalPrice Float
   basePrice  Float
-  isDiscover Boolean         @default(false)
+  isDiscover Boolean           @default(false)
   // New fields
   startDate  DateTime
   endDate    DateTime
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
 }
 
 model Checklist {
@@ -298,69 +312,71 @@ model BookingSteps {
   description String
   createdAt   DateTime @default(now())
 }
+
 model Faq {
-  id        String   @id @default(cuid())
-  visible   Boolean @default(true)
-  orderIndex  Int
-  question  String
-  answer    String
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  visible    Boolean  @default(true)
+  orderIndex Int
+  question   String
+  answer     String
+  createdAt  DateTime @default(now())
 }
 
 model Tour {
-  id                String            @id
-  title             String
-  description       String?
-  type              TravelType        @default(NATIONAL)
-  isDiscover        Boolean @default(false)
-  priceOriginal     Int?
-  priceDiscounted   Int?
-  durationDays      Int?
-  durationNights    Int?
-  imageUrl          String?
-  groupType         String?
-  titleCkecklist    String?
+  id                   String            @id
+  title                String
+  description          String?
+  type                 TravelType        @default(NATIONAL)
+  isDiscover           Boolean           @default(false)
+  priceOriginal        Int?
+  priceDiscounted      Int?
+  durationDays         Int?
+  durationNights       Int?
+  imageUrl             String?
+  groupType            String?
+  titleCkecklist       String?
   descriptionCkecklist String?
-  groupSizeMax      Int?
-  showReviews       Boolean           @default(true)
-  showChecklist       Boolean           @default(true)
-  showHebergement   Boolean           @default(true)
-  showDifficulty    Boolean           @default(true)
-  showDiscount      Boolean           @default(true)
-  difficultyLevel   Int?
-  totalReviews      Int               @default(0)
-  averageRating     Float             @default(0.0)
-  discountPercent   Int?
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  dateCard          String?
-  orderIndex        Int?
-  villeDepart       String?
-  ville             String?
-  accommodationType String?
-  exclus            String?
-  inclus            String?
-  extracts          String?
-  advancedPrice     Int?
-  googleMapsUrl     String?
-  videoUrl          String?
-  active            Boolean           @default(true)
-  archive           Boolean           @default(false)
-  discountEndDate   DateTime?
-  images            File[]
-  programs          Program[]         @relation("TourPrograms")
-  reviews           Review[]
-  bookinSteps       BookingSteps[]
-  checklist         Checklist[]
-  dates             TourDate[]
-  reservation       Reservation[]
-  reservations      Reservations[]
-  reservationForm   ReservationForm[]
-  categories        Category[]        @relation("CategoryTours")
-  hotels            Hotel[]           @relation("HotelTours")
-  natures           Nature[]          @relation("NatureTours")
-  destinations      Destination[]     @relation("TourDestinations")
-  services          Service[]         @relation("TourServices")
+  groupSizeMax         Int?
+  showReviews          Boolean           @default(true)
+  showChecklist        Boolean           @default(true)
+  showHebergement      Boolean           @default(true)
+  showDifficulty       Boolean           @default(true)
+  showDiscount         Boolean           @default(true)
+  difficultyLevel      Int?
+  totalReviews         Int               @default(0)
+  averageRating        Float             @default(0.0)
+  discountPercent      Int?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  dateCard             String?
+  orderIndex           Int?
+  villeDepart          String?
+  ville                String?
+  accommodationType    String?
+  exclus               String?
+  inclus               String?
+  extracts             String?
+  advancedPrice        Int?
+  googleMapsUrl        String?
+  videoUrl             String?
+  active               Boolean           @default(true)
+  archive              Boolean           @default(false)
+  discountEndDate      DateTime?
+  images               File[]
+  programs             Program[]         @relation("TourPrograms")
+  reviews              Review[]
+  bookinSteps          BookingSteps[]
+  checklist            Checklist[]
+  dates                TourDate[]
+  reservation          Reservation[]
+  reservations         Reservations[]
+  reservationForm      ReservationForm[]
+  categories           Category[]        @relation("CategoryTours")
+  hotels               Hotel[]           @relation("HotelTours")
+  natures              Nature[]          @relation("NatureTours")
+  destinations         Destination[]     @relation("TourDestinations")
+  services             Service[]         @relation("TourServices")
+  favorites            Favorite[]
 }
 
 model File {
@@ -408,15 +424,15 @@ model Review {
 }
 
 model TourDate {
-  id              String         @id @default(cuid())
-  tourId          String
-  startDate       DateTime?
-  endDate         DateTime?
-  description     String?
-  price           Float?
-  visible         Boolean        @default(true)
-  tour            Tour           @relation(fields: [tourId], references: [id])
-  Reservation     Reservation[]
+  id          String        @id @default(cuid())
+  tourId      String
+  startDate   DateTime?
+  endDate     DateTime?
+  description String?
+  price       Float?
+  visible     Boolean       @default(true)
+  tour        Tour          @relation(fields: [tourId], references: [id])
+  Reservation Reservation[]
 }
 
 model User {
@@ -442,6 +458,7 @@ model User {
   Authenticator    Authenticator[]
   sessions         Session[]
   meetings         Meeting[]
+  favorites        Favorite[]
 }
 
 model Account {

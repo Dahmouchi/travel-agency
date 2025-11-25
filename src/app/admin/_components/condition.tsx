@@ -15,26 +15,35 @@ import RichTextEditor from "@/components/ui/rich-text-editor";
 import { saveCondition } from "@/actions/saveLandingConfig";
 import { toast } from "react-toastify";
 
-
-
 const ConditionGenerale = ({ section }: { section?: any }) => {
- const [activeTab, setActiveTab] = useState<"condition" | "plitique">("condition");
-  const [conditionContent, setConditionContent] = useState(section?.condition || "");
-  const [politiqueContent, setPolitiqueContent] = useState(section?.plitique || "");
+  const [activeTab, setActiveTab] = useState<"condition" | "plitique">(
+    "condition"
+  );
+  const [conditionContent, setConditionContent] = useState(
+    section?.condition || ""
+  );
+  const [politiqueContent, setPolitiqueContent] = useState(
+    section?.plitique || ""
+  );
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async (type: "condition" | "plitique") => {
     if (!section?.id) return;
-    
+
     setIsSaving(true);
     try {
-      const contentToSave = type === "condition" ? conditionContent : politiqueContent;
+      const contentToSave =
+        type === "condition" ? conditionContent : politiqueContent;
       const result = await saveCondition(section.id, type, contentToSave);
-      
+
       if (result.success) {
-        toast.success(`${type === "condition" 
-          ? "Conditions Générales" 
-          : "Politique de Confidentialité"} sauvegardées avec succès!`);
+        toast.success(
+          `${
+            type === "condition"
+              ? "Conditions Générales"
+              : "Politique de Confidentialité"
+          } sauvegardées avec succès!`
+        );
       } else {
         throw new Error(result.error);
       }
@@ -45,19 +54,17 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
       setIsSaving(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen mt-4">
       <Card>
         <CardHeader className="pb-4">
-            
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               {activeTab === "condition" ? (
-                <FileText className="w-5 h-5 text-[#8EBD22]" />
+                <FileText className="w-5 h-5 text-[#D97D55]" />
               ) : (
-                <ShieldCheck className="w-5 h-5 text-[#8EBD22]" />
+                <ShieldCheck className="w-5 h-5 text-[#D97D55]" />
               )}
             </div>
             <div>
@@ -77,7 +84,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
             <button
               className={`px-4 py-2 font-medium ${
                 activeTab === "condition"
-                  ? "text-[#8EBD22] border-b-2 border-[#8EBD22]"
+                  ? "text-[#D97D55] border-b-2 border-[#D97D55]"
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab("condition")}
@@ -87,7 +94,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
             <button
               className={`px-4 py-2 font-medium ${
                 activeTab === "plitique"
-                  ? "text-[#8EBD22] border-b-2 border-[#8EBD22]"
+                  ? "text-[#D97D55] border-b-2 border-[#D97D55]"
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab("plitique")}
@@ -109,7 +116,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={() => handleSave("condition")}
-                    className="px-6 py-2 bg-[#8EBD22] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
+                    className="px-6 py-2 bg-[#D97D55] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
                   >
                     Enregistrer les modifications
                   </button>
@@ -125,7 +132,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={() => handleSave("plitique")}
-                    className="px-6 py-2 bg-[#8EBD22] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
+                    className="px-6 py-2 bg-[#D97D55] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
                   >
                     Enregistrer les modifications
                   </button>

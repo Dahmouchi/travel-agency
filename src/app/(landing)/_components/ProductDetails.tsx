@@ -1362,7 +1362,7 @@ const ReviewsCard = ({ review }: { review: any }) => {
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>
@@ -1731,7 +1731,7 @@ const ReviewItem = ({ review }: { review: any }) => {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

@@ -1,5 +1,6 @@
 {
     "github.copilot.advanced": {
         
-    }
+    },
+    "prisma.pinToPrisma6": true
 }

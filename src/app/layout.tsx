@@ -1,13 +1,18 @@
-
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { Poppins } from "next/font/google";
 import NextAuthProvider from "../../providers/NextAuthProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import FacebookPixelWrapper from '@/components/FacebookPixelClientWrapper';
+import FacebookPixelWrapper from "@/components/FacebookPixelClientWrapper";
 import FacebookPageView from "@/components/FacebookPageView";
+import { Inter, Playfair_Display } from "next/font/google";
 
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "700"] });
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -30,9 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} relative`}>
-       <FacebookPixelWrapper />
-       <FacebookPageView />
+      <body className={`${inter.className} relative`}>
+        <FacebookPixelWrapper />
+        <FacebookPageView />
         <NextAuthProvider>
           <div className="overflow-x-hidden">{children}</div>
         </NextAuthProvider>
@@ -49,8 +54,7 @@ export default function RootLayout({
           theme="colored"
         />
       </body>
-       <GoogleAnalytics gaId="G-TT6V0GEH25" />
+      <GoogleAnalytics gaId="G-TT6V0GEH25" />
     </html>
   );
 }
-

@@ -161,7 +161,7 @@ const AuthForm = () => {
               onClick={toggleAuthMode}
               className={`w-full rounded-l-full py-3 cursor-pointer ${
                 isLogin
-                  ? "bg-[#8EBD22] hover:bg-green-800 text-white"
+                  ? "bg-[#D97D55] hover:bg-green-800 text-white"
                   : "bg-white border text-green-800 hover:bg-green-100 hover:text-green-700"
               }`}
             >
@@ -171,7 +171,7 @@ const AuthForm = () => {
               onClick={toggleAuthMode}
               className={`w-full rounded-r-full py-3 cursor-pointer ${
                 !isLogin
-                  ? "bg-[#8EBD22] text-white hover:bg-green-800"
+                  ? "bg-[#D97D55] text-white hover:bg-green-800"
                   : "bg-white border text-green-800 hover:bg-green-100 hover:text-green-800"
               }`}
             >
@@ -247,7 +247,7 @@ const AuthForm = () => {
               <div className="w-full flex items-center justify-start">
                 <Button
                   type="submit"
-                  className="w-full rounded-full py-3 bg-[#8EBD22] border-2 text-white hover:bg-green-700 cursor-pointer"
+                  className="w-full rounded-full py-3 bg-[#D97D55] border-2 text-white hover:bg-green-700 cursor-pointer"
                 >
                   {isLogin ? "Se connecter" : "S'inscrire"}
                 </Button>
@@ -399,7 +399,7 @@ const AuthForm = () => {
               <div className="w-full flex items-center justify-start">
                 <Button
                   type="submit"
-                  className="w-full rounded-full py-3 bg-[#8EBD22] border-2 text-white hover:bg-green-700 cursor-pointer"
+                  className="w-full rounded-full py-3 bg-[#D97D55] border-2 text-white hover:bg-green-700 cursor-pointer"
                 >
                   {isLogin ? "Se connecter" : "S'inscrire"}
                 </Button>

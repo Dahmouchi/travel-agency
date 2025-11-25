@@ -23,18 +23,17 @@ import {
   DeleteReservation,
   UpdateReservationStatus,
 } from "@/actions/reservationsActions";
-import {
+import type {
   Hotel,
   Prisma,
   Reservation,
-  ReservationStatus,
   Tour,
   TourDate,
 } from "@prisma/client";
-
 import { ReservationDetails } from "./reservation-details-form";
 import TourDetails from "@/app/(landing)/_components/ProductDetails";
 import { sendEmailToClient } from "@/actions/meetingsActions";
+import { ReservationStatus } from "@/types/data/blog";
 
 type ReservationData = Reservation & {
   tourTitle: string;
@@ -86,7 +85,6 @@ export const reservationColumns = ({
         minute: "2-digit",
       }),
   },
-
 
   {
     accessorKey: "finalPrice",

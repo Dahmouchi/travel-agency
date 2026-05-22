@@ -24,7 +24,7 @@ const features = [
     title: "Authenticité",
     description:
       "Nous privilégions les expériences vraies, ancrées dans la culture et les traditions locales.",
-    color: "from-[#D97D55] to-[#67891a]",
+    color: "from-[#8EBD22] to-[#67891a]",
   },
   {
     icon: Award,
@@ -83,7 +83,7 @@ const AboutUs = () => {
     const handleAnchorClick = (e: any) => {
       e.preventDefault();
       const target = document.querySelector(
-        e.currentTarget.getAttribute("href")
+        e.currentTarget.getAttribute("href"),
       );
       if (target) {
         target.scrollIntoView({
@@ -130,7 +130,7 @@ const AboutUs = () => {
   return (
     <div>
       <>
-        <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#6d911a] via-[#D97D55] to-[#c0f83f] overflow-hidden gradient-bg">
+        <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#6d911a] via-[#8EBD22] to-[#c0f83f] overflow-hidden gradient-bg">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -174,14 +174,14 @@ const AboutUs = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
               <a
                 href="#notre-histoire"
-                className="inline-flex justify-center items-center px-8 py-4 bg-white text-[#D97D55] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="inline-flex justify-center items-center px-8 py-4 bg-white text-[#8EBD22] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <span>Découvrir notre histoire</span>
                 <ArrowDown className="fas fa-arrow-down ml-2" />
               </a>
               <a
                 href="#contact"
-                className="inline-flex justify-center items-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#D97D55] transition-all duration-300 transform hover:scale-105"
+                className="inline-flex justify-center items-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#8EBD22] transition-all duration-300 transform hover:scale-105"
               >
                 <Phone className="fas fa-phone mr-2" />
                 <span>Nous contacter</span>
@@ -210,7 +210,7 @@ const AboutUs = () => {
                     <div className="mb-6">
                       <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                         Une passion pour
-                        <span className="bg-gradient-to-r from-[#D97D55] to-[#67891a] bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-[#8EBD22] to-[#67891a] bg-clip-text text-transparent">
                           {" "}
                           l&apos;exploration
                         </span>
@@ -220,7 +220,7 @@ const AboutUs = () => {
                     <div className="space-y-6 lg:text-lg text-sm text-gray-600 leading-relaxed">
                       <p>
                         Bienvenue chez{" "}
-                        <strong className="text-[#D97D55]">Happy Trip</strong>,
+                        <strong className="text-[#8EBD22]">Happy Trip</strong>,
                         votre agence de confiance pour des voyages inoubliables
                         au Maroc et au-delà. Fondée avec la passion de
                         l&apos;exploration et le désir de partager la beauté de
@@ -244,7 +244,7 @@ const AboutUs = () => {
 
                   <div className="section-reveal" ref={addToRefs}>
                     <div className="relative">
-                      <div className="bg-gradient-to-br from-[#D97D55] to-[#b6d66a] rounded-3xl p-8 text-white">
+                      <div className="bg-gradient-to-br from-[#8EBD22] to-[#b6d66a] rounded-3xl p-8 text-white">
                         <div className="grid grid-cols-2 gap-6">
                           <div className="text-center">
                             <div className="text-4xl font-bold mb-2">1650+</div>
@@ -289,7 +289,7 @@ const AboutUs = () => {
                 >
                   <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                     Transformer vos rêves en
-                    <span className="bg-gradient-to-r from-[#D97D55] to-[#bbe756] bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#8EBD22] to-[#bbe756] bg-clip-text text-transparent">
                       {" "}
                       réalité
                     </span>
@@ -306,7 +306,7 @@ const AboutUs = () => {
                     className="section-reveal bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
                     ref={addToRefs}
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#D97D55] to-[#67891a] rounded-2xl flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#8EBD22] to-[#67891a] rounded-2xl flex items-center justify-center mb-6">
                       <Star className="fas fa-star text-white text-2xl" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -372,7 +372,7 @@ const AboutUs = () => {
 
           {/* Nos Valeurs Section */}
           <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#D97D55]/5 to-cyan-500/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#8EBD22]/5 to-cyan-500/5"></div>
 
             <div className="container mx-auto px-6 relative z-10">
               <div className="max-w-6xl mx-auto">
@@ -382,7 +382,7 @@ const AboutUs = () => {
                 >
                   <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                     Le fondement de
-                    <span className="bg-gradient-to-r from-[#D97D55] to-[#67891a] bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#8EBD22] to-[#67891a] bg-clip-text text-transparent">
                       {" "}
                       notre action
                     </span>
@@ -403,7 +403,7 @@ const AboutUs = () => {
                         ref={addToRefs}
                       >
                         <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 h-full relative overflow-hidden">
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#D97D55]/10 to-[#67891a]/10 rounded-full -translate-y-16 translate-x-16"></div>
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#8EBD22]/10 to-[#67891a]/10 rounded-full -translate-y-16 translate-x-16"></div>
                           <div className="relative z-10">
                             <div
                               className={`w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
@@ -429,7 +429,7 @@ const AboutUs = () => {
           {/* Contact Section */}
           <section
             id="contact"
-            className="py-20 lg:py-32 bg-gradient-to-br from-[#D97D55] via-[#67891a] to-[#bcf538] relative overflow-hidden"
+            className="py-20 lg:py-32 bg-gradient-to-br from-[#8EBD22] via-[#67891a] to-[#bcf538] relative overflow-hidden"
           >
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -506,7 +506,7 @@ const AboutUs = () => {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
                       href="tel:+212628324880"
-                      className="inline-flex items-center px-8 py-4 bg-white text-[#D97D55] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                      className="inline-flex items-center px-8 py-4 bg-white text-[#8EBD22] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
                     >
                       <i className="fas fa-phone mr-2"></i>
                       <span>Appelez maintenant</span>

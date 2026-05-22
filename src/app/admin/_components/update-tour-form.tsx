@@ -126,7 +126,7 @@ const tourSchema = z.object({
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
     z
       .number({ required_error: "Le prix original est requis" })
-      .min(0, "Le prix doit être positif")
+      .min(0, "Le prix doit être positif"),
   ),
   priceDiscounted: z.preprocess(
     (val) =>
@@ -134,7 +134,7 @@ const tourSchema = z.object({
     z
       .number({ invalid_type_error: "Le prix doit être un nombre" })
       .min(0, "Le prix doit être positif")
-      .optional()
+      .optional(),
   ),
   discountEndDate: z
     .date({ invalid_type_error: "Date invalide" })
@@ -147,7 +147,7 @@ const tourSchema = z.object({
     z
       .number({ invalid_type_error: "Le prix doit être un nombre" })
       .min(0, "Le prix doit être positif")
-      .optional()
+      .optional(),
   ),
   dateCard: z.string({ required_error: "La date du circuit est requise" }),
   durationDays: z.preprocess(
@@ -155,14 +155,14 @@ const tourSchema = z.object({
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
     z
       .number({ required_error: "Le nombre de jours est requis" })
-      .min(1, "Au moins 1 jour")
+      .min(1, "Au moins 1 jour"),
   ),
   durationNights: z.preprocess(
     (val) =>
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
     z
       .number({ required_error: "Le nombre de nuits est requis" })
-      .min(0, "Nuits >= 0")
+      .min(0, "Nuits >= 0"),
   ),
   videoUrl: z
     .string({ invalid_type_error: "Lien vidéo invalide" })
@@ -184,7 +184,7 @@ const tourSchema = z.object({
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
     z
       .number({ required_error: "La taille du groupe est requise" })
-      .min(1, "Taille min 1")
+      .min(1, "Taille min 1"),
   ),
   showReviews: z.boolean().default(true),
   showChecklist: z.boolean().default(true).optional(),
@@ -232,7 +232,7 @@ const tourSchema = z.object({
               return undefined;
             return val;
           }),
-      })
+      }),
     )
     .optional(),
   bookinSteps: z
@@ -241,7 +241,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   checklist: z
@@ -250,7 +250,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   dates: z
@@ -269,21 +269,21 @@ const tourSchema = z.object({
                   : val,
             z
               .number({ required_error: "Le prix est requis" })
-              .min(0, "Le prix doit être positif")
+              .min(0, "Le prix doit être positif"),
           )
           .optional(),
         visible: z.boolean().default(true),
-      })
+      }),
     )
     .optional(),
 
   destinations: z.array(
     z.string({ required_error: "La destination est requise" }),
-    { required_error: "Au moins une destination est requise" }
+    { required_error: "Au moins une destination est requise" },
   ),
   categories: z.array(
     z.string({ required_error: "La catégorie est requise" }),
-    { required_error: "Au moins une catégorie est requise" }
+    { required_error: "Au moins une catégorie est requise" },
   ),
   services: z.array(z.string({ required_error: "Le service est requis" }), {
     required_error: "Au moins un service est requis",
@@ -331,14 +331,14 @@ export function UpdateTourForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardImage, setCardImage] = useState<File[]>([]);
   const [initialFields, setInitialFields] = useState<Field[]>(
-    initialData.reservationForm[0]?.fields
+    initialData.reservationForm[0]?.fields,
   );
   const router = useRouter();
   const handleUpdate = async (updatedFields: Field[]) => {
     try {
       const res = await updateReservationTour(
         initialData.reservationForm[0].id,
-        updatedFields
+        updatedFields,
       );
       if (res?.success) {
         toast.success("la réservation est modifiér");
@@ -454,7 +454,7 @@ export function UpdateTourForm({
               ? (prismaError as { message: string }).message
               : typeof prismaError === "string"
                 ? prismaError
-                : "Erreur lors de la modification du circuit"
+                : "Erreur lors de la modification du circuit",
         );
 
         if (
@@ -468,7 +468,7 @@ export function UpdateTourForm({
     } catch (error) {
       console.error("Unexpected error submitting form:", error);
       toast.error(
-        `Erreur inattendue lors de la modification du circuit , ${error}`
+        `Erreur inattendue lors de la modification du circuit , ${error}`,
       );
     } finally {
       setIsSubmitting(false);
@@ -487,8 +487,8 @@ export function UpdateTourForm({
             <CardContent className=" ">
               <div className="space-y-8 ">
                 {/* Basic Information */}
-                <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <Info className="inline mr-2" />
                     Informations de base
                   </h3>
@@ -642,7 +642,7 @@ export function UpdateTourForm({
                             (dest: any) =>
                               Array.isArray(field.value)
                                 ? field.value.includes(dest.id)
-                                : false
+                                : false,
                           );
 
                           return (
@@ -702,7 +702,7 @@ export function UpdateTourForm({
                                                 field.value &&
                                                   field.value.includes(dest.id)
                                                   ? "opacity-100"
-                                                  : "opacity-0"
+                                                  : "opacity-0",
                                               )}
                                             />
                                             {dest.name}
@@ -748,7 +748,7 @@ export function UpdateTourForm({
                             (nature: any) =>
                               Array.isArray(field.value)
                                 ? field.value.includes(nature.id)
-                                : false
+                                : false,
                           );
                           return (
                             <FormItem>
@@ -788,7 +788,7 @@ export function UpdateTourForm({
                                                     : [];
                                                 const index =
                                                   currentValue.indexOf(
-                                                    nature.id
+                                                    nature.id,
                                                   );
                                                 if (index === -1) {
                                                   field.onChange([
@@ -806,10 +806,10 @@ export function UpdateTourForm({
                                                   "mr-2 h-4 w-4",
                                                   field.value &&
                                                     field.value.includes(
-                                                      nature.id
+                                                      nature.id,
                                                     )
                                                     ? "opacity-100"
-                                                    : "opacity-0"
+                                                    : "opacity-0",
                                                 )}
                                               />
                                               {nature.name}
@@ -854,7 +854,7 @@ export function UpdateTourForm({
                             (cat: any) =>
                               Array.isArray(field.value)
                                 ? field.value.includes(cat.id)
-                                : false
+                                : false,
                           );
                           return (
                             <FormItem>
@@ -912,7 +912,7 @@ export function UpdateTourForm({
                                                   field.value &&
                                                     field.value.includes(cat.id)
                                                     ? "opacity-100"
-                                                    : "opacity-0"
+                                                    : "opacity-0",
                                                 )}
                                               />
                                               {cat.name}
@@ -957,7 +957,7 @@ export function UpdateTourForm({
                             (service: any) =>
                               Array.isArray(field.value)
                                 ? field.value.includes(service.id)
-                                : false
+                                : false,
                           );
                           return (
                             <FormItem>
@@ -998,7 +998,7 @@ export function UpdateTourForm({
                                                     : [];
                                                 const index =
                                                   currentValue.indexOf(
-                                                    service.id
+                                                    service.id,
                                                   );
                                                 if (index === -1) {
                                                   field.onChange([
@@ -1016,10 +1016,10 @@ export function UpdateTourForm({
                                                   "mr-2 h-4 w-4",
                                                   field.value &&
                                                     field.value.includes(
-                                                      service.id
+                                                      service.id,
                                                     )
                                                     ? "opacity-100"
-                                                    : "opacity-0"
+                                                    : "opacity-0",
                                                 )}
                                               />
                                               {service.name}
@@ -1046,7 +1046,7 @@ export function UpdateTourForm({
                                       >
                                         {service.name}
                                       </span>
-                                    )
+                                    ),
                                   )}
                                 </div>
                               )}
@@ -1109,7 +1109,7 @@ export function UpdateTourForm({
                               },
                               multiple: false,
                             }}
-                            className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm"
+                            className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm"
                             orientation="vertical"
                           >
                             <FileInput className="border-2 border-dashed p-6 text-center hover:bg-gray-50">
@@ -1307,8 +1307,8 @@ export function UpdateTourForm({
 
                 {/* Hotels Information */}
                 {/* {form.watch("type") === "INTERNATIONAL" && (
-                  <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                    <h3 className="text-lime-600 text-l font-medium">
+                  <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                    <h3 className="text-[#f7601f] text-l font-medium">
                       <BedDouble className="inline mr-2" />
                       Informations sur les hôtels
                     </h3>
@@ -1447,8 +1447,8 @@ export function UpdateTourForm({
                 )} */}
 
                 {/* programms information */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <ClipboardPenLine className="inline mr-2" />
                     Informations sur le programmes
                   </h3>
@@ -1467,12 +1467,12 @@ export function UpdateTourForm({
                             orderIndex: idx,
                             description: p.description,
                             image: p.image,
-                          })
+                          }),
                         )}
                         onChange={(programs: any[]) => {
                           form.setValue(
                             "programs",
-                            programs.map(({ id, ...rest }) => rest)
+                            programs.map(({ id, ...rest }) => rest),
                           );
                         }}
                       />
@@ -1481,8 +1481,8 @@ export function UpdateTourForm({
                 </div>
 
                 {/* Pricing Information */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <Banknote className="inline mr-2" />
                     Informations sur les prix
                   </h3>
@@ -1520,11 +1520,11 @@ export function UpdateTourForm({
                                     discountedPrice < value
                                   ) {
                                     const discountPercent = Math.round(
-                                      ((value - discountedPrice) / value) * 100
+                                      ((value - discountedPrice) / value) * 100,
                                     );
                                     form.setValue(
                                       "discountPercent",
-                                      discountPercent
+                                      discountPercent,
                                     );
                                   } else {
                                     form.setValue("discountPercent", 0);
@@ -1568,11 +1568,11 @@ export function UpdateTourForm({
                                     const discountPercent = Math.round(
                                       ((originalPrice - value) /
                                         originalPrice) *
-                                        100
+                                        100,
                                     );
                                     form.setValue(
                                       "discountPercent",
-                                      discountPercent
+                                      discountPercent,
                                     );
                                   } else {
                                     form.setValue("discountPercent", 0);
@@ -1644,7 +1644,7 @@ export function UpdateTourForm({
                                 onChange={(e) => {
                                   const val = e.target.value;
                                   field.onChange(
-                                    val ? new Date(val) : undefined
+                                    val ? new Date(val) : undefined,
                                   );
                                 }}
                                 onBlur={field.onBlur}
@@ -1665,8 +1665,8 @@ export function UpdateTourForm({
                 </div>
 
                 {/* Dates and Duration */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <Calendar className="inline mr-2" />
                     Dates et durée
                   </h3>
@@ -1768,7 +1768,7 @@ export function UpdateTourForm({
                                 description: d.description ?? "",
                                 price: d.price ?? 0,
                                 visible: d.visible ?? true,
-                              })
+                              }),
                             )}
                             onChange={(dates) =>
                               field.onChange(
@@ -1776,7 +1776,7 @@ export function UpdateTourForm({
                                   startDate:
                                     d.dateDebut &&
                                     Object.prototype.toString.call(
-                                      d.dateDebut
+                                      d.dateDebut,
                                     ) === "[object Date]"
                                       ? d.dateDebut
                                       : new Date(d.dateDebut),
@@ -1787,7 +1787,7 @@ export function UpdateTourForm({
                                   description: d.description,
                                   price: d.price ?? 0,
                                   visible: d.visible,
-                                }))
+                                })),
                               )
                             }
                           />
@@ -1804,8 +1804,8 @@ export function UpdateTourForm({
                 </div>
 
                 {/* inclus et exclus */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <CheckCircle className="inline mr-2" />
                     Inclus & Exclus
                   </h3>
@@ -1833,14 +1833,14 @@ export function UpdateTourForm({
                       onChange={(value) => {
                         form.setValue(
                           "arrayExlus",
-                          Array.isArray(value) ? value : [value]
+                          Array.isArray(value) ? value : [value],
                         );
                       }}
                     />
                   </div>
                 </div>
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <CheckSquare className="inline mr-2" />
                     Checkliste
                   </h3>
@@ -1920,8 +1920,8 @@ export function UpdateTourForm({
                     />
                   </div>
                 </div>
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <ClipboardType className="inline mr-2" />
                     Autre Checklist
                   </h3>
@@ -1937,7 +1937,7 @@ export function UpdateTourForm({
                             title: p.title,
                             description: p.description,
                             orderIndex: p.orderIndex ?? idx,
-                          })
+                          }),
                         )}
                         isNewTour={false}
                         onChange={(programs: any[]) => {
@@ -1945,7 +1945,7 @@ export function UpdateTourForm({
                             "checklist",
                             programs
                               .sort((a, b) => a.orderIndex - b.orderIndex)
-                              .map(({ id, ...rest }) => rest)
+                              .map(({ id, ...rest }) => rest),
                           );
                         }}
                       />
@@ -1953,8 +1953,8 @@ export function UpdateTourForm({
                   </div>
                 </div>
                 {/* Extras */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <CheckSquare className="inline mr-2" />
                     Extras
                   </h3>
@@ -1970,7 +1970,7 @@ export function UpdateTourForm({
                       onChange={(value) => {
                         form.setValue(
                           "arrayExtras",
-                          Array.isArray(value) ? value : [value]
+                          Array.isArray(value) ? value : [value],
                         );
                       }}
                     />
@@ -1978,8 +1978,8 @@ export function UpdateTourForm({
                 </div>
 
                 {/* Display Options */}
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <Eye className="inline mr-2" />
                     Options d&apos;affichage
                   </h3>
@@ -2079,8 +2079,8 @@ export function UpdateTourForm({
               </div>
             </CardContent>
           </Card>
-          <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-            <h3 className="text-lime-600 text-l font-medium">
+          <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+            <h3 className="text-[#f7601f] text-l font-medium">
               <ClipboardType className="inline mr-2" />
               Étapes de Réservation
             </h3>
@@ -2098,7 +2098,7 @@ export function UpdateTourForm({
                       title: p.title,
                       description: p.description,
                       orderIndex: p.orderIndex ?? idx,
-                    })
+                    }),
                   )}
                   isNewTour={false}
                   onChange={(programs: any[]) => {
@@ -2106,7 +2106,7 @@ export function UpdateTourForm({
                       "bookinSteps",
                       programs
                         .sort((a, b) => a.orderIndex - b.orderIndex)
-                        .map(({ id, ...rest }) => rest)
+                        .map(({ id, ...rest }) => rest),
                     );
                   }}
                 />
@@ -2117,7 +2117,7 @@ export function UpdateTourForm({
             <Button
               type="submit"
               size="lg"
-              className="bg-lime-600 text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
+              className="bg-[#f7601f] text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
               // disabled={
               //   !form.watch("title") ||
               //   !form.watch("description") ||
@@ -2150,8 +2150,8 @@ export function UpdateTourForm({
         <CardContent className=" ">
           <div className="space-y-8 ">
             {/* Basic Information */}
-            <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-              <h3 className="text-lime-600 text-l font-medium">
+            <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+              <h3 className="text-[#f7601f] text-l font-medium">
                 <Info className="inline mr-2" />
                 Personnaliser le formulaire de réservation
               </h3>

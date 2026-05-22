@@ -118,7 +118,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
             <User className="w-5 h-5 text-blue-600" />
             Informations personnelles
           </h3>
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2 border border-gray-200">
+          <div className="bg-gray-50 rounded-xl p-4 space-y-2 border border-gray-200">
             <DetailRow
               icon={User}
               label="Nom complet"
@@ -141,7 +141,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
             <MapPin className="w-5 h-5 text-green-600" />
             Détails du voyage
           </h3>
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2 border border-gray-200">
+          <div className="bg-gray-50 rounded-xl p-4 space-y-2 border border-gray-200">
             <DetailRow
               icon={Building2}
               label="Tour"
@@ -188,7 +188,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
               <Settings className="w-5 h-5 text-purple-600" />
               Informations supplémentaires
             </h3>
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2 border border-gray-200">
+            <div className="bg-gray-50 rounded-xl p-4 space-y-2 border border-gray-200">
               {Object.entries(reservation.data).map(([key, value]) => {
                 if (key === "numberOfAdults" || key === "childCount")
                   return null;
@@ -214,7 +214,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
             <DollarSign className="w-5 h-5 text-green-600" />
             Détails du prix
           </h3>
-          <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
             <div className="space-y-3">
               <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                 <span className="font-medium text-gray-700">Prix de base</span>
@@ -252,7 +252,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
                   // Select fields (not multiplied)
                   if (field.type === "select" && value) {
                     const selectedOption = field.options?.find(
-                      (opt: any) => opt.value === value
+                      (opt: any) => opt.value === value,
                     );
                     if (selectedOption?.price) {
                       return (
@@ -266,7 +266,7 @@ export const ReservationDetails: React.FC<any> = ({ reservation }) => {
                   }
 
                   return null;
-                }
+                },
               )}
 
               <div className="pt-3 mt-3 border-t border-gray-200">

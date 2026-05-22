@@ -32,8 +32,11 @@ export function NavUser() {
                 size="lg"
                 className="data-[state=open]:bg-sidebar-accent cursor-pointer data-[state=open]:text-sidebar-accent-foreground dark:bg-slate-700"
               >
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={session?.user.image || "/icons/user.png"} alt={"user.name"} />
+                <Avatar className="h-8 w-8 rounded-xl">
+                  <AvatarImage
+                    src={session?.user.image || "/icons/user.png"}
+                    alt={"user.name"}
+                  />
                 </Avatar>
                 <div className=" flex-1 text-left text-sm leading-tight hidden lg:grid">
                   <span className="truncate font-semibold">
@@ -47,16 +50,18 @@ export function NavUser() {
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-xl"
               side={isMobile ? "bottom" : "right"}
               align="end"
               sideOffset={4}
             >
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                   
-                    <AvatarFallback className="rounded-lg">   {session?.user.username?.slice(0, 2).toUpperCase()}</AvatarFallback>
+                  <Avatar className="h-8 w-8 rounded-xl">
+                    <AvatarFallback className="rounded-xl">
+                      {" "}
+                      {session?.user.username?.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">

@@ -31,7 +31,7 @@ const TeamBuildingPage = () => {
         "Activités exclusives et moments de détente",
         "Valorisation, motivation et fidélisation des équipes",
       ],
-      color: "from-[#D97D55]/20 to-[#D97D55]/5",
+      color: "from-[#8EBD22]/20 to-[#8EBD22]/5",
     },
     {
       icon: Users,
@@ -151,7 +151,7 @@ const TeamBuildingPage = () => {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Pourquoi organiser un Team Building avec{" "}
-              <span className="text-[#D97D55]">Happy Trip</span> ?
+              <span className="text-[#8EBD22]">Happy Trip</span> ?
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Un séminaire ou une activité de team building n&apos;est pas
@@ -166,9 +166,9 @@ const TeamBuildingPage = () => {
               return (
                 <Card
                   key={index}
-                  className="p-8 hover:shadow-xl transition-all duration-300 border-2 hover:border-[#D97D55] group"
+                  className="p-8 hover:shadow-xl transition-all duration-300 border-2 hover:border-[#8EBD22] group"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D97D55] to-[#7AA91D] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8EBD22] to-[#7AA91D] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <Icon className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-4">{benefit.title}</h3>
@@ -181,9 +181,9 @@ const TeamBuildingPage = () => {
           </div>
           <div className="container mx-auto px-4 max-w-7xl mt-8">
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="p-8 border-2 hover:border-[#D97D55] transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 rounded-xl bg-[#D97D55]/10 flex items-center justify-center mb-6">
-                  <CheckCircle2 className="w-6 h-6 text-[#D97D55]" />
+              <Card className="p-8 border-2 hover:border-[#8EBD22] transition-all duration-300 hover:shadow-lg">
+                <div className="w-12 h-12 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center mb-6">
+                  <CheckCircle2 className="w-6 h-6 text-[#8EBD22]" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">
                   Séminaires clés en main
@@ -195,9 +195,9 @@ const TeamBuildingPage = () => {
                 </p>
               </Card>
 
-              <Card className="p-8 border-2 hover:border-[#D97D55] transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 rounded-xl bg-[#D97D55]/10 flex items-center justify-center mb-6">
-                  <Target className="w-6 h-6 text-[#D97D55]" />
+              <Card className="p-8 border-2 hover:border-[#8EBD22] transition-all duration-300 hover:shadow-lg">
+                <div className="w-12 h-12 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center mb-6">
+                  <Target className="w-6 h-6 text-[#8EBD22]" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">
                   Expérience personnalisée
@@ -209,9 +209,9 @@ const TeamBuildingPage = () => {
                 </p>
               </Card>
 
-              <Card className="p-8 border-2 hover:border-[#D97D55] transition-all duration-300 hover:shadow-lg">
-                <div className="w-12 h-12 rounded-xl bg-[#D97D55]/10 flex items-center justify-center mb-6">
-                  <Users className="w-6 h-6 text-[#D97D55]" />
+              <Card className="p-8 border-2 hover:border-[#8EBD22] transition-all duration-300 hover:shadow-lg">
+                <div className="w-12 h-12 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center mb-6">
+                  <Users className="w-6 h-6 text-[#8EBD22]" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">
                   Esprit d&apos;équipe et motivation
@@ -232,7 +232,7 @@ const TeamBuildingPage = () => {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Trouvez le Team Building qui répond à vos{" "}
-              <span className="text-[#D97D55]">objectifs</span>
+              <span className="text-[#8EBD22]">objectifs</span>
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Chaque entreprise a ses ambitions, ses valeurs et ses défis.
@@ -246,7 +246,7 @@ const TeamBuildingPage = () => {
               return (
                 <Card
                   key={index}
-                  className="overflow-hidden border-2 hover:border-[#D97D55] transition-all duration-300 group cursor-pointer"
+                  className="overflow-hidden border-2 hover:border-[#8EBD22] transition-all duration-300 group cursor-pointer"
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
@@ -255,9 +255,9 @@ const TeamBuildingPage = () => {
                   />
                   <div className="p-8">
                     <div className="flex items-start gap-4 mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-[#D97D55]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#D97D55] transition-colors">
+                      <div className="w-12 h-12 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#8EBD22] transition-colors">
                         <Icon
-                          className={`w-6 h-6 ${hoveredCard === index ? "text-white" : "text-[#D97D55]"} transition-colors`}
+                          className={`w-6 h-6 ${hoveredCard === index ? "text-white" : "text-[#8EBD22]"} transition-colors`}
                         />
                       </div>
                       <h3 className="text-xl font-bold leading-tight">
@@ -270,7 +270,7 @@ const TeamBuildingPage = () => {
                     <ul className="space-y-3">
                       {seminar.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-3">
-                          <CheckCircle2 className="w-5 h-5 text-[#D97D55] flex-shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-5 h-5 text-[#8EBD22] flex-shrink-0 mt-0.5" />
                           <span className="text-sm leading-relaxed">
                             {feature}
                           </span>
@@ -291,7 +291,7 @@ const TeamBuildingPage = () => {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Pourquoi choisir{" "}
-              <span className="text-[#D97D55]">Happy Trip</span> ?
+              <span className="text-[#8EBD22]">Happy Trip</span> ?
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               Organiser un Team Building d&apos;entreprise demande du temps, de
@@ -303,7 +303,7 @@ const TeamBuildingPage = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {whyChoose.map((item, index) => (
               <div key={index} className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#D97D55] to-[#7AA91D] flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#8EBD22] to-[#7AA91D] flex items-center justify-center mx-auto">
                   <span className="text-2xl font-bold text-white">
                     {index + 1}
                   </span>
@@ -319,7 +319,7 @@ const TeamBuildingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[#D97D55] to-[#7AA91D] text-white">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-[#8EBD22] to-[#7AA91D] text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-5xl font-bold">
@@ -334,7 +334,7 @@ const TeamBuildingPage = () => {
               <Button
                 size="lg"
                 variant="secondary"
-                className="px-8 py-6 text-lg bg-white text-[#D97D55] hover:bg-white/90"
+                className="px-8 py-6 text-lg bg-white text-[#8EBD22] hover:bg-white/90"
               >
                 Demander un devis gratuit
               </Button>

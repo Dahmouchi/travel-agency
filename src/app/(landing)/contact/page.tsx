@@ -33,7 +33,7 @@ const Contact = () => {
         data.prenom,
         data.email,
         data.phone,
-        data.message
+        data.message,
       );
       if (res) {
         toast.success("votre message a été envoyer");
@@ -217,7 +217,7 @@ const Contact = () => {
             </div>
 
             {/* Emergency Contact */}
-            <div className="bg-[#D97D55] rounded-xl shadow-md p-6 border-l-4 border-[#628315]">
+            <div className="bg-[#8EBD22] rounded-xl shadow-md p-6 border-l-4 border-[#628315]">
               <h3 className="text-xl font-semibold mb-3 flex items-center text-white">
                 <MessageSquareText className="w-5 h-5 mr-2 text-white" />
                 Contact Rapide
@@ -234,7 +234,7 @@ const Contact = () => {
                   href="https://wa.me/212628324880"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between bg-green-50 hover:bg-green-100 p-3 rounded-lg border border-green-100 transition-colors"
+                  className="flex items-center justify-between bg-green-50 hover:bg-green-100 p-3 rounded-xl border border-green-100 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <svg
@@ -260,7 +260,7 @@ const Contact = () => {
                   href="https://wa.me/212628324880"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between bg-green-50 hover:bg-green-100 p-3 rounded-lg border border-green-100 transition-colors"
+                  className="flex items-center justify-between bg-green-50 hover:bg-green-100 p-3 rounded-xl border border-green-100 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <svg

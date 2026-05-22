@@ -1,16 +1,94 @@
 "use server";
 
-import { Review } from "@prisma/client";
+import { Review, ReviewStatus } from "@prisma/client";
 import prisma from "@/lib/prisma";
+// 1. Define the interfaces for the Hugging Face response
+// cardiffnlp/twitter-xlm-roberta-base-sentiment returns lowercase labels
+type SentimentLabel = "positive" | "negative" | "neutral";
 
+interface SentimentResult {
+  label: SentimentLabel;
+  score: number;
+}
+
+// 2. Strongly typed fetching function
+async function analyzeFrenchSentiment(
+  text: string,
+): Promise<SentimentResult[] | null> {
+  const HF_TOKEN = process.env.HUGGINGFACE_API_KEY;
+  const MODEL_URL =
+    "https://router.huggingface.co/hf-inference/models/cardiffnlp/twitter-xlm-roberta-base-sentiment";
+
+  try {
+    const response = await fetch(MODEL_URL, {
+      headers: {
+        Authorization: `Bearer ${HF_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ inputs: text }),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error(`HuggingFace API error [${response.status}]:`, errorBody);
+
+      // 503 = model is still loading on HF free tier, treat as graceful failure
+      if (response.status === 503) {
+        console.warn(
+          "HuggingFace model is loading, skipping sentiment analysis.",
+        );
+        return null;
+      }
+
+      throw new Error(
+        `API responded with status: ${response.status} - ${errorBody}`,
+      );
+    }
+
+    // Hugging Face text classification returns an array of arrays: [[{label: 'POSITIVE', score: 0.9}, ...]]
+    const result = (await response.json()) as SentimentResult[][];
+    return result[0] || null;
+  } catch (error) {
+    console.error("Sentiment Analysis Error:", error);
+    return null; // Fail gracefully so the review can still be saved as PENDING
+  }
+}
 export async function AddReview(
   fullName: string,
   message: string,
   rating: number,
-  tourId: string
+  tourId: string,
 ) {
   if (!fullName || !message || !rating) {
     return { success: false, error: "Failed to add review" };
+  }
+  let finalStatus: ReviewStatus = ReviewStatus.PENDING;
+
+  // Run AI Sentiment Analysis
+  const sentimentResult = await analyzeFrenchSentiment(message);
+
+  if (sentimentResult) {
+    // cardiffnlp model returns lowercase "positive", "negative", "neutral"
+    const positiveScoreObj = sentimentResult.find(
+      (s) => s.label === "positive",
+    );
+    const negativeScoreObj = sentimentResult.find(
+      (s) => s.label === "negative",
+    );
+    const positiveScore = positiveScoreObj?.score ?? 0;
+    const negativeScore = negativeScoreObj?.score ?? 0;
+
+    const HIGH_CONFIDENCE_POSITIVE = 0.6;
+    const HIGH_CONFIDENCE_NEGATIVE = 0.6;
+
+    if (positiveScore >= HIGH_CONFIDENCE_POSITIVE) {
+      finalStatus = ReviewStatus.APPROVED;
+    } else if (negativeScore >= HIGH_CONFIDENCE_NEGATIVE) {
+      finalStatus = ReviewStatus.REJECTED;
+    } else {
+      finalStatus = ReviewStatus.PENDING;
+    }
   }
 
   const review = await prisma.review.create({
@@ -19,7 +97,7 @@ export async function AddReview(
       fullName,
       message,
       rating: Number(rating),
-      status: false,
+      status: finalStatus,
     },
   });
   return { success: true, data: review };
@@ -82,7 +160,10 @@ export async function UpdateReview(reviewId: string, data: Review) {
   return { success: true, data: review };
 }
 
-export async function UpdateReviewStatus(reviewId: string, status: boolean) {
+export async function UpdateReviewStatus(
+  reviewId: string,
+  status: ReviewStatus,
+) {
   if (!reviewId) {
     return { success: false, error: "Review ID is required" };
   }
@@ -168,7 +249,7 @@ export const updateReview = async (
     authorUrl?: string;
     time?: Date;
     status?: boolean;
-  }
+  },
 ) => {
   try {
     const review = await prisma.googleReview.update({

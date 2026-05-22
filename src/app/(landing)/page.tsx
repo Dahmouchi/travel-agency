@@ -28,7 +28,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextAuth";
 import { PaginatedTours } from "./_components/ToursPagination";
 import SectionSubscribe2 from "@/components/SectionSubscribe2";
+import SectionSliderNewCategories from "@/components/SectionSliderNewCategories";
+import { getDestinationsWithTours } from "@/actions/destinations";
 //import GoogleReviewsSection from "./_components/GoogleAvis";
+import Heading from "@/shared/Heading";
 
 const LandigPage = async ({
   searchParams,
@@ -109,19 +112,30 @@ const LandigPage = async ({
 
   const filterParams = parseFilterParams(urlSearchParams);
   const listings = await getFilteredTours(filterParams);
+  const destinations = await getDestinationsWithTours();
   const filterOptions = await getTourFilterOptionsForUI();
+
+  let likedTourIds: string[] = [];
+  if (session?.user?.id) {
+    const favorites = await prisma.favorite.findMany({
+      where: { userId: session.user.id },
+      select: { tourId: true },
+    });
+    likedTourIds = favorites.map((f) => f.tourId);
+  }
+
   return (
     <div>
       {/*{(sections?.navbar ?? true) && 
         <div className="lg:px-6 w-full px-3">
-          <div className="bg-[#D97D55] lg:rounded-b-2xl rounded-b-lg shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex items-center justify-center py-4">
+          <div className="bg-[#8EBD22] lg:rounded-b-2xl rounded-b-lg shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex items-center justify-center py-4">
             <h1 className="text-white text-xs lg:text-lg text-center">
               Nos packs SUMMER 2025 sont disponibles Dés Maintenant!
             </h1>
           </div>
         </div>
-      } */}
-      <div className="pb-28">
+       } */}
+      <div className="pb-18">
         {/* Hero section */}
         {(sections?.hero ?? true) && <Hero inp={sections} tours={allTours} />}
 
@@ -144,7 +158,11 @@ const LandigPage = async ({
           <TourListingFilterTabs filterOptions={filterOptions} />
 
           {listings.length > 0 ? (
-            <PaginatedTours tours={listings} session={session} />
+            <PaginatedTours
+              tours={listings}
+              session={session}
+              likedTourIds={likedTourIds}
+            />
           ) : (
             <div className="mt-16 text-center">
               <p className="text-lg text-muted-foreground">
@@ -154,6 +172,17 @@ const LandigPage = async ({
           )}
         </div>
       </div>
+      <div className="lg:px-24 px-4 mb-14 lg:mb-24 bg-[#FFEDF3] py-10">
+        <Heading subheading="Explore houses based on 10 types of stays">
+          Explore the world with us.
+        </Heading>
+        <SectionSliderNewCategories
+          itemClassName="w-[17rem] lg:w-1/3 xl:w-1/4"
+          categories={destinations}
+          categoryCardType="card5"
+        />
+      </div>
+
       {(sections?.omrah ?? true) && (
         <OmraSection imageUrl={sections?.imageOmrah} />
       )}

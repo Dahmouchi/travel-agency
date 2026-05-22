@@ -48,7 +48,12 @@ const TourCard: FC<TourCardProps> = ({
   const listingHref = `/voyage/${id}`;
   const averageRating =
     reviews && reviews.length > 0
-      ? reviews.reduce((sum: any, r: any) => sum + r.rating, 0) / reviews.length
+      ? parseFloat(
+          (
+            reviews.reduce((sum: any, r: any) => sum + r.rating, 0) /
+            reviews.length
+          ).toFixed(2),
+        )
       : 0;
 
   const renderSliderGallery = () => {
@@ -58,7 +63,7 @@ const TourCard: FC<TourCardProps> = ({
           src={data.imageUrl || ""}
           fill
           alt="listing card gallery"
-          className={clsx(`rounded-xl  object-cover `)}
+          className={clsx(`rounded-2xl  object-cover `)}
           sizes="(max-width: 1025px) 100vw, 25vw"
         />
         <BtnLikeIcon
@@ -84,7 +89,7 @@ const TourCard: FC<TourCardProps> = ({
       <div
         className={clsx(
           size === "default" ? "mt-3 gap-y-3" : "mt-2 gap-y-2",
-          "flex flex-col"
+          "flex flex-col",
         )}
       >
         <div className="flex flex-col gap-y-2">
@@ -137,8 +142,10 @@ const TourCard: FC<TourCardProps> = ({
 
   return (
     <div className={`group relative ${className}`}>
-      {renderSliderGallery()}
-      <Link href={listingHref}>{renderContent()}</Link>
+      <Link href={listingHref} className="cursor-pointer">
+        {renderSliderGallery()}
+        {renderContent()}
+      </Link>
     </div>
   );
 };

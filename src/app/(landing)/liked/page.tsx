@@ -38,7 +38,7 @@ export default async function LikedToursPage() {
           className="flex items-center justify-center w-full space-x-2 z-50"
         >
           <img
-            src="/horizontal.png"
+            src="/horizontal1.png"
             alt="Happy Trip"
             className="h-14  w-auto object-fit"
           />
@@ -48,7 +48,7 @@ export default async function LikedToursPage() {
         <h1 className="text-3xl font-bold mb-8">Your Liked Tours</h1>
 
         {tours.length === 0 && (
-          <p className="text-gray-600">You haven't liked any tours yet.</p>
+          <p className="text-gray-600">You haven&apos;t liked any tours yet.</p>
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

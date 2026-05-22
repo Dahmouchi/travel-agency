@@ -30,7 +30,7 @@ export default function MegaMenuPopover({
   featuredCategory,
 }: {
   megamenu: TNavigationItem;
-  featuredCategory: TCategory;
+  featuredCategory: any;
 }) {
   if (megamenu.type !== "mega-menu") {
     return null;
@@ -110,7 +110,7 @@ function CardCategory7({ category }: { category: TCategory }) {
         </p>
         <Link
           href={`/category?categorys=${category.id}`}
-          className="mt-4 inline-flex items-center text-sm font-medium text-[#D97D55] hover:text-[#7BA91F]"
+          className="mt-4 inline-flex items-center text-sm font-medium text-[#8EBD22] hover:text-[#7BA91F]"
         >
           Découvrir
           <ChevronDownIcon className="ml-1 h-4 w-4 rotate-[-90deg]" />

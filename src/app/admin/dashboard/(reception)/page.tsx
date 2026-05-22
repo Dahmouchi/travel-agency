@@ -29,7 +29,7 @@ const Users = async () => {
           <Link href="/admin/dashboard/archive" passHref>
             <Button
               variant="outline"
-              className="group cursor-pointer relative overflow-hidden border-[#D97D55]/40 bg-white/90 hover:bg-[#f8faf3] transition-all duration-300 shadow-sm hover:shadow-md"
+              className="group cursor-pointer relative overflow-hidden border-[#8EBD22]/40 bg-white/90 hover:bg-[#f8faf3] transition-all duration-300 shadow-sm hover:shadow-md"
             >
               {/* Animated background element */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -39,8 +39,8 @@ const Users = async () => {
               {/* Main content */}
               <div className="relative z-10 flex items-center gap-2">
                 <div className="relative">
-                  <Archive className="w-5 h-5 text-[#D97D55] group-hover:scale-110 transition-transform" />
-                  <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#D97D55]/70" />
+                  <Archive className="w-5 h-5 text-[#8EBD22] group-hover:scale-110 transition-transform" />
+                  <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#8EBD22]/70" />
                 </div>
                 <span className="text-[#5a7c15] font-medium">
                   Voir les tours archivés
@@ -48,7 +48,7 @@ const Users = async () => {
               </div>
 
               {/* Animated arrow (optional) */}
-              <span className="ml-2 text-[#D97D55] opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+              <span className="ml-2 text-[#8EBD22] opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
                 →
               </span>
             </Button>

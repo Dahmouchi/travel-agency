@@ -53,7 +53,7 @@ export default function EventDashboardPage() {
 
   const handleStatusUpdate = async (
     reservationId: string,
-    newStatus: TravelRequestStatus
+    newStatus: TravelRequestStatus,
   ) => {
     setIsUpdatingStatus(true);
     try {
@@ -61,7 +61,7 @@ export default function EventDashboardPage() {
         "Updating reservation",
         reservationId,
         "to status",
-        newStatus
+        newStatus,
       );
       // Call your server action to update the status
       const response = await UpdateStatuEvent(reservationId, newStatus);
@@ -69,8 +69,8 @@ export default function EventDashboardPage() {
         // Update the local state to reflect the status change
         setRequests((prevRequests) =>
           prevRequests.map((req) =>
-            req.id === reservationId ? { ...req, status: newStatus } : req
-          )
+            req.id === reservationId ? { ...req, status: newStatus } : req,
+          ),
         );
         toast.success("Statut mis à jour avec succès !");
         setIsStatusDialogOpen(false);
@@ -139,11 +139,11 @@ export default function EventDashboardPage() {
         </div>
 
         {requests.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
+          <div className="bg-white rounded-xl shadow p-12 text-center">
             <p className="text-gray-500 text-lg">Aucune demande trouvée.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -324,7 +324,7 @@ export default function EventDashboardPage() {
             {selected && (
               <div className="space-y-6">
                 {/* Contact Information */}
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
                   <h3 className="font-semibold text-gray-900 mb-3">
                     Informations de contact
                   </h3>
@@ -357,7 +357,7 @@ export default function EventDashboardPage() {
                 </div>
 
                 {/* Event Details */}
-                <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-lg">
+                <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-4 rounded-xl">
                   <h3 className="font-semibold text-gray-900 mb-3">
                     Détails de l&apos;événement
                   </h3>
@@ -390,7 +390,7 @@ export default function EventDashboardPage() {
                 </div>
 
                 {/* Dates */}
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
+                <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
                   <h3 className="font-semibold text-gray-900 mb-3">Dates</h3>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
@@ -409,7 +409,7 @@ export default function EventDashboardPage() {
                 </div>
 
                 {/* Accommodation */}
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
                   <h3 className="font-semibold text-gray-900 mb-3">
                     Hébergement
                   </h3>
@@ -443,7 +443,7 @@ export default function EventDashboardPage() {
 
                 {/* Activities & Objectives */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-xl">
                     <h3 className="font-semibold text-gray-900 mb-3">
                       Activités
                     </h3>
@@ -459,7 +459,7 @@ export default function EventDashboardPage() {
                       )}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-xl">
                     <h3 className="font-semibold text-gray-900 mb-3">Enjeux</h3>
                     <div className="space-y-1 text-sm">
                       {selected.objectives && selected.objectives.length > 0 ? (

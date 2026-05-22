@@ -18,7 +18,7 @@ export function OmraSection({ imageUrl }: { imageUrl: any }) {
             <Link href="/voyage/omra">
               <Button
                 size={"lg"}
-                className="bg-[#D97D55] cursor-pointer hover:bg-[#7BA91F] text-white shadow-md rounded-full px-10 py-4 text-xl transition-all duration-300 flex items-center gap-1"
+                className="bg-[#8EBD22] cursor-pointer hover:bg-[#7BA91F] text-white shadow-md rounded-full px-10 py-4 text-xl transition-all duration-300 flex items-center gap-1"
               >
                 احجز الآن
               </Button>
@@ -38,7 +38,7 @@ export function OmraSection({ imageUrl }: { imageUrl: any }) {
         <Link href="/voyage/omra">
           <Button
             size="lg"
-            className="w-full bg-[#D97D55] cursor-pointer hover:bg-[#7BA91F] text-white shadow-md  text-xl py-6 h-auto font-bold"
+            className="w-full bg-[#8EBD22] cursor-pointer hover:bg-[#7BA91F] text-white shadow-md  text-xl py-6 h-auto font-bold"
             dir="rtl"
           >
             احجز الآن

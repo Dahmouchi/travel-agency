@@ -13,7 +13,7 @@ const SaleOffBadge: FC<SaleOffBadgeProps> = ({
     <div
       className={`nc-SaleOffBadge flex items-center justify-center rounded-full bg-red-700 px-3 py-0.5 text-xs text-red-50 ${className}`}
     >
-      {desc}% aujourd'hui
+      {desc}% aujourd&apos;hui
     </div>
   );
 };

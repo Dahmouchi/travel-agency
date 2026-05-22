@@ -4,7 +4,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Review } from "@prisma/client";
+import { Review, ReviewStatus } from "@prisma/client";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -95,17 +95,21 @@ export const reviewColumns = ({
     accessorKey: "status",
     header: "Statut",
     cell: ({ row }) => {
-      const status = row.getValue("status") as boolean;
+      const status = row.getValue("status") as ReviewStatus;
       const id = row.original.id;
+
+      const statusStyles: Record<ReviewStatus, string> = {
+        [ReviewStatus.PENDING]: "bg-yellow-100 text-yellow-800",
+        [ReviewStatus.APPROVED]: "bg-green-200 text-green-800",
+        [ReviewStatus.REJECTED]: "bg-red-100 text-red-800",
+      };
 
       return (
         <select
-          className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
-            status ? "bg-lime-100 text-green-800" : "bg-red-100 text-red-800"
-          }`}
-          value={status ? "published" : "unpublished"}
+          className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${statusStyles[status] ?? "bg-gray-100 text-gray-800"}`}
+          value={status}
           onChange={async (e) => {
-            const newStatus = e.target.value === "published";
+            const newStatus = e.target.value as ReviewStatus;
             try {
               const response = await UpdateReviewStatus(id, newStatus);
               if (response.success) {
@@ -119,8 +123,9 @@ export const reviewColumns = ({
             }
           }}
         >
-          <option value="published">Publié</option>
-          <option value="unpublished">Non publié</option>
+          <option value={ReviewStatus.PENDING}>En attente</option>
+          <option value={ReviewStatus.APPROVED}>Approuvé</option>
+          <option value={ReviewStatus.REJECTED}>Rejeté</option>
         </select>
       );
     },

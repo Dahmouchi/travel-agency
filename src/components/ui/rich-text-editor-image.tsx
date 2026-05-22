@@ -116,7 +116,7 @@
 
 //   return (
 //     <div
-//       className={`w-full mx-auto border rounded-lg bg-white shadow-sm ${className}`}
+//       className={`w-full mx-auto border rounded-xl bg-white shadow-sm ${className}`}
 //       style={style}
 //     >
 //       {/* Toolbar */}
@@ -239,24 +239,19 @@
 //   );
 // }
 
-
-
-
-
-
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Underline from "@tiptap/extension-underline";
-import { 
-  Bold, 
-  Italic, 
-  UnderlineIcon, 
-  List, 
-  ListOrdered, 
+import {
+  Bold,
+  Italic,
+  UnderlineIcon,
+  List,
+  ListOrdered,
   Image as ImageIcon,
   Undo,
-  Redo
+  Redo,
 } from "lucide-react";
 import { useRef } from "react";
 
@@ -277,7 +272,7 @@ export default function RichTextEditor({
       Underline,
       Image.configure({
         HTMLAttributes: {
-          class: "max-w-full h-auto rounded-lg my-2",
+          class: "max-w-full h-auto rounded-xl my-2",
         },
         inline: false,
         allowBase64: true,
@@ -297,28 +292,31 @@ export default function RichTextEditor({
     fileInputRef.current?.click();
   };
 
-const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  const file = event.target.files?.[0];
-  if (!file) return;
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  const formData = new FormData();
-  formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.url) {
-    editor.chain().focus().setImage({ src: data.url }).run();
-  }
+    if (data.url) {
+      editor.chain().focus().setImage({ src: data.url }).run();
+    }
 
-  event.target.value = '';
-};
+    event.target.value = "";
+  };
 
-  {/* 
+  {
+    /* 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -338,16 +336,17 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
     reader.readAsDataURL(file);
     event.target.value = '';
   };
-*/}
+*/
+  }
   const addImageFromUrl = () => {
-    const url = window.prompt('Enter image URL:');
+    const url = window.prompt("Enter image URL:");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   };
 
   return (
-    <div className={`border rounded-lg bg-white ${className}`}>
+    <div className={`border rounded-xl bg-white ${className}`}>
       <input
         type="file"
         ref={fileInputRef}
@@ -355,7 +354,7 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
         accept="image/*"
         className="hidden"
       />
-      
+
       {/* Toolbar */}
       <div className="border-b p-3 flex flex-wrap gap-2">
         <div
@@ -363,60 +362,60 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
           tabIndex={0}
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            editor.isActive('bold') ? 'bg-blue-100' : ''
+            editor.isActive("bold") ? "bg-blue-100" : ""
           }`}
         >
           <Bold className="h-4 w-4" />
         </div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            editor.isActive('italic') ? 'bg-blue-100' : ''
+            editor.isActive("italic") ? "bg-blue-100" : ""
           }`}
         >
           <Italic className="h-4 w-4" />
         </div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            editor.isActive('underline') ? 'bg-blue-100' : ''
+            editor.isActive("underline") ? "bg-blue-100" : ""
           }`}
         >
           <UnderlineIcon className="h-4 w-4" />
         </div>
-        
+
         <div className="w-px h-6 bg-gray-300 mx-1"></div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            editor.isActive('bulletList') ? 'bg-blue-100' : ''
+            editor.isActive("bulletList") ? "bg-blue-100" : ""
           }`}
         >
           <List className="h-4 w-4" />
         </div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            editor.isActive('orderedList') ? 'bg-blue-100' : ''
+            editor.isActive("orderedList") ? "bg-blue-100" : ""
           }`}
         >
           <ListOrdered className="h-4 w-4" />
         </div>
-        
+
         <div className="w-px h-6 bg-gray-300 mx-1"></div>
-        
+
         <div
           role="button"
           tabIndex={0}
@@ -426,7 +425,7 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
         >
           <ImageIcon className="h-4 w-4" />
         </div>
-        
+
         <div
           role="button"
           tabIndex={0}
@@ -436,28 +435,28 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
         >
           URL
         </div>
-        
+
         <div className="w-px h-6 bg-gray-300 mx-1"></div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().undo().run()}
           aria-disabled={!editor.can().undo()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            !editor.can().undo() ? 'opacity-50 cursor-not-allowed' : ''
+            !editor.can().undo() ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           <Undo className="h-4 w-4" />
         </div>
-        
+
         <div
           role="button"
           tabIndex={0}
           onClick={() => editor.chain().focus().redo().run()}
           aria-disabled={!editor.can().redo()}
           className={`p-2 rounded hover:bg-gray-100 flex items-center justify-center ${
-            !editor.can().redo() ? 'opacity-50 cursor-not-allowed' : ''
+            !editor.can().redo() ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           <Redo className="h-4 w-4" />
@@ -472,17 +471,3 @@ const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => 
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

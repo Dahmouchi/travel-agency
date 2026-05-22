@@ -756,7 +756,7 @@ export default function VoyagesComponent({
               <div>
                 <Button
                   onClick={openAddDestinationModal}
-                  className="flex items-center gap-2 bg-lime-600 hover:bg-lime-700 text-white"
+                  className="flex items-center gap-2 bg-[#f7601f] hover:bg-lime-700 text-white"
                 >
                   <Plus className="h-4 w-4" />
                   Ajouter une Destination
@@ -795,7 +795,7 @@ export default function VoyagesComponent({
                         <div className="flex justify-end gap-2">
                           <div className="flex items-center gap-2">
                             {destination.visible ? (
-                              <Badge variant="default" className="bg-lime-600">
+                              <Badge variant="default" className="bg-[#f7601f]">
                                 Visible
                               </Badge>
                             ) : (
@@ -841,7 +841,7 @@ export default function VoyagesComponent({
               </div>
               <Button
                 onClick={openAddCategoryModal}
-                className="flex items-center gap-2 bg-lime-600 hover:bg-lime-700 text-white"
+                className="flex items-center gap-2 bg-[#f7601f] hover:bg-lime-700 text-white"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter une Catégorie
@@ -879,7 +879,7 @@ export default function VoyagesComponent({
                         <div className="flex justify-end gap-2">
                           <div className="flex items-center gap-2">
                             {category.visible ? (
-                              <Badge variant="default" className="bg-lime-600">
+                              <Badge variant="default" className="bg-[#f7601f]">
                                 Visible
                               </Badge>
                             ) : (
@@ -924,7 +924,7 @@ export default function VoyagesComponent({
               </div>
               <Button
                 onClick={openAddNatureModal}
-                className="flex items-center gap-2 bg-lime-600 hover:bg-lime-700 text-white"
+                className="flex items-center gap-2 bg-[#f7601f] hover:bg-lime-700 text-white"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter un Type de Nature
@@ -962,7 +962,7 @@ export default function VoyagesComponent({
                         <div className="flex justify-end gap-2">
                           <div className="flex items-center gap-2">
                             {nature.visible ? (
-                              <Badge variant="default" className="bg-lime-600">
+                              <Badge variant="default" className="bg-[#f7601f]">
                                 Visible
                               </Badge>
                             ) : (
@@ -1007,7 +1007,7 @@ export default function VoyagesComponent({
               </div>
               <Button
                 onClick={openAddServiceModal}
-                className="flex items-center gap-2 bg-lime-600 hover:bg-lime-700 text-white"
+                className="flex items-center gap-2 bg-[#f7601f] hover:bg-lime-700 text-white"
               >
                 <Plus className="h-4 w-4" />
                 Ajouter un Type de Service
@@ -1070,7 +1070,7 @@ export default function VoyagesComponent({
                 <CardTitle>hotel Existants</CardTitle>
                 <CardDescription>Gérer vos enregistrements de hotel</CardDescription>
               </div>
-              <Button onClick={openAddhotelModal} className="flex items-center gap-2 bg-lime-600 hover:bg-lime-700 text-white">
+              <Button onClick={openAddhotelModal} className="flex items-center gap-2 bg-[#f7601f] hover:bg-lime-700 text-white">
                 <Plus className="h-4 w-4" />
                 Ajouter un hotel
               </Button>
@@ -1237,7 +1237,7 @@ export default function VoyagesComponent({
                 <div className="flex gap-2">
                   <Button
                     type="submit"
-                    className="flex-1 bg-lime-600 hover:bg-lime-700 text-white"
+                    className="flex-1 bg-[#f7601f] hover:bg-lime-700 text-white"
                     disabled={isPending}
                   >
                     <Save className="h-4 w-4 mr-2" />
@@ -1372,7 +1372,7 @@ export default function VoyagesComponent({
                 <div className="flex gap-2">
                   <Button
                     type="submit"
-                    className="flex-1 bg-lime-600 hover:bg-lime-700 text-white"
+                    className="flex-1 bg-[#f7601f] hover:bg-lime-700 text-white"
                     disabled={isPending}
                   >
                     <Save className="h-4 w-4 mr-2" />
@@ -1506,7 +1506,7 @@ export default function VoyagesComponent({
                 <div className="flex gap-2">
                   <Button
                     type="submit"
-                    className="flex-1 bg-lime-600 hover:bg-lime-700 text-white"
+                    className="flex-1 bg-[#f7601f] hover:bg-lime-700 text-white"
                     disabled={isPending}
                   >
                     <Save className="h-4 w-4 mr-2" />
@@ -1588,7 +1588,7 @@ export default function VoyagesComponent({
                 <div className="flex gap-2">
                   <Button
                     type="submit"
-                    className="flex-1 bg-lime-600 hover:bg-lime-700 text-white"
+                    className="flex-1 bg-[#f7601f] hover:bg-lime-700 text-white"
                     disabled={isPending}
                   >
                     <Save className="h-4 w-4 mr-2" />
@@ -1664,7 +1664,7 @@ export default function VoyagesComponent({
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button type="submit" className="flex-1 bg-lime-600 hover:bg-lime-700 text-white" disabled={isPending}>
+                  <Button type="submit" className="flex-1 bg-[#f7601f] hover:bg-lime-700 text-white" disabled={isPending}>
                     <Save className="h-4 w-4 mr-2" />
                     {isPending ? "En cours..." : isEditMode.hotel ? "Mettre à Jour" : "Créer"}
                   </Button>

@@ -13,22 +13,23 @@ export function NationalCard({ tour }: { tour: any }) {
   const router = useRouter();
 
   const approvedReviews =
-    tour.reviews?.filter((review: Review) => review.status === true) ?? [];
+    tour.reviews?.filter((review: Review) => review.status === "APPROVED") ??
+    [];
 
   const reviewCount = approvedReviews.length;
   const averageRating =
     reviewCount > 0
       ? approvedReviews.reduce(
           (sum: any, review: any) => sum + review.rating,
-          0
+          0,
         ) / reviewCount
       : 0;
   return (
     <div
       onClick={() => router.push(`/voyage/${tour?.id}`)}
-      className="w-full h-full cursor-pointer flex flex-col justify-between rounded-lg overflow-hidden shadow-lg border border-gray-200 bg-white"
+      className="w-full h-full cursor-pointer flex flex-col justify-between rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white"
     >
-      <div className="w-full lg:h-[40vh] h-[30vh] bg-green-500 relative bg-cover bg-center group">
+      <div className="w-full lg:h-[40vh] h-[30vh] bg-[#8EBD22] relative bg-cover bg-center group">
         <div
           className="absolute inset-0 bg-cover bg-center  "
           style={{
@@ -70,7 +71,7 @@ export function NationalCard({ tour }: { tour: any }) {
         {/* Tour? Info */}
         <div className="absolute top-4 w-full">
           <div className="w-full flex items-center justify-between">
-            <div className="bg-[#D97D55] w-fit flex items-center gap-2 text-white p-1 px-2 rounded-sm shadow-lg">
+            <div className="bg-[#8EBD22] w-fit flex items-center gap-2 text-white p-1 px-2 rounded-sm shadow-lg">
               <CalendarDays className="w-5 h-5" />
               <div className="text-xs">
                 {tour?.durationDays}J / {tour?.durationNights}N
@@ -119,7 +120,7 @@ export function NationalCard({ tour }: { tour: any }) {
           <div className="flex justify-between items-center w-full gap-2">
             <Link
               href={`/voyage/${tour?.id}`}
-              className="bg-[#D97D55] carddd rounded-lg cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
+              className="bg-[#8EBD22] carddd rounded-xl cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
             >
               <Eye className="w-6 h-6" />
               <span className="text-white w-full text-center select-none">
@@ -127,7 +128,7 @@ export function NationalCard({ tour }: { tour: any }) {
               </span>
             </Link>
             {tour.showDifficulty && (
-              <div className="w-16 h-full flex items-center justify-center flex-col rounded-lg text-white p-1 cardd">
+              <div className="w-16 h-full flex items-center justify-center flex-col rounded-xl text-white p-1 cardd">
                 <img src="/boot.png" alt="" className="w-4 h-4 -rotate-12" />
                 <h1>{tour?.difficultyLevel}/5</h1>
               </div>

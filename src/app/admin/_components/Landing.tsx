@@ -97,12 +97,12 @@ export default function ModernPageControl({
   const [hasChanges, setHasChanges] = useState(false);
   const [cardImage, setCardImage] = useState<File[] | null>(null);
   const [cardImageOmrah, setCardImageOmrah] = useState<File[] | null>(null);
-
+  console.log(initialData);
   const [imagePreview, setImagePreview] = useState<string>(
-    initialData.imageHero
+    initialData?.imageHero,
   );
   const [imagePreviewOmrah, setImagePreviewOmrah] = useState<string>(
-    initialData.imageOmrah
+    initialData?.imageOmrah,
   );
   const [navbarItems, setNavbarItems] = useState<NavbarItem[]>([]);
   const [faq, setFaq] = useState<Faq[]>([]);
@@ -146,16 +146,16 @@ export default function ModernPageControl({
   const handleToggleVisibility = (id: string) => {
     setNavbarItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, isVisible: !item.isVisible } : item
-      )
+        item.id === id ? { ...item, isVisible: !item.isVisible } : item,
+      ),
     );
   };
 
   const handleOrderChange = (id: string, value: number) => {
     setNavbarItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, order: value } : item
-      )
+        item.id === id ? { ...item, order: value } : item,
+      ),
     );
   };
 
@@ -298,7 +298,7 @@ export default function ModernPageControl({
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-3 bg-[#D97D55] rounded-sm p-1 shadow-sm">
+          <TabsList className="grid w-full grid-cols-3 bg-[#8EBD22] rounded-sm p-1 shadow-sm">
             <TabsTrigger
               value="content"
               className={`flex items-center space-x-2 ${activeTab === "content" ? "text-slate-800" : "text-white"}`}
@@ -324,11 +324,11 @@ export default function ModernPageControl({
 
           {/* Onglet Contenu */}
           <TabsContent value="content" className="space-y-6">
-            <motion.div variants={cardVariants}>
+            <motion.div>
               <Card className="shadow-sm border-0 bg-white">
                 <CardHeader className="pb-4 flex items-center justify-between lg:flex-row flex-col">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-blue-100 rounded-lg">
+                    <div className="p-2 bg-blue-100 rounded-xl">
                       <ImageIcon className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
@@ -409,7 +409,7 @@ export default function ModernPageControl({
                             <FileUploaderItem
                               key={index}
                               index={index}
-                              className="bg-white rounded-lg p-3 border"
+                              className="bg-white rounded-xl p-3 border"
                             >
                               <span className="truncate max-w-[200px] text-sm">
                                 {file.name}
@@ -557,7 +557,7 @@ export default function ModernPageControl({
                         <FileUploaderItem
                           key={index}
                           index={index}
-                          className="bg-white rounded-lg p-3 border"
+                          className="bg-white rounded-xl p-3 border"
                         >
                           <span className="truncate max-w-[200px] text-sm">
                             {file.name}
@@ -603,11 +603,11 @@ export default function ModernPageControl({
 
           {/* Onglet Mise en page */}
           <TabsContent value="layout" className="space-y-6">
-            <motion.div variants={cardVariants}>
+            <motion.div>
               <Card className="shadow-sm border-0 bg-white">
                 <CardHeader className="pb-4 flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-purple-100 rounded-lg">
+                    <div className="p-2 bg-purple-100 rounded-xl">
                       <Layout className="w-5 h-5 text-purple-600" />
                     </div>
                     <div>
@@ -654,65 +654,69 @@ export default function ModernPageControl({
                 </CardHeader>
 
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(sections)
-                      .filter(([key]) =>
-                        [
-                          "navbar",
-                          "search",
-                          "hero",
-                          "thisMount",
-                          "national",
-                          "international",
-                          "mesure",
-                          "reviews",
-                          "meeting",
-                          "omrah",
-                          "discover",
-                          "discover-morocco",
-                          "expert",
-                          "trust",
-                          "footer",
-                        ].includes(key)
-                      )
-                      .map(([sectionName, enabled]) => {
-                        const Icon =
-                          sectionIcons[
-                            sectionName as keyof typeof sectionIcons
-                          ] || Layout;
-                        const sectionLabels: Record<string, string> = {
-                          navbar: "Barre de Navigation",
-                          search: "Recherche",
-                          discover: "Découvrir le Maroc",
-                          hero: "Section Hero",
-                          thisMount: "Voyage du Mois",
-                          national: "Section Nationale",
-                          international: "Section Internationale",
-                          mesure: "Section Mesures",
-                          reviews: "Avis Clients",
-                          meeting: "Section Rencontre",
-                          expert: "Section Expert",
-                          trust: "Section Confiance",
-                          footer: "Pied de Page",
-                        };
+                  {sections && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {Object?.entries(sections)
+                        .filter(([key]) =>
+                          [
+                            "navbar",
+                            "search",
+                            "hero",
+                            "thisMount",
+                            "national",
+                            "international",
+                            "mesure",
+                            "reviews",
+                            "meeting",
+                            "omrah",
+                            "discover",
+                            "discover-morocco",
+                            "expert",
+                            "trust",
+                            "footer",
+                          ].includes(key),
+                        )
+                        .map(([sectionName, enabled]) => {
+                          const Icon =
+                            sectionIcons[
+                              sectionName as keyof typeof sectionIcons
+                            ] || Layout;
+                          const sectionLabels: Record<string, string> = {
+                            navbar: "Barre de Navigation",
+                            search: "Recherche",
+                            discover: "Découvrir le Maroc",
+                            hero: "Section Hero",
+                            thisMount: "Voyage du Mois",
+                            national: "Section Nationale",
+                            international: "Section Internationale",
+                            mesure: "Section Mesures",
+                            reviews: "Avis Clients",
+                            meeting: "Section Rencontre",
+                            expert: "Section Expert",
+                            trust: "Section Confiance",
+                            footer: "Pied de Page",
+                          };
 
-                        return (
-                          <motion.div
-                            key={sectionName}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <SectionToggleCard
-                              name={sectionName}
-                              label={sectionLabels[sectionName] || sectionName}
-                              enabled={enabled as boolean}
-                              onToggle={handleToggle}
-                              icon={Icon}
-                            />
-                          </motion.div>
-                        );
-                      })}
-                  </div>
+                          return (
+                            <motion.div
+                              key={sectionName}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <SectionToggleCard
+                                name={sectionName}
+                                label={
+                                  sectionLabels[sectionName] || sectionName
+                                }
+                                enabled={enabled as boolean}
+                                onToggle={handleToggle}
+                                icon={Icon}
+                              />
+                            </motion.div>
+                          );
+                        })}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -720,12 +724,12 @@ export default function ModernPageControl({
 
           {/* Onglet Navigation */}
           <TabsContent value="navigation" className="space-y-6">
-            <motion.div variants={cardVariants}>
+            <motion.div>
               <Card className="shadow-sm border-0 bg-white">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-green-100 rounded-lg">
+                      <div className="p-2 bg-green-100 rounded-xl">
                         <Navigation className="w-5 h-5 text-green-600" />
                       </div>
                       <div>
@@ -788,8 +792,8 @@ export default function ModernPageControl({
                                 prevItems.map((i) =>
                                   i.id === item.id
                                     ? { ...i, label: e.target.value }
-                                    : i
-                                )
+                                    : i,
+                                ),
                               )
                             }
                             className="border-gray-300 focus:border-[#6EC207] focus:ring-[#6EC207]"
@@ -807,7 +811,7 @@ export default function ModernPageControl({
                             onChange={(e) =>
                               handleOrderChange(
                                 item.id,
-                                parseInt(e.target.value)
+                                parseInt(e.target.value),
                               )
                             }
                             className="w-20 border-gray-300 focus:border-[#6EC207] focus:ring-[#6EC207]"
@@ -871,7 +875,7 @@ function SectionToggleCard({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div
-              className={`p-2 rounded-lg ${
+              className={`p-2 rounded-xl ${
                 enabled
                   ? "bg-[#6EC207] text-white"
                   : "bg-gray-100 text-gray-600"

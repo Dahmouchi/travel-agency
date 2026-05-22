@@ -16,10 +16,7 @@ const International = ({
 }) => {
   return (
     <div className="relative mt-10 min-h-screen">
-      <div
-        className="absolute inset-0 bg-[url('/international.png')] bg-cover bg-center"
-        style={{ opacity: 0.1, zIndex: 0 }}
-      />{" "}
+      <div className="absolute inset-0" style={{ opacity: 0.1, zIndex: 0 }} />{" "}
       <div className="z-20">
         <div className="w-full text-center flex items-center justify-center flex-col gap-2">
           <h1 className="lg:text-4xl text-xl font-bold">{title}</h1>

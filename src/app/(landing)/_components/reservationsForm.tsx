@@ -43,7 +43,7 @@ export default function ReservationsForm({
   // Update base price when travelDateId changes
   useEffect(() => {
     const selectedDate = filteredTravelDates.find(
-      (d: any) => d.id === formData.travelDateId
+      (d: any) => d.id === formData.travelDateId,
     );
     if (selectedDate && selectedDate.price) {
       setCurrentBasePrice(selectedDate.price);
@@ -69,7 +69,7 @@ export default function ReservationsForm({
 
       if (field.type === "select") {
         const selectedOption = field.options.find(
-          (opt: any) => opt.value === formData.customFields[field.name]
+          (opt: any) => opt.value === formData.customFields[field.name],
         );
         if (selectedOption) {
           total += Number(selectedOption?.price || 0);
@@ -152,7 +152,7 @@ export default function ReservationsForm({
       id="reservation-form"
     >
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 md:gap-12 items-start">
-        <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100">
+        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
           {/* Form Header */}
           <div
             className="mb-6 pb-4 border-b border-gray-200"
@@ -209,7 +209,7 @@ export default function ReservationsForm({
                     name="nom"
                     placeholder="Votre nom"
                     onChange={handleChange}
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                    className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                     required
                   />
                 </div>
@@ -226,7 +226,7 @@ export default function ReservationsForm({
                     name="prenom"
                     placeholder="Votre prénom"
                     onChange={handleChange}
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                    className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                     required
                   />
                 </div>
@@ -243,7 +243,7 @@ export default function ReservationsForm({
                     name="phone"
                     placeholder="Votre Téléphone"
                     onChange={handleChange}
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                    className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                     required
                   />
                 </div>
@@ -261,7 +261,7 @@ export default function ReservationsForm({
                     type="email"
                     placeholder="Votre Email"
                     onChange={handleChange}
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                    className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                     required
                   />
                 </div>
@@ -283,7 +283,7 @@ export default function ReservationsForm({
                       min="1"
                       value={formData.numberOfAdults}
                       onChange={handleChange}
-                      className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                      className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                       required
                     />
                   </div>
@@ -302,7 +302,7 @@ export default function ReservationsForm({
                       id="travelDateId"
                       name="travelDateId"
                       onChange={handleChange}
-                      className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
+                      className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
                     >
                       {filteredTravelDates.map((d: any) => (
                         <option value={d.id} key={d.id}>
@@ -333,7 +333,7 @@ export default function ReservationsForm({
                           name={field.name}
                           placeholder={field.placeholder || field.label}
                           onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                          className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                           required={field.required}
                         />
                       </div>
@@ -344,7 +344,7 @@ export default function ReservationsForm({
                     return (
                       <div
                         key={index}
-                        className="flex items-center justify-between lg:flex-row flex-col gap-4 p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors bg-white shadow-sm"
+                        className="flex items-center justify-between lg:flex-row flex-col gap-4 p-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors bg-white shadow-sm"
                       >
                         <div className="flex items-center  gap-3 flex-1">
                           <div className="flex items-center ">
@@ -396,7 +396,7 @@ export default function ReservationsForm({
                                       1,
                                       (prev.customFields[
                                         `${field.name}_count`
-                                      ] || 1) - 1
+                                      ] || 1) - 1,
                                     ),
                                   },
                                 }))
@@ -436,7 +436,7 @@ export default function ReservationsForm({
                                     ...prev.customFields,
                                     [`${field.name}_count`]: Math.max(
                                       1,
-                                      Number(e.target.value) || 1
+                                      Number(e.target.value) || 1,
                                     ),
                                   },
                                 }))
@@ -496,7 +496,7 @@ export default function ReservationsForm({
                           id={field.name}
                           name={field.name}
                           onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
+                          className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
                           required={field.required}
                         >
                           <option value="">
@@ -530,7 +530,7 @@ export default function ReservationsForm({
                           type="date"
                           name={field.name}
                           onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                          className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
                           required={field.required}
                           max={new Date().toISOString().split("T")[0]}
                         />
@@ -543,7 +543,7 @@ export default function ReservationsForm({
               </div>
 
               {/* Booking summary */}
-              <div className="mt-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+              <div className="mt-6 border border-gray-200 rounded-xl p-6 bg-white shadow-sm">
                 <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                   🧾 Résumé de la réservation
                 </h3>
@@ -592,7 +592,7 @@ export default function ReservationsForm({
                       if (field.type === "select") {
                         const selected = field.options.find(
                           (opt: any) =>
-                            opt.value === formData.customFields[field.name]
+                            opt.value === formData.customFields[field.name],
                         );
 
                         return selected?.price > 0 ? (

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
- 
+
 "use client";
 
 import type * as React from "react";
@@ -20,7 +20,7 @@ import {
   ListOrdered,
   StarHalf,
   Sparkle,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 
 import {
@@ -29,12 +29,10 @@ import {
   SidebarHeader,
   SidebarRail,
   useSidebar,
-  
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { title } from "process";
 import { NavMain } from "@/app/admin/_components/nav-main";
-
 
 // This is sample data.
 const datas = {
@@ -61,26 +59,36 @@ const datas = {
       url: "/createur/dashboard/tours/add",
       icon: Route,
     },
-     {
+    {
       title: "Gérer l'ordre",
       url: "/createur/dashboard/order",
       icon: ListOrdered,
     },
-
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {state} = useSidebar()
+  const { state } = useSidebar();
 
   return (
-    <Sidebar collapsible="icon" {...props} className="bg-white dark:bg-slate-800 p-2 flex flex-col items-center justify-center bg ">
+    <Sidebar
+      collapsible="icon"
+      {...props}
+      className="bg-white dark:bg-slate-800 p-2 flex flex-col items-center justify-center bg "
+    >
       <SidebarHeader className="dark:bg-slate-900 flex items-center bg-white justify-center rounded-t-xl ">
-        <Image src={`${state === "expanded" ? '/horizontal.png':'/logo.png'}`} alt="logo" width={state === "expanded" ? 300 : 500 } height={state === "expanded" ? 200 : 500 }/>
+        <Image
+          src={`${state === "expanded" ? "/horizontal1.png" : "/horizontal1.png"}`}
+          alt="logo"
+          width={state === "expanded" ? 300 : 500}
+          height={state === "expanded" ? 200 : 500}
+        />
       </SidebarHeader>
-      
+
       <SidebarContent className="dark:bg-slate-900 pl-0 bg-white rounded-b-xl">
-             <h1 className="text-left pt-2 pl-3 text-gray-500 text-xs font-semibold">Espace-Createur</h1>
+        <h1 className="text-left pt-2 pl-3 text-gray-500 text-xs font-semibold">
+          Espace-Createur
+        </h1>
 
         <NavMain items={datas.navMain} />
       </SidebarContent>

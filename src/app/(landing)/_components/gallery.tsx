@@ -45,7 +45,7 @@ const TravelImageGallery = ({ tour }: { tour: any[] }) => {
 
   programs.forEach((programHtml: any) => {
     const matches = programHtml?.description?.matchAll(
-      /<img[^>]+src="([^">]+)"/g
+      /<img[^>]+src="([^">]+)"/g,
     );
     for (const match of matches) {
       imageSrcs.push(match[1]);
@@ -59,7 +59,7 @@ const TravelImageGallery = ({ tour }: { tour: any[] }) => {
     if (isPlaying && selectedImage) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prev) =>
-          prev === filteredImages.length - 1 ? 0 : prev + 1
+          prev === filteredImages.length - 1 ? 0 : prev + 1,
         );
       }, 3000);
       return () => clearInterval(interval);
@@ -171,7 +171,7 @@ const TravelImageGallery = ({ tour }: { tour: any[] }) => {
           <div className="flex items-center space-x-2">
             <motion.button
               onClick={() => setLayout("grid")}
-              className={`p-2 rounded-lg transition-colors duration-300 ${
+              className={`p-2 rounded-xl transition-colors duration-300 ${
                 layout === "grid"
                   ? "bg-[#6EC207] text-white"
                   : "bg-white text-gray-600 hover:bg-gray-100"
@@ -183,7 +183,7 @@ const TravelImageGallery = ({ tour }: { tour: any[] }) => {
             </motion.button>
             <motion.button
               onClick={() => setLayout("masonry")}
-              className={`p-2 rounded-lg transition-colors duration-300 ${
+              className={`p-2 rounded-xl transition-colors duration-300 ${
                 layout === "masonry"
                   ? "bg-[#6EC207] text-white"
                   : "bg-white text-gray-600 hover:bg-gray-100"

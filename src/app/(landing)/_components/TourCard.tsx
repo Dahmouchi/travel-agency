@@ -20,14 +20,15 @@ export const TourCard = ({ tour, index }: { tour: any; index: number }) => {
   const router = useRouter();
 
   const approvedReviews =
-    tour.reviews?.filter((review: Review) => review.status === true) ?? [];
+    tour.reviews?.filter((review: Review) => review.status === "APPROVED") ??
+    [];
 
   const reviewCount = approvedReviews.length;
   const averageRating =
     reviewCount > 0
       ? approvedReviews.reduce(
           (sum: any, review: any) => sum + review.rating,
-          0
+          0,
         ) / reviewCount
       : 0;
   return (
@@ -41,9 +42,9 @@ export const TourCard = ({ tour, index }: { tour: any; index: number }) => {
         ease: [0.4, 0, 0.2, 1],
       }}
       whileHover={{ y: -6 }}
-      className="h-full group"
+      className="h-full group w-full"
     >
-      <Card className="py-0 overflow-hidden h-full flex flex-col bg-card border-border/40 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500">
+      <Card className="py-0 overflow-hidden  h-full flex flex-col bg-card border-border/40 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500">
         {/* IMAGE */}
         <div className="relative h-64 overflow-hidden">
           <motion.img
@@ -144,7 +145,7 @@ export const TourCard = ({ tour, index }: { tour: any; index: number }) => {
 
             <Button
               onClick={() => router.push(`/voyage/${tour.id}`)}
-              className="w-full bg-[#D97D55] hover:bg-[#f35c1c] cursor-pointer tour-gradient text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 h-11 group/btn"
+              className="w-full bg-[#8EBD22] rounded-xl hover:bg-[#F97A00] cursor-pointer tour-gradient text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 h-11 group/btn"
             >
               View Details
             </Button>

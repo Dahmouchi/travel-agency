@@ -44,7 +44,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
   // Generate image previews for programs loaded from parent
   useEffect(() => {
     const hasPreview = programs.some(
-      (p) => !p.imagePreview && typeof p.image === "string"
+      (p) => !p.imagePreview && typeof p.image === "string",
     );
     if (!hasPreview) return;
 
@@ -143,7 +143,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
               ...newProgram, // Update with new values
               orderIndex: program.orderIndex, // Explicitly preserve orderIndex
             }
-          : program
+          : program,
       );
       onChange(updatedPrograms);
       setNewProgram({
@@ -185,7 +185,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
 
   // Sort programs by orderIndex before rendering
   const sortedPrograms = [...programs].sort(
-    (a, b) => a.orderIndex - b.orderIndex
+    (a, b) => a.orderIndex - b.orderIndex,
   );
 
   return (
@@ -213,14 +213,14 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
                       <img
                         src={program.imagePreview}
                         alt={program.title}
-                        className="w-20 h-20 object-cover rounded-lg border-2 border-border"
+                        className="w-20 h-20 object-cover rounded-xl border-2 border-border"
                       />
                     </div>
                   )}
 
                   <div className="flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-lime-600 text-sm font-medium rounded-full">
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-[#f7601f] text-sm font-medium rounded-full">
                         {program.orderIndex + 1}
                       </span>
 
@@ -384,7 +384,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
       ${
         !newProgram.title.trim() || !newProgram.description.trim()
           ? "bg-gray-400 cursor-not-allowed"
-          : "bg-lime-600 hover:bg-lime-700"
+          : "bg-[#f7601f] hover:bg-lime-700"
       }
       text-white text-sm font-medium
       transition-colors duration-200
@@ -419,7 +419,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ programs, onChange }) => {
       {!showAddForm && (
         <div
           onClick={() => setShowAddForm(true)}
-          className="w-full border-2 flex items-center justify-center rounded-lg border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
+          className="w-full border-2 flex items-center justify-center rounded-xl border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
         >
           <Plus className="w-5 h-5 mr-2 text-muted-foreground" />
           <span className="text-muted-foreground">Ajouter un Programme</span>

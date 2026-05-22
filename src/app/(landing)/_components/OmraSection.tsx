@@ -100,13 +100,13 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
   const approvedReviews = useMemo(
     () => tour.reviews?.filter((r: any) => r.status === true) ?? [],
-    [tour.reviews]
+    [tour.reviews],
   );
 
   const averageRating = useMemo(() => {
     const total = approvedReviews.reduce(
       (sum: any, r: any) => sum + r.rating,
-      0
+      0,
     );
     return approvedReviews.length > 0
       ? (total / approvedReviews.length).toFixed(1)
@@ -119,7 +119,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.inclus]
+    [tour.inclus],
   );
 
   const excludes = useMemo(
@@ -128,7 +128,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.exclus]
+    [tour.exclus],
   );
 
   const extract = useMemo(
@@ -137,7 +137,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         .split(";")
         .map((s: any) => s.trim())
         .filter(Boolean),
-    [tour.extracts]
+    [tour.extracts],
   );
 
   const getNextTourDate = useMemo(() => {
@@ -152,7 +152,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         })
         .sort(
           (a: any, b: any) =>
-            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
         ) || [];
 
     return sorted.length > 0 ? formatDate(new Date(sorted[0].startDate)) : null;
@@ -164,7 +164,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
   return (
     <div className="relative" dir="rtl">
-      <div className="block lg:hidden bg-[#F6F3F2]">
+      <div className="block lg:hidden bg-[#FFEDF3]">
         {tour.discountEndDate &&
           tour.showDiscount &&
           tour.priceOriginal !== tour.priceDiscounted && (
@@ -174,7 +174,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
           )}
       </div>
 
-      <div className="bg-[#F6F3F2] p-4 md:p-8 lg:p-8">
+      <div className="bg-[#FFEDF3] p-4 md:p-8 lg:p-8">
         <div className="flex flex-col-reverse lg:flex-row lg:gap-8 gap-4 items-center">
           <div className="lg:w-1/2 lg:py-6">
             <div className="flex items-center space-x-2 mb-2">
@@ -209,7 +209,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               <div
                 className={clsx(
                   "text-gray-700 leading-relaxed transition-all duration-300",
-                  !expanded && "line-clamp-6"
+                  !expanded && "line-clamp-6",
                 )}
               >
                 <SafeHTML html={tour.description || ""} />
@@ -233,7 +233,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                 "/placeholder.svg?height=600&width=800&query=tour"
               }
               alt={tour.title}
-              className="rounded-lg shadow-md w-full lg:h-[60vh] h-[30vh] object-cover"
+              className="rounded-xl shadow-md w-full lg:h-[60vh] h-[30vh] object-cover"
             />
           </div>
         </div>
@@ -417,7 +417,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
         </div>
 
         <div className="lg:col-span-1 space-y-2 lg:hidden px-2">
-          <div className="bg-[#F6F3F2] rounded-lg shadow border border-slate-200 p-4 space-y-4">
+          <div className="bg-[#FFEDF3] rounded-xl shadow border border-slate-200 p-4 space-y-4">
             <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">
               تفاصيل الرحلة
             </h3>
@@ -506,7 +506,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             </div>
 
             <button
-              className="w-full bg-green-800 text-white py-3 rounded-lg font-semibold hover:bg-green-900 transition-colors mt-4"
+              className="w-full bg-green-800 text-white py-3 rounded-xl font-semibold hover:bg-green-900 transition-colors mt-4"
               onClick={() => {
                 const el = document.getElementById("reservation-form");
                 if (el) {
@@ -523,7 +523,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
           <div className="lg:col-span-2 space-y-4">
             {/* Video Section */}
             {tour.videoUrl && (
-              <div className="bg-black rounded-lg overflow-hidden aspect-video relative">
+              <div className="bg-black rounded-xl overflow-hidden aspect-video relative">
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"
                   src={tour.videoUrl || ""}
@@ -559,7 +559,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                           <img
                             src={prog.imageUrl || ""}
                             alt={prog.title || "صورة البرنامج"}
-                            className="rounded-lg shadow-md w-full h-auto object-cover"
+                            className="rounded-xl shadow-md w-full h-auto object-cover"
                           />
                         )}
                       </div>
@@ -648,7 +648,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
           </div>
 
           <div className="lg:col-span-1 space-y-2">
-            <div className="bg-[#F6F3F2] rounded-lg shadow border lg:block hidden border-slate-200 p-4 space-y-4">
+            <div className="bg-[#FFEDF3] rounded-xl shadow border lg:block hidden border-slate-200 p-4 space-y-4">
               <h3 className="text-xl font-bold text-center text-gray-800 mb-4 border-b pb-2">
                 تفاصيل الرحلة
               </h3>
@@ -743,7 +743,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
               </div>
 
               <button
-                className="w-full bg-green-800 text-white py-3 rounded-lg font-semibold hover:bg-green-900 transition-colors mt-4"
+                className="w-full bg-green-800 text-white py-3 rounded-xl font-semibold hover:bg-green-900 transition-colors mt-4"
                 onClick={() => {
                   const el = document.getElementById("reservation-form");
                   if (el) {
@@ -757,7 +757,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
 
             {/* Reviews Section */}
             {tour.showReviews && approvedReviews.length > 0 && (
-              <div className="bg-[#F6F3F2] p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg font-sans">
+              <div className="bg-[#FFEDF3] p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg font-sans">
                 <h2 className="text-xl text-center font-bold text-gray-800 mb-6 flex flex-col gap-2 items-center justify-center">
                   <MessageCircle />
                   آراء عملائنا
@@ -783,7 +783,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             )}
 
             {/* Dates & Pricing */}
-            <div className="bg-[#F6F3F2] p-6 rounded-lg shadow-sm">
+            <div className="bg-[#FFEDF3] p-6 rounded-xl shadow-sm">
               <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center justify-center">
                 <CalendarIcon />
                 التواريخ والأسعار
@@ -822,7 +822,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             {landing?.reviews && (
               <div
                 dir="ltr"
-                className="bg-[#F6F3F2] my-4 p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
+                className="bg-[#FFEDF3] my-4 p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
               >
                 <div className="flex items-center justify-center mb-4 gap-3">
                   {/* Reviews Section <img
@@ -831,7 +831,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                     className="w-6 h-6"
                   />*/}
                   <h2 className="text-xl font-bold text-gray-800  flex items-center justify-center text-center">
-                    Ce que disent nos voyageurs sur Happy Trip
+                    Ce que disent nos voyageurs sur Build Travel
                   </h2>
                 </div>
                 {reviews.length === 0 ? (
@@ -895,7 +895,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                       href={`https://www.google.com/maps/place/Happy+Trip/@34.0202687,-6.8372415,722m/data=!3m2!1e3!4b1!4m6!3m5!1s0xda76de9c8728317:0x46dc98bb0096920e!8m2!3d34.0202687!4d-6.8372415!16s%2Fg%2F11r8xd0s0x?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#8ebd21] text-white rounded-lg hover:bg-[#6db05e] transition-all duration-200 font-medium shadow-sm hover:shadow-md"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#8ebd21] text-white rounded-xl hover:bg-[#6db05e] transition-all duration-200 font-medium shadow-sm hover:shadow-md"
                     >
                       <Star className="w-5 h-5" />
                       <span>Voir tous les avis sur Google Maps</span>
@@ -907,7 +907,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             {tour.showReviews && (
               <div
                 dir="ltr"
-                className="bg-[#F6F3F2]  p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
+                className="bg-[#FFEDF3]  p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans"
               >
                 <h2 className="text-xl text-center font-bold text-gray-800 mb-6 flex flex-col gap-2 items-center justify-center">
                   <MessageCircle />
@@ -971,7 +971,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
             {tour?.bookinSteps?.length > 0 && (
               <div
                 dir="ltr"
-                className="w-full max-w-4xl mx-auto p-6 md:p-8 font-sans bg-[#F6F3F2] rounded-lg shadow border border-slate-200"
+                className="w-full max-w-4xl mx-auto p-6 md:p-8 font-sans bg-[#FFEDF3] rounded-xl shadow border border-slate-200"
               >
                 <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
                   Comment faire la réservation
@@ -984,7 +984,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
                   {tour?.bookinSteps.map((ste: any) => (
                     <div
                       key={ste.orderIndex}
-                      className="flex items-start space-x-2 p-4 bg-white rounded-lg border border-blue-100"
+                      className="flex items-start space-x-2 p-4 bg-white rounded-xl border border-blue-100"
                     >
                       <div className="flex items-center justify-center w-4 h-4 p-3 rounded-full text-white bg-[#8ebd21] font-semibold text-xs shadow">
                         {ste.orderIndex + 1}
@@ -1041,7 +1041,7 @@ const TourDetailsAr = ({ tour, programss }: Props) => {
       </div>
       {/* Map Section */}
       {tour.googleMapsUrl && (
-        <div className="bg-white p-6 lg:px-12 rounded-lg shadow-sm">
+        <div className="bg-white p-6 lg:px-12 rounded-xl shadow-sm">
           <h2 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-3 justify-center">
             <MapPinHouse />
             وجهتك
@@ -1084,7 +1084,7 @@ const ReviewsCardAr = ({ review }: { review: any }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="mx-2 border border-gray-200 rounded-lg shadow-sm overflow-hidden mb-4">
+    <Card className="mx-2 border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
       <CardContent className="p-6 flex flex-col items-start text-left">
         <div className="flex justify-between items-center w-full mb-3">
           <div className="flex">
@@ -1145,7 +1145,7 @@ const ReviewsCard = ({ review }: { review: any }) => {
 
   return (
     <>
-      <Card className="mx-2 border border-gray-200 rounded-lg shadow-sm overflow-hidden mb-4">
+      <Card className="mx-2 border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
         <CardContent className="p-6 flex flex-col items-start text-left">
           <div className="flex justify-between items-center w-full mb-3">
             <div className="flex items-center">
@@ -1233,7 +1233,7 @@ const ReviewsCard = ({ review }: { review: any }) => {
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-xl cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>
@@ -1262,7 +1262,7 @@ const FaqSection = ({
               <AccordionItem
                 key={item.id}
                 value={item.id} // Use unique ID for value
-                className="border border-gray-200 rounded-lg shadow-sm bg-white overflow-hidden"
+                className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden"
               >
                 <AccordionTrigger className="flex justify-between items-center w-full p-4 md:p-5 text-left font-medium text-gray-700 hover:bg-gray-50 transition-colors [&[data-state=open]>svg]:rotate-180">
                   <span className="flex-1 mr-4">{item.question}</span>
@@ -1408,7 +1408,7 @@ const ReviewItem = ({ review }: { review: any }) => {
     const colors = [
       "bg-red-500",
       "bg-blue-500",
-      "bg-green-500",
+      "bg-[#8EBD22]",
       "bg-purple-500",
       "bg-pink-500",
       "bg-yellow-500",
@@ -1469,7 +1469,7 @@ const ReviewItem = ({ review }: { review: any }) => {
   return (
     <CarouselItem className="">
       <motion.div
-        className="bg-white h-full text-slate-700 border border-gray-100 p-4 rounded-lg mb-4 shadow-lg mx-auto max-w-md"
+        className="bg-white h-full text-slate-700 border border-gray-100 p-4 rounded-xl mb-4 shadow-lg mx-auto max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -1605,7 +1605,7 @@ const ReviewItem = ({ review }: { review: any }) => {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-xl cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

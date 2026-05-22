@@ -3,6 +3,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,10 +20,11 @@ import { Star } from "lucide-react"; // using Lucide icons (already in ShadCN)
 import { AddReview } from "@/actions/reviewActions";
 import { useRouter } from "next/navigation";
 
-export function ReviewModal({tourId}:{tourId:any}) {
-    const router = useRouter();
-  
+export function ReviewModal({ tourId }: { tourId: any }) {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     message: "",
@@ -30,8 +32,15 @@ export function ReviewModal({tourId}:{tourId:any}) {
   });
 
   const handleSubmit = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
     try {
-      const res = await AddReview(form.fullName,form.message,form.rating,tourId)
+      const res = await AddReview(
+        form.fullName,
+        form.message,
+        form.rating,
+        tourId,
+      );
       if (!res.success) throw new Error("Failed to submit");
 
       toast.success("Votre commentaire est ajouté!");
@@ -40,6 +49,8 @@ export function ReviewModal({tourId}:{tourId:any}) {
       setOpen(false);
     } catch (err) {
       toast.error("Submission failed.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,15 +59,20 @@ export function ReviewModal({tourId}:{tourId:any}) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        if (!isLoading) setOpen(val);
+      }}
+    >
       <DialogTrigger asChild>
-        <button className="w-full bg-green-800 text-white py-3 rounded-lg font-semibold hover:bg-green-900 transition-colors cursor-pointer">
-            Ajouter un Commentaire
+        <button className="w-full bg-[#8EBD22] text-white py-3 rounded-xl font-semibold hover:bg-[#8EBD22] transition-colors cursor-pointer">
+          Ajouter un Commentaire
         </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-            <DialogTitle>Écrire un avis</DialogTitle>
+          <DialogTitle>Écrire un avis</DialogTitle>
         </DialogHeader>
 
         <Input
@@ -77,7 +93,9 @@ export function ReviewModal({tourId}:{tourId:any}) {
             <Star
               key={i}
               className={`w-6 h-6 cursor-pointer transition-colors ${
-                i < form.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                i < form.rating
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-gray-300"
               }`}
               onClick={() => handleStarClick(i)}
             />
@@ -85,7 +103,16 @@ export function ReviewModal({tourId}:{tourId:any}) {
         </div>
 
         <DialogFooter>
-          <Button onClick={handleSubmit}>Soumettre</Button>
+          <Button onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Envoi en cours...
+              </>
+            ) : (
+              "Soumettre"
+            )}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

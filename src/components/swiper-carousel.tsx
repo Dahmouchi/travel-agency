@@ -66,10 +66,10 @@ export function SwiperCarousel({
     return () => {
       swiper.destroy();
       prevButtons.forEach((btn) =>
-        btn?.removeEventListener("click", () => swiper.slidePrev())
+        btn?.removeEventListener("click", () => swiper.slidePrev()),
       );
       nextButtons.forEach((btn) =>
-        btn?.removeEventListener("click", () => swiper.slideNext())
+        btn?.removeEventListener("click", () => swiper.slideNext()),
       );
     };
   }, [slidesPerView]);
@@ -81,7 +81,7 @@ export function SwiperCarousel({
         <div className="hidden sm:flex">
           <button
             ref={prevButtonDesktopRef}
-            className="ml-4 w-10 h-10 bg-white text-[#D97D55] rounded-full shadow-lg hover:bg-[#D97D55] hover:text-white transition-all border border-gray-200 flex items-center justify-center flex-shrink-0"
+            className="ml-4 w-10 h-10 bg-white text-[#8EBD22] rounded-full shadow-lg hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 flex items-center justify-center flex-shrink-0"
           >
             <ChevronLeft size={20} />
           </button>
@@ -98,7 +98,7 @@ export function SwiperCarousel({
         <div className="hidden sm:flex">
           <button
             ref={nextButtonDesktopRef}
-            className="w-10 h-10 mr-4 bg-white text-lime-900 rounded-full shadow-lg hover:bg-[#D97D55] hover:text-white transition-all border border-gray-200 flex items-center justify-center flex-shrink-0"
+            className="w-10 h-10 mr-4 bg-white text-lime-900 rounded-full shadow-lg hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 flex items-center justify-center flex-shrink-0"
           >
             <ChevronRight size={20} />
           </button>
@@ -109,13 +109,13 @@ export function SwiperCarousel({
       <div className="sm:hidden z-50 flex justify-center gap-4 absolute -bottom-16 left-1/2 transform -translate-x-1/2 mb-4">
         <button
           ref={prevButtonMobileRef}
-          className="w-10 h-10 bg-white text-[#D97D55] rounded-full shadow hover:bg-[#D97D55] hover:text-white transition-all border border-gray-200 flex items-center justify-center"
+          className="w-10 h-10 bg-white text-[#8EBD22] rounded-full shadow hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 flex items-center justify-center"
         >
           <ChevronLeft size={20} />
         </button>
         <button
           ref={nextButtonMobileRef}
-          className="w-10 h-10 bg-white text-[#D97D55] rounded-full shadow hover:bg-[#D97D55] hover:text-white transition-all border border-gray-200 flex items-center justify-center"
+          className="w-10 h-10 bg-white text-[#8EBD22] rounded-full shadow hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 flex items-center justify-center"
         >
           <ChevronRight size={20} />
         </button>
@@ -129,7 +129,7 @@ export function SwiperCarousel({
           opacity: 1;
         }
         .swiper-pagination-bullet-active {
-          background: #d97d55;
+          background: #8ebd22;
         }
       `}</style>
     </div>

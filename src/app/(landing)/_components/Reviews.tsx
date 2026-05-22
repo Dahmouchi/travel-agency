@@ -96,7 +96,7 @@ const GoogleReviewsAPI = ({ googleAvie }: { googleAvie: any }) => {
                 Loading Error
               </h3>
               <p className="text-gray-600 mb-4">{error}</p>
-              <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
+              <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded-xl">
                 <p>To use this feature:</p>
                 <ul className="mt-2 space-y-1">
                   <li className="flex items-center justify-center gap-2">
@@ -126,9 +126,9 @@ const GoogleReviewsAPI = ({ googleAvie }: { googleAvie: any }) => {
         {/* Section Header */}
         <div className="text-center lg:mb-12">
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-green-50 rounded-full">
-            <MapPin className="w-5 h-5 text-[#8ebd21]" />
+            <MapPin className="w-5 h-5 text-[#8EBD22]" />
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-              Ce que disent nos voyageurs sur Happy Trip
+              Ce que disent nos voyageurs sur Happy Trip
             </h2>
           </div>
           <p className="text-gray-600 max-w-2xl mx-auto mb-6">
@@ -198,7 +198,7 @@ const GoogleReviewsAPI = ({ googleAvie }: { googleAvie: any }) => {
               href={`https://www.google.com/maps/place/?q=place_id:ChIJF4NyyOltpw0RDpKWALuY3EY`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8ebd21] text-white rounded-lg hover:bg-[#6db05e] transition-all duration-200 font-medium shadow-sm hover:shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8EBD22] text-white rounded-xl hover:bg-[#6db05e] transition-all duration-200 font-medium shadow-sm hover:shadow-md"
             >
               <Star className="w-5 h-5" />
               <span>Voir tous les avis sur Google Maps</span>
@@ -334,7 +334,7 @@ const ReviewItem = ({ review }: { review: any }) => {
     const colors = [
       "bg-red-500",
       "bg-blue-500",
-      "bg-green-500",
+      "bg-[#8EBD22]",
       "bg-purple-500",
       "bg-pink-500",
       "bg-yellow-500",
@@ -395,7 +395,7 @@ const ReviewItem = ({ review }: { review: any }) => {
   return (
     <CarouselItem className="lg:basis-1/3">
       <motion.div
-        className="bg-white h-full text-slate-700 border border-gray-100 p-4 rounded-lg mb-4 shadow-lg mx-auto max-w-md"
+        className="bg-white h-full text-slate-700 border border-gray-100 p-4 rounded-xl mb-4 shadow-lg mx-auto max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -531,7 +531,7 @@ const ReviewItem = ({ review }: { review: any }) => {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#D97D55] text-white px-4 py-1 rounded-lg cursor-pointer">
+            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-xl cursor-pointer">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

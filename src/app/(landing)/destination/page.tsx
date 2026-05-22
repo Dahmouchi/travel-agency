@@ -35,7 +35,7 @@ export default function DestinationChoicePage() {
               href="/destination/national"
               className="group relative block rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
             >
-              <div className="absolute inset-0 bg-[#D97D55] opacity-90 group-hover:opacity-100 transition-opacity"></div>
+              <div className="absolute inset-0 bg-[#8EBD22] opacity-90 group-hover:opacity-100 transition-opacity"></div>
               <div className="relative h-64 bg-[url('/international.png)] bg-cover bg-center">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center p-6">
@@ -45,7 +45,7 @@ export default function DestinationChoicePage() {
                     <p className="text-white/90 group-hover:text-white transition-colors">
                       Découvrez la beauté à l&apos;intérieur de nos frontières
                     </p>
-                    <button className="mt-6 px-8 py-3 bg-white text-[#D97D55] rounded-full font-medium hover:bg-gray-100 transition-colors">
+                    <button className="mt-6 px-8 py-3 bg-white text-[#8EBD22] rounded-full font-medium hover:bg-gray-100 transition-colors">
                       Explorer
                     </button>
                   </div>

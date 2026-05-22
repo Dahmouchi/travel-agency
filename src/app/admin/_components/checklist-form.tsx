@@ -23,12 +23,15 @@ interface Program {
 
 interface ProgramFormProps {
   steps: Program[];
-  isNewTour?: boolean; 
+  isNewTour?: boolean;
   onChange: (steps: Program[]) => void;
-
 }
 
-const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => {
+const ChecklistForm: React.FC<ProgramFormProps> = ({
+  steps,
+  isNewTour,
+  onChange,
+}) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState<string | null>(null);
   const [newProgram, setNewProgram] = useState<
@@ -36,15 +39,12 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
   >({
     title: "",
     description: "",
-   
   });
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (isNewTour && !initialized && steps.length === 0) {
-      const defaultSteps: Program[] = [
-       
-      ];
+      const defaultSteps: Program[] = [];
       onChange(defaultSteps);
       setInitialized(true);
     }
@@ -64,7 +64,6 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       setNewProgram({
         title: "",
         description: "",
- 
       });
       setShowAddForm(false);
     }
@@ -109,7 +108,6 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       setNewProgram({
         title: programToEdit.title,
         description: programToEdit.description,
-       
       });
       setEditingProgramId(id);
       setShowAddForm(true);
@@ -129,13 +127,12 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
               ...newProgram, // Update with new values
               orderIndex: program.orderIndex, // Explicitly preserve orderIndex
             }
-          : program
+          : program,
       );
       onChange(updatedsteps);
       setNewProgram({
         title: "",
         description: "",
-     
       });
       setEditingProgramId(null);
       setShowAddForm(false);
@@ -148,7 +145,7 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       const reader = new FileReader();
       reader.onload = (e) => {
         setNewProgram((prev) => ({
-          ...prev,     
+          ...prev,
         }));
       };
       reader.readAsDataURL(file);
@@ -160,14 +157,12 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
     setEditingProgramId(null);
     setNewProgram({
       title: "",
-      description: "",  
+      description: "",
     });
   };
 
   // Sort steps by orderIndex before rendering
-  const sortedsteps = [...steps].sort(
-    (a, b) => a.orderIndex - b.orderIndex
-  );
+  const sortedsteps = [...steps].sort((a, b) => a.orderIndex - b.orderIndex);
 
   return (
     <div className="space-y-6">
@@ -183,10 +178,9 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
             >
               <CardContent className="px-6 w-full">
                 <div className="flex items-start gap-4">
-                 
                   <div className="flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-lime-600 text-sm font-medium rounded-full">
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-[#f7601f] text-sm font-medium rounded-full">
                         {program.orderIndex + 1}
                       </span>
 
@@ -305,7 +299,6 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       {showAddForm && (
         <Card className="border-none shadow-none p-0" id="editForm">
           <CardContent className="">
-           
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
@@ -346,7 +339,7 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       ${
         !newProgram.title.trim() || !newProgram.description.trim()
           ? "bg-gray-400 cursor-not-allowed"
-          : "bg-lime-600 hover:bg-lime-700"
+          : "bg-[#f7601f] hover:bg-lime-700"
       }
       text-white text-sm font-medium
       transition-colors duration-200
@@ -381,7 +374,7 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
       {!showAddForm && (
         <div
           onClick={() => setShowAddForm(true)}
-          className="w-full border-2 flex items-center justify-center rounded-lg border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
+          className="w-full border-2 flex items-center justify-center rounded-xl border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
         >
           <Plus className="w-5 h-5 mr-2 text-muted-foreground" />
           <span className="text-muted-foreground">Ajouter une étape</span>
@@ -395,8 +388,8 @@ const ChecklistForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }
             Aucun étape ajouté pour le moment
           </p>
           <p className="text-sm">
-            Cliquez sur &quot;Ajouter une étape&quot; pour créer votre
-            premier étape de résérvation
+            Cliquez sur &quot;Ajouter une étape&quot; pour créer votre premier
+            étape de résérvation
           </p>
         </div>
       )}

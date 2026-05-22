@@ -66,7 +66,7 @@ const DateForm: React.FC<DateFormProps> = ({ dates, onChange }) => {
   const handleUpdate = () => {
     if (editingDateId && formState.dateDebut && formState.dateFin) {
       onChange(
-        dates.map((d) => (d.id === editingDateId ? { ...d, ...formState } : d))
+        dates.map((d) => (d.id === editingDateId ? { ...d, ...formState } : d)),
       );
       setEditingDateId(null);
       setFormState(formState);
@@ -143,6 +143,7 @@ const DateForm: React.FC<DateFormProps> = ({ dates, onChange }) => {
                     }))
                   }
                 />
+                <label className="block text-sm font-medium mb-1">Prix</label>
                 <Input
                   type="number"
                   placeholder="Prix"
@@ -253,7 +254,7 @@ const DateForm: React.FC<DateFormProps> = ({ dates, onChange }) => {
       {!showAddForm && (
         <div
           onClick={() => setShowAddForm(true)}
-          className="w-full border-2 flex items-center justify-center rounded-lg border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
+          className="w-full border-2 flex items-center justify-center rounded-xl border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
         >
           <Plus className="w-4 h-4 mr-2" />
           <span>Ajouter Date</span>

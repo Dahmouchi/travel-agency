@@ -28,7 +28,7 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname(); // Get the current route
-  const {state,setOpenMobile} = useSidebar()
+  const { state, setOpenMobile } = useSidebar();
 
   // Function to remove the language prefix ("/fr" or "/en") from pathname
   const getPathWithoutLocale = (path: string) => {
@@ -41,34 +41,40 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => {
           const isActive =
-          getPathWithoutLocale(pathname) === item.url ||
-          (item.url !== "/admin/dashboard" && getPathWithoutLocale(pathname).startsWith(item.url));
-        
+            getPathWithoutLocale(pathname) === item.url ||
+            (item.url !== "/admin/dashboard" &&
+              getPathWithoutLocale(pathname).startsWith(item.url));
+
           return (
-            <Collapsible key={item.title} asChild  className="group/collapsible">
+            <Collapsible key={item.title} asChild className="group/collapsible">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <Link href={item.url}>
                     <SidebarMenuButton
-                    onClick={()=>setOpenMobile(false)}
+                      onClick={() => setOpenMobile(false)}
                       tooltip={item.title}
                       className={clsx(
-                        "cursor-pointer transition-all rounded-lg duration-200 py-5",
-                        isActive ? "bg-lime-600 shadow-[4px_6px_7px_0px_rgba(0,_0,_0,_0.1)]  text-white hover:bg-lime-700 hover:text-white  font-semibold" : "hover:bg-white dark:hover:bg-gray-800"
+                        "cursor-pointer transition-all rounded-xl duration-200 py-5",
+                        isActive
+                          ? "bg-[#f7601f] shadow-[4px_6px_7px_0px_rgba(0,_0,_0,_0.1)]  text-white hover:bg-lime-700 hover:text-white  font-semibold"
+                          : "hover:bg-white dark:hover:bg-gray-800",
                       )}
                     >
-                      <div  className={`${
-                          isActive && state === "expanded" 
-                            ? "bg-white rounded-md p-1.5 text-lime-600"
+                      <div
+                        className={`${
+                          isActive && state === "expanded"
+                            ? "bg-white rounded-md p-1.5 text-[#f7601f]"
                             : ""
-                        }`}>  {item.icon && <item.icon className="w-4 h-4"/>}</div>  
+                        }`}
+                      >
+                        {" "}
+                        {item.icon && <item.icon className="w-4 h-4" />}
+                      </div>
                       <span>{item.title}</span>
                     </SidebarMenuButton>
                   </Link>
                 </CollapsibleTrigger>
-                
               </SidebarMenuItem>
-              
             </Collapsible>
           );
         })}

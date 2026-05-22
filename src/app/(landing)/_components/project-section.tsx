@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-
 interface ProjectSectionProps {
   formData: any;
   errors: any;
@@ -144,11 +143,9 @@ export default function ProjectSection({
               </label>
             </div>
           </div>
-
         </div>
         {/* ------------------------------------------- */}
         <div className="space-y-6">
-          
           {/* Needs Flight */}
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-2">
@@ -255,7 +252,7 @@ export default function ProjectSection({
               value={formData.accommodationWishes}
               onChange={(e) => onChange("accommodationWishes", e.target.value)}
               placeholder="Décrivez vos préférences d'hébergement..."
-              className="w-full h-24 p-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full h-24 p-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
           </div>
 
@@ -271,7 +268,7 @@ export default function ProjectSection({
                   onClick={() =>
                     onChange(
                       "numberOfRooms",
-                      Math.max(1, formData.numberOfRooms - 1)
+                      Math.max(1, formData.numberOfRooms - 1),
                     )
                   }
                   className="w-8 h-8 flex items-center justify-center bg-[#8ebd21] text-white rounded"
@@ -329,7 +326,7 @@ export default function ProjectSection({
               max="100000"
               value={formData.budget}
               onChange={(e) => onChange("budget", Number(e.target.value))}
-              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-gray-600"
+              className="w-full h-2 bg-gray-300 rounded-xl appearance-none cursor-pointer accent-gray-600"
             />
           </div>
         </div>

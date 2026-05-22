@@ -34,7 +34,7 @@ export default function TourOrderManagerDiscover({
 }: TourOrderManagerProps) {
   const [nationalTours, setNationalTours] = useState(initialNationalTours);
   const [activeTab, setActiveTab] = useState<"NATIONAL" | "INTERNATIONAL">(
-    "NATIONAL"
+    "NATIONAL",
   );
   const [isSaving, setIsSaving] = useState(false);
 
@@ -54,7 +54,7 @@ export default function TourOrderManagerDiscover({
         delay: 100, // 👈 small delay before activating drag
         tolerance: 5,
       },
-    })
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -81,7 +81,7 @@ export default function TourOrderManagerDiscover({
         toursToUpdate.map((tour, index) => ({
           id: tour.id,
           orderIndex: index + 1,
-        }))
+        })),
       );
       toast.success("Modifié avec succès");
     } finally {
@@ -101,7 +101,7 @@ export default function TourOrderManagerDiscover({
               variant={activeTab === "NATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "NATIONAL"
-                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
+                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("NATIONAL")}
@@ -132,7 +132,7 @@ export default function TourOrderManagerDiscover({
               {currentTours.map((tour) => (
                 <SortableItem key={tour.id} id={tour.id}>
                   <div
-                    className="flex items-center justify-between cursor-move p-4 border rounded-lg bg-background hover:bg-accent"
+                    className="flex items-center justify-between cursor-move p-4 border rounded-xl bg-background hover:bg-accent"
                     style={{ touchAction: "none" }} // 👈 Important for mobile dragging
                   >
                     <div className="flex items-center space-x-4">

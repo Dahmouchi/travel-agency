@@ -59,7 +59,7 @@ const SidebarNavigation: React.FC<Props> = ({
     // Redirect to the search page
     router.push(
       "/stay-categories/all" +
-        (searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : "")
+        (searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ""),
     );
   };
   const transformMenu = (data: TNavigationItem[]) => {
@@ -95,7 +95,7 @@ const SidebarNavigation: React.FC<Props> = ({
 
   const _renderMenuChild = (
     item: TNavigationItem,
-    itemClass = "pl-3 text-neutral-900 dark:text-neutral-200 font-medium"
+    itemClass = "pl-3 text-neutral-900 dark:text-neutral-200 font-medium",
   ) => {
     return (
       <ul className="nav-mobile-sub-menu pb-1 pl-6 text-base">
@@ -104,7 +104,7 @@ const SidebarNavigation: React.FC<Props> = ({
             <Link
               href={childMenu.href || "#"}
               onClick={handleClose}
-              className={`mt-0.5 flex rounded-lg pr-4 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 ${itemClass}`}
+              className={`mt-0.5 flex rounded-xl pr-4 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 ${itemClass}`}
             >
               <span
                 className={`py-2.5 ${!childMenu.children ? "block w-full" : ""}`}
@@ -129,7 +129,7 @@ const SidebarNavigation: React.FC<Props> = ({
               <DisclosurePanel>
                 {_renderMenuChild(
                   childMenu,
-                  "pl-3 text-neutral-600 dark:text-neutral-400"
+                  "pl-3 text-neutral-600 dark:text-neutral-400",
                 )}
               </DisclosurePanel>
             )}
@@ -146,7 +146,7 @@ const SidebarNavigation: React.FC<Props> = ({
         as="li"
         className="text-neutral-900 dark:text-white"
       >
-        <DisclosureButton className="flex w-full cursor-pointer rounded-lg px-3 text-start text-sm font-medium tracking-wide uppercase hover:bg-neutral-100 dark:hover:bg-neutral-800">
+        <DisclosureButton className="flex w-full cursor-pointer rounded-xl px-3 text-start text-sm font-medium tracking-wide uppercase hover:bg-neutral-100 dark:hover:bg-neutral-800">
           <Link
             href={`/${menu.name}` || "#"}
             className={clsx(!menu.children?.length && "flex-1", "block py-2.5")}

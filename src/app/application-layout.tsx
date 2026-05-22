@@ -10,6 +10,7 @@ import { Category, Destination, Landing, Nature } from "@prisma/client";
 import Navbar from "./(landing)/_components/Header";
 import Link from "next/link";
 import Footer2 from "@/components/footer/Footer2";
+import ChatAgent from "./(landing)/_components/ai-agent";
 
 interface Props {
   children: ReactNode;
@@ -42,8 +43,8 @@ const ApplicationLayout: React.FC<Props> = async ({ children, header }) => {
   });
   return (
     <Aside.Provider>
-      {/* Desktop Header - Will be hidden on mobile devices  */}
-      <div className="relative z-20 hidden lg:block lg:px-20 px-4">
+      {/* Navbar — mobile drawer + desktop floating pill */}
+      <div className="relative z-50">
         {header ? (
           header
         ) : (
@@ -63,13 +64,23 @@ const ApplicationLayout: React.FC<Props> = async ({ children, header }) => {
         </div>
       </div> */}
       {/*  */}
-      <div className="">{children}</div>
+      <div className="pt-16 lg:pt-0">{children}</div>
       {/*  */}
       {/* FooterQuickNavigation - Displays on mobile devices and is fixed at the bottom of the screen */}
       <FooterQuickNavigation />
       {/* Chose footer style here!!!! */}
       <Footer2 /> {/* <Footer /> or <Footer2 /> or <Footer3 /> or <Footer4 />*/}
-      {/*  */}
+      {/* 
+      <ChatAgent
+        agentName="Travel Assistant"
+        welcomeMessage="Bonjour! 👋 Je suis votre assistant voyage. Comment puis-je vous aider à planifier votre aventure parfaite?"
+        suggestions={[
+          "Quels tours recommandez-vous?",
+          "Informations sur les prix",
+          "Meilleure période pour visiter?",
+          "Réductions de groupe?",
+        ]}
+      /> */}
       <AsideSidebarNavigation
         navItem={navbarItem}
         nationalDestinations={destinationNational}

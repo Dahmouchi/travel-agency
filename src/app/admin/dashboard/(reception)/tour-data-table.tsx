@@ -1,4 +1,3 @@
- 
 // "use client"
 
 // import {
@@ -9,7 +8,6 @@
 //   getPaginationRowModel,
 //   useReactTable,
 // } from "@tanstack/react-table";
-
 
 // import {
 //   Table,
@@ -37,7 +35,7 @@
 //     pageIndex: 0,
 //     pageSize: 10,
 //   });
-  
+
 //   const table = useReactTable({
 //     data,
 //     columns,
@@ -76,13 +74,13 @@
 //                           header.column.columnDef.header,
 //                           header.getContext()
 //                         )}
-                        
+
 //                   </TableHead>
 //                 )
 //               })}
 //             </TableRow>
 //           ))}
-          
+
 //         </TableHeader>
 //         <TableBody>
 //           {table.getRowModel().rows?.length ? (
@@ -96,7 +94,7 @@
 //                   if (cell.column.id === 'priceOriginal') {
 //                     return (
 //                       <TableCell key={cell.id}>
-//                         <div className="bg-lime-600 text-center text-white font-bold rounded-lg p-0.5">
+//                         <div className="bg-[#f7601f] text-center text-white font-bold rounded-xl p-0.5">
 //                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
 //                         </div>
 //                       </TableCell>
@@ -105,7 +103,7 @@
 //                   if (cell.column.id === 'priceDiscounted') {
 //                     return (
 //                       <TableCell key={cell.id}>
-//                         <div className="bg-orange-500 text-center text-white font-bold rounded-lg px-0.5">
+//                         <div className="bg-orange-500 text-center text-white font-bold rounded-xl px-0.5">
 //                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
 //                         </div>
 //                       </TableCell>
@@ -154,8 +152,7 @@
 //   )
 // }
 
-
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -173,31 +170,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-   isLoading?: boolean
-  isDeleting?: boolean
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  isLoading?: boolean;
+  isDeleting?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-   isLoading = false,
+  isLoading = false,
   isDeleting = false,
 }: DataTableProps<TData, TValue>) {
-
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-  
+
   const table = useReactTable({
     data,
     columns,
@@ -211,14 +207,16 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-       <div className="rounded-md border shadow-lg relative">
+    <div className="rounded-md border shadow-lg relative">
       {/* Add overlay for loading states */}
       {(isLoading || isDeleting) && (
         <div className="absolute inset-0 bg-white bg-opacity-70 z-10 flex items-center justify-center">
           <div className="flex flex-col items-center">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
             <span className="mt-2 text-sm text-gray-600">
-              {isDeleting ? "Suppression en cours..." : "Chargement des données..."}
+              {isDeleting
+                ? "Suppression en cours..."
+                : "Chargement des données..."}
             </span>
           </div>
         </div>
@@ -226,32 +224,38 @@ export function DataTable<TData, TValue>({
 
       {/* Rest of your existing table code */}
       <div className="flex items-center py-4 px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-       <Input
-         placeholder="Filtrer par titre de tour..."
-         value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-         onChange={(event) => {
-           console.log(event.target.value);
-           table.getColumn("title")?.setFilterValue(event.target.value);
-         }}
-         className="max-w-sm border-2 border-blue-200 focus:border-blue-400 transition-colors"
-       />
+        <Input
+          placeholder="Filtrer par titre de tour..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => {
+            console.log(event.target.value);
+            table.getColumn("title")?.setFilterValue(event.target.value);
+          }}
+          className="max-w-sm border-2 border-blue-200 focus:border-blue-400 transition-colors"
+        />
       </div>
-      
+
       <Table className="border-separate border-spacing-0">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-gray-100 hover:bg-gray-200">
+            <TableRow
+              key={headerGroup.id}
+              className="bg-gray-100 hover:bg-gray-200"
+            >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="font-bold text-gray-800 border-b-2 border-gray-300">
+                  <TableHead
+                    key={header.id}
+                    className="font-bold text-gray-800 border-b-2 border-gray-300"
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -265,33 +269,51 @@ export function DataTable<TData, TValue>({
                 className={`transition-colors hover:bg-blue-50 ${idx % 2 === 1 ? "bg-lime-50" : "bg-white"}`}
               >
                 {row.getVisibleCells().map((cell) => {
-                  if (cell.column.id === 'priceOriginal') {
+                  if (cell.column.id === "priceOriginal") {
                     return (
                       <TableCell key={cell.id}>
-                        <div className="bg-gradient-to-r from-lime-600 to-green-600 text-center text-white font-bold rounded px-1 py-0.5 shadow transform hover:scale-105 transition-transform text-sm">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>  </TableCell>
+                        <div className="bg-gradient-to-r from-[#f7601f] to-green-600 text-center text-white font-bold rounded px-1 py-0.5 shadow transform hover:scale-105 transition-transform text-sm">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </div>{" "}
+                      </TableCell>
                     );
                   }
-                  if (cell.column.id === 'priceDiscounted') {
+                  if (cell.column.id === "priceDiscounted") {
                     return (
                       <TableCell key={cell.id}>
                         <div className="bg-gradient-to-r from-orange-500 to-red-500 text-center text-white font-bold rounded px-1 py-0.5 shadow transform hover:scale-105 transition-transform text-sm">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>  </TableCell>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </div>{" "}
+                      </TableCell>
                     );
                   }
-                            if (cell.column.id === 'advancedPrice') {
-                            return (
-                              <TableCell key={cell.id}>
-                              <div className="bg-gradient-to-r from-cyan-500 to-blue-500 text-center text-white font-bold rounded px-1 py-0.5 shadow transform hover:scale-105 transition-transform text-sm">
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                              </div>
-                              </TableCell>
-                            );
-                            }  return (
-                    <TableCell key={cell.id} className="border-b border-gray-200">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  if (cell.column.id === "advancedPrice") {
+                    return (
+                      <TableCell key={cell.id}>
+                        <div className="bg-gradient-to-r from-cyan-500 to-blue-500 text-center text-white font-bold rounded px-1 py-0.5 shadow transform hover:scale-105 transition-transform text-sm">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </div>
+                      </TableCell>
+                    );
+                  }
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      className="border-b border-gray-200"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   );
                 })}
@@ -299,7 +321,10 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center text-gray-500 italic">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center text-gray-500 italic"
+              >
                 Aucun résultat.
               </TableCell>
             </TableRow>
@@ -335,5 +360,5 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
     </div>
-  )
+  );
 }

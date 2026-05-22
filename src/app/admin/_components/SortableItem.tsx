@@ -1,13 +1,10 @@
-"use client"
-import { Trash2, Pencil, GripVertical } from 'lucide-react';
+"use client";
+import { Trash2, Pencil, GripVertical } from "lucide-react";
 
-import { CSS } from '@dnd-kit/utilities';
-import {
-  useSortable,
-
-} from '@dnd-kit/sortable';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 export default function SortableItem({
   id,
   string,
@@ -29,13 +26,8 @@ export default function SortableItem({
   setEditValue: React.Dispatch<React.SetStateAction<string>>;
   removeString: (index: number) => void;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -65,7 +57,7 @@ export default function SortableItem({
           <Button
             size="sm"
             onClick={() => saveEdit(index)}
-            className="bg-lime-600 hover:bg-lime-700 text-white"
+            className="bg-[#f7601f] hover:bg-lime-700 text-white"
           >
             Save
           </Button>

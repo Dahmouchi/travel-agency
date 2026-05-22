@@ -17,7 +17,7 @@ export function InternationalCard({ tour }: { tour: TourWithReviews }) {
   return (
     <div
       onClick={() => (window.location.href = `/voyage/${tour?.id}`)}
-      className="max-w-sm h-full cursor-pointer flex flex-col justify-between rounded-lg overflow-hidden shadow-lg border border-gray-200 bg-white"
+      className="max-w-sm h-full cursor-pointer flex flex-col justify-between rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white"
     >
       {/* Discount Ribbon
       <div className="bg-red-600 text-white text-center py-1 font-bold">
@@ -29,7 +29,7 @@ export function InternationalCard({ tour }: { tour: TourWithReviews }) {
           23 : 07 : 51
         </div>
       </div> */}
-      <div className="w-full h-[40vh] bg-green-500 relative bg-cover bg-center group">
+      <div className="w-full h-[40vh] bg-[#8EBD22] relative bg-cover bg-center group">
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 "
           style={{
@@ -44,7 +44,7 @@ export function InternationalCard({ tour }: { tour: TourWithReviews }) {
         <div className="w-full h-1/3 bg-gradient-to-t from-white to-white/0 absolute bottom-0 z-0"></div>
         {tour.showReviews && (
           <motion.div
-            className="absolute bottom-3 left-3 z-20 bg-black/20 backdrop-blur-sm rounded-lg px-3 py-1"
+            className="absolute bottom-3 left-3 z-20 bg-black/20 backdrop-blur-sm rounded-xl px-3 py-1"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -74,7 +74,7 @@ export function InternationalCard({ tour }: { tour: TourWithReviews }) {
 
       <div className="p-4 flex flex-col justify-end bg-white">
         {/* Tour? Info */}
-        <div className="bg-[#D97D55] w-fit flex items-center gap-2 text-white p-1 px-2">
+        <div className="bg-[#8EBD22] w-fit flex items-center gap-2 text-white p-1 px-2">
           <CalendarDays className="w-5 h-5" />
           <div className="text-xs">
             {tour?.durationDays}J / {tour?.durationNights}N
@@ -104,13 +104,13 @@ export function InternationalCard({ tour }: { tour: TourWithReviews }) {
           <div className="flex justify-between items-center w-full gap-2">
             <Link
               href={`/voyage/${tour?.id}`}
-              className="bg-[#D97D55] carddd rounded-lg cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
+              className="bg-[#8EBD22] carddd rounded-xl cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
             >
               <Eye className="w-6 h-6" />
               <span className="text-white w-full text-center">Programme</span>
             </Link>
             {tour.showDifficulty && (
-              <div className="w-16 h-full flex items-center justify-center flex-col rounded-lg text-white p-1 cardd">
+              <div className="w-16 h-full flex items-center justify-center flex-col rounded-xl text-white p-1 cardd">
                 <img src="/boot.png" alt="" className="w-4 h-4 -rotate-12" />
                 <h1>{tour?.difficultyLevel}/5</h1>
               </div>

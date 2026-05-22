@@ -110,14 +110,14 @@ const Header = () => {
       try {
         // Replace with your actual API call to get newsletters
         const data = await GetAllNews();
-        setNewsletters(data.data)
+        setNewsletters(data.data);
         const unreadCount = data.data.filter(
-          (newsletter: any) => newsletter.statu === false
+          (newsletter: any) => newsletter.statu === false,
         ).length;
         setUnreadNewslettersCount(unreadCount);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
-        setLoading(false)
+        setLoading(false);
         console.error("Error fetching newsletters:", error);
       }
     };
@@ -132,7 +132,7 @@ const Header = () => {
     });
   }
   return (
-    <header className="flex h-16 rounded-lg border shadow-[-4px_5px_10px_0px_rgba(0,_0,_0,_0.1)]  mb-1 shrink-0 bg-white dark:bg-slate-900 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+    <header className="flex h-16 rounded-xl border shadow-[-4px_5px_10px_0px_rgba(0,_0,_0,_0.1)]  mb-1 shrink-0 bg-white dark:bg-slate-900 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1 cursor-pointer" />
         <Separator
@@ -142,7 +142,7 @@ const Header = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="">
-              <BreadcrumbLink href="/">HappyTrip</BreadcrumbLink>
+              <BreadcrumbLink href="/">BuildTravel</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
@@ -171,7 +171,6 @@ const Header = () => {
           <DropdownMenuContent className="w-80 p-0" align="end" forceMount>
             <div className="flex items-center justify-between px-4 py-2 border-b">
               <h3 className="font-semibold">Newsletters</h3>
-             
             </div>
 
             {loading ? (
@@ -192,9 +191,9 @@ const Header = () => {
                       <div
                         key={newsletter.id}
                         className="flex flex-col items-start gap-1 p-3 cursor-pointer hover:bg-accent"
-                        onClick={()=>{
-                           setIsOpen(false)
-                           redirect("/admin/dashboard/news")
+                        onClick={() => {
+                          setIsOpen(false);
+                          redirect("/admin/dashboard/news");
                         }}
                       >
                         <div className="flex justify-between w-full">

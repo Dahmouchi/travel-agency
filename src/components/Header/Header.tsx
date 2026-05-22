@@ -20,7 +20,7 @@ function transformNavbarItemsToMegaMenu(
   voyage?: Category[],
   nature?: Nature[],
   nationalDestinations?: Destination[],
-  internationalDestinations?: Destination[]
+  internationalDestinations?: Destination[],
 ) {
   const sortedItems = [...navbarItems].sort((a, b) => a.order - b.order);
   const visibleItems = sortedItems.filter((item) => item.isVisible);
@@ -30,11 +30,11 @@ function transformNavbarItemsToMegaMenu(
 
   // Group similar items
   const destinationsItem = visibleItems.find(
-    (item) => item.name === "destinations"
+    (item) => item.name === "destinations",
   );
   const voyagesItem = visibleItems.find((item) => item.name === "voyages");
   const activitiesItem = visibleItems.find(
-    (item) => item.name === "activities"
+    (item) => item.name === "activities",
   );
 
   if (destinationsItem) {
@@ -138,7 +138,7 @@ export function NavbarV2({
     voyage,
     nature,
     nationalDestinations,
-    internationalDestinations
+    internationalDestinations,
   );
 
   // Featured category for mega menu (using first visible voyage as featured)
@@ -184,7 +184,7 @@ export function NavbarV2({
   const singleNavItems = sortedNavbarItems.filter(
     (item) =>
       item.isVisible &&
-      !["destinations", "voyages", "activities"].includes(item.name)
+      !["destinations", "voyages", "activities"].includes(item.name),
   );
 
   return (
@@ -192,7 +192,7 @@ export function NavbarV2({
       {/* Logo - Left Side */}
       <Link href="/" className="flex items-center space-x-2 z-50">
         <img
-          src="/horizontal.png"
+          src="/horizontal1.png"
           alt="Happy Trip"
           className="h-10 w-auto object-fit"
           style={{ maxHeight: "2.5rem" }}
@@ -222,7 +222,7 @@ export function NavbarV2({
 
         {/* CTA Button */}
         <Link href="tel:+212628324880">
-          <Button className="bg-[#D97D55] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-5 py-2 text-base transition-all duration-300 flex items-center gap-2">
+          <Button className="bg-[#8EBD22] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-5 py-2 text-base transition-all duration-300 flex items-center gap-2">
             <Phone className="w-4 h-4" />
             Appelez-nous
           </Button>
@@ -232,7 +232,7 @@ export function NavbarV2({
       {/* Mobile Menu Button and CTA */}
       <div className="flex items-center gap-2 md:hidden z-50">
         <Link href="tel:+212628324880">
-          <Button className="bg-[#D97D55] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-3 py-2 text-xs flex items-center gap-1">
+          <Button className="bg-[#8EBD22] hover:bg-[#7BA91F] text-white shadow-md rounded-full px-3 py-2 text-xs flex items-center gap-1">
             <Phone className="w-3 h-3" />
             <span>Appelez-nous</span>
           </Button>
@@ -301,7 +301,7 @@ export function NavbarV2({
                               href={
                                 item.name === "home" ? "/" : `/${item.name}`
                               }
-                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#D97D55] transition-colors duration-200"
+                              className="flex items-center justify-between text-lg font-medium py-4 border-b border-gray-100 hover:text-[#8EBD22] transition-colors duration-200"
                               onClick={handleMobileLinkClick}
                             >
                               {item.label}
@@ -322,7 +322,7 @@ export function NavbarV2({
                               value="destinations"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>
@@ -335,7 +335,7 @@ export function NavbarV2({
                                         "flex-1 transition-all duration-200",
                                         selectedDestinationType ===
                                           "national" &&
-                                          "bg-[#D97D55] text-white border-[#D97D55]"
+                                          "bg-[#8EBD22] text-white border-[#8EBD22]",
                                       )}
                                       onClick={() =>
                                         setSelectedDestinationType("national")
@@ -350,11 +350,11 @@ export function NavbarV2({
                                         "flex-1 transition-all duration-200",
                                         selectedDestinationType ===
                                           "international" &&
-                                          "bg-[#D97D55] text-white border-[#D97D55]"
+                                          "bg-[#8EBD22] text-white border-[#8EBD22]",
                                       )}
                                       onClick={() =>
                                         setSelectedDestinationType(
-                                          "international"
+                                          "international",
                                         )
                                       }
                                     >
@@ -367,7 +367,7 @@ export function NavbarV2({
                                       : internationalDestinations
                                     )
                                       .filter(
-                                        (destination) => destination.visible
+                                        (destination) => destination.visible,
                                       )
                                       .map((destination) => (
                                         <Link
@@ -401,7 +401,7 @@ export function NavbarV2({
                               value="voyages"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>
@@ -452,7 +452,7 @@ export function NavbarV2({
                               value="activities"
                               className="border-b border-gray-100"
                             >
-                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#D97D55] transition-colors duration-200">
+                              <AccordionTrigger className="text-lg font-medium py-4 hover:text-[#8EBD22] transition-colors duration-200">
                                 {item.label}
                               </AccordionTrigger>
                               <AccordionContent>

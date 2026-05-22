@@ -8,7 +8,7 @@ const Meeting = () => {
   return (
     <div>
       <div
-        className="w-full bg-[#D97D55] bg-center gap-4 md:gap-6 bg-cover p-4 sm:p-6 md:p-12 lg:p-24 grid lg:grid-cols-4 grid-cols-1"
+        className="w-full bg-[#8EBD22] bg-center gap-4 md:gap-6 bg-cover p-4 sm:p-6 md:p-12 lg:p-24 grid lg:grid-cols-4 grid-cols-1"
         style={{ backgroundImage: "url(/elements.png)" }}
       >
         {/* Product image card */}
@@ -27,7 +27,7 @@ const Meeting = () => {
               className="h-full absolute right-0 w-auto top-0 hidden md:block"
             />
 
-            <div className="bg-[#D97D55] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-xl">
+            <div className="bg-[#8EBD22] w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-xl">
               <Earth className="text-white w-6 h-6 md:w-8 md:h-8" />
             </div>
 
@@ -57,37 +57,37 @@ const Meeting = () => {
           {/* Stats grid */}
           <div className="py-8 px-4 sm:py-10 sm:px-6 md:py-12 md:px-6 lg:py-10 lg:px-8 bg-white rounded-xl grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="font-montressat flex items-center justify-center flex-col">
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#D97D55]">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#8EBD22]">
                 10K+
               </div>
-              <div className="text-base sm:text-lg lg:text-xl text-[#D97D55] mt-2 md:mt-4">
+              <div className="text-base sm:text-lg lg:text-xl text-[#8EBD22] mt-2 md:mt-4">
                 Voyageurs
               </div>
             </div>
 
             <div className="flex items-center justify-center flex-col">
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#D97D55]">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#8EBD22]">
                 20
               </div>
-              <div className="text-base sm:text-lg lg:text-xl text-[#D97D55] mt-2 md:mt-4">
+              <div className="text-base sm:text-lg lg:text-xl text-[#8EBD22] mt-2 md:mt-4">
                 Programme
               </div>
             </div>
 
             <div className="flex items-center justify-center flex-col">
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#D97D55]">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#8EBD22]">
                 5K+
               </div>
-              <div className="text-base sm:text-lg lg:text-xl text-[#D97D55] mt-2 md:mt-4">
+              <div className="text-base sm:text-lg lg:text-xl text-[#8EBD22] mt-2 md:mt-4">
                 Reviews
               </div>
             </div>
 
             <div className="flex items-center justify-center flex-col">
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#D97D55]">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#8EBD22]">
                 100+
               </div>
-              <div className="text-base sm:text-lg lg:text-xl text-[#D97D55] mt-2 md:mt-4">
+              <div className="text-base sm:text-lg lg:text-xl text-[#8EBD22] mt-2 md:mt-4">
                 Excursions &gt;&gt;
               </div>
             </div>

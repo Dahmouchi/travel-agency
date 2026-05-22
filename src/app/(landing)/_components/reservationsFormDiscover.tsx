@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useEffect, useState } from "react";
-import {CreateReservationsDiscoverr } from "@/actions/reservationsActions";
+import { CreateReservationsDiscoverr } from "@/actions/reservationsActions";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 const LottiePlayer = dynamic(() => import("react-lottie-player"), {
@@ -43,7 +43,7 @@ export default function ReservationsFormDiscover({
   // Update base price when travelDateId changes
   useEffect(() => {
     const selectedDate = filteredTravelDates.find(
-      (d: any) => d.id === formData.travelDateId
+      (d: any) => d.id === formData.travelDateId,
     );
     if (selectedDate && selectedDate.price) {
       setCurrentBasePrice(selectedDate.price);
@@ -69,7 +69,7 @@ export default function ReservationsFormDiscover({
 
       if (field.type === "select") {
         const selectedOption = field.options.find(
-          (opt: any) => opt.value === formData.customFields[field.name]
+          (opt: any) => opt.value === formData.customFields[field.name],
         );
         if (selectedOption) {
           total += Number(selectedOption?.price || 0);
@@ -145,7 +145,7 @@ export default function ReservationsFormDiscover({
       id="reservation-form"
     >
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 md:gap-12 items-start">
-        <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100">
+        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
           {/* Form Header */}
           <div
             className="mb-6 pb-4 border-b border-gray-200"
@@ -191,281 +191,274 @@ export default function ReservationsFormDiscover({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Default fields */}
                 <input
-                name="nom"
-                placeholder="Nom *"
-                onChange={handleChange}
-                required
-                className="border rounded-lg p-3 focus:ring-2 focus:ring-green-400 outline-none"
-              />
-              <input
-                name="prenom"
-                placeholder="Prénom *"
-                onChange={handleChange}
-                required
-                className="border rounded-lg p-3 focus:ring-2 focus:ring-green-400 outline-none"
-              />
-              <input
-                name="phone"
-                placeholder="Téléphone *"
-                onChange={handleChange}
-                required
-                className="border rounded-lg p-3 focus:ring-2 focus:ring-green-400 outline-none"
-              />
-              <input
-                name="email"
-                type="email"
-                placeholder="Email *"
-                onChange={handleChange}
-                required
-                className="border rounded-lg p-3 focus:ring-2 focus:ring-green-400 outline-none"
-              />
-            </div>
+                  name="nom"
+                  placeholder="Nom *"
+                  onChange={handleChange}
+                  required
+                  className="border rounded-xl p-3 focus:ring-2 focus:ring-green-400 outline-none"
+                />
+                <input
+                  name="prenom"
+                  placeholder="Prénom *"
+                  onChange={handleChange}
+                  required
+                  className="border rounded-xl p-3 focus:ring-2 focus:ring-green-400 outline-none"
+                />
+                <input
+                  name="phone"
+                  placeholder="Téléphone *"
+                  onChange={handleChange}
+                  required
+                  className="border rounded-xl p-3 focus:ring-2 focus:ring-green-400 outline-none"
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email *"
+                  onChange={handleChange}
+                  required
+                  className="border rounded-xl p-3 focus:ring-2 focus:ring-green-400 outline-none"
+                />
+              </div>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-1">
-                Nombre de personnes *
-              </label>
-              <input
-                type="number"
-                name="numberOfAdults"
-                min="1"
-                value={formData.numberOfAdults}
-                onChange={handleChange}
-                className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-green-400 outline-none"
-              />
-            </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-1">
+                  Nombre de personnes *
+                </label>
+                <input
+                  type="number"
+                  name="numberOfAdults"
+                  min="1"
+                  value={formData.numberOfAdults}
+                  onChange={handleChange}
+                  className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-green-400 outline-none"
+                />
+              </div>
 
-             
-
-                {/* Dynamic custom fields */}
-                {fields.map((field: any, index: number) => {
-                  if (field.type === "text") {
-                    return (
-                      <div className="space-y-1" key={index}>
-                        <label
-                          htmlFor={field.name}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          {field.label}{" "}
-                          {field.required && (
-                            <span className="text-red-500">*</span>
-                          )}
-                        </label>
-                        <input
-                          id={field.name}
-                          name={field.name}
-                          placeholder={field.placeholder || field.label}
-                          onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
-                          required={field.required}
-                        />
-                      </div>
-                    );
-                  }
-
-                  if (field.type === "checkbox") {
-                    return (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between lg:flex-row flex-col gap-4 p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors bg-white shadow-sm"
+              {/* Dynamic custom fields */}
+              {fields.map((field: any, index: number) => {
+                if (field.type === "text") {
+                  return (
+                    <div className="space-y-1" key={index}>
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm font-medium text-gray-700"
                       >
-                        <div className="flex items-center  gap-3 flex-1">
-                          <div className="flex items-center ">
-                            <input
-                              type="checkbox"
-                              id={`checkbox-${field.name}`}
-                              name={field.name}
-                              checked={formData.customFields[field.name]}
-                              onChange={(e) =>
-                                setFormData((prev: any) => ({
-                                  ...prev,
-                                  customFields: {
-                                    ...prev.customFields,
-                                    [field.name]: e.target.checked,
-                                    [`${field.name}_count`]: e.target.checked
-                                      ? prev.customFields[
-                                          `${field.name}_count`
-                                        ] || 1
-                                      : 1,
-                                  },
-                                }))
-                              }
-                              className="h-5 w-5 rounded accent-green-500 border-gray-300  cursor-pointer"
-                            />
-                          </div>
-                          <label
-                            htmlFor={`checkbox-${field.name}`}
-                            className="block text-sm font-medium text-gray-700 cursor-pointer flex-1"
-                          >
-                            {field.label}{" "}
-                            {field.price > 0 && (
-                              <span className="text-red-500 ml-1">
-                                +{field.price} MAD
-                              </span>
-                            )}
-                          </label>
-                        </div>
-
-                        {formData.customFields[field.name] && (
-                          <div className="flex items-center gap-1">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setFormData((prev: any) => ({
-                                  ...prev,
-                                  customFields: {
-                                    ...prev.customFields,
-                                    [`${field.name}_count`]: Math.max(
-                                      1,
-                                      (prev.customFields[
-                                        `${field.name}_count`
-                                      ] || 1) - 1
-                                    ),
-                                  },
-                                }))
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              disabled={
-                                formData.customFields[`${field.name}_count`] <=
-                                1
-                              }
-                            >
-                              <span className="sr-only">Diminuer</span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-
-                            <input
-                              type="number"
-                              name={`${field.name}_count`}
-                              min="1"
-                              value={
-                                formData.customFields[`${field.name}_count`]
-                              }
-                              onChange={(e) =>
-                                setFormData((prev: any) => ({
-                                  ...prev,
-                                  customFields: {
-                                    ...prev.customFields,
-                                    [`${field.name}_count`]: Math.max(
-                                      1,
-                                      Number(e.target.value) || 1
-                                    ),
-                                  },
-                                }))
-                              }
-                              className="w-12 text-center border-0 p-0 bg-transparent text-gray-900 focus:ring-0 font-medium text-sm"
-                            />
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setFormData((prev: any) => ({
-                                  ...prev,
-                                  customFields: {
-                                    ...prev.customFields,
-                                    [`${field.name}_count`]:
-                                      (prev.customFields[
-                                        `${field.name}_count`
-                                      ] || 1) + 1,
-                                  },
-                                }))
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                              <span className="sr-only">Augmenter</span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          </div>
+                        {field.label}{" "}
+                        {field.required && (
+                          <span className="text-red-500">*</span>
                         )}
-                      </div>
-                    );
-                  }
+                      </label>
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        placeholder={field.placeholder || field.label}
+                        onChange={handleChange}
+                        className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                        required={field.required}
+                      />
+                    </div>
+                  );
+                }
 
-                  if (field.type === "select") {
-                    return (
-                      <div className="space-y-1" key={index}>
+                if (field.type === "checkbox") {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between lg:flex-row flex-col gap-4 p-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors bg-white shadow-sm"
+                    >
+                      <div className="flex items-center  gap-3 flex-1">
+                        <div className="flex items-center ">
+                          <input
+                            type="checkbox"
+                            id={`checkbox-${field.name}`}
+                            name={field.name}
+                            checked={formData.customFields[field.name]}
+                            onChange={(e) =>
+                              setFormData((prev: any) => ({
+                                ...prev,
+                                customFields: {
+                                  ...prev.customFields,
+                                  [field.name]: e.target.checked,
+                                  [`${field.name}_count`]: e.target.checked
+                                    ? prev.customFields[
+                                        `${field.name}_count`
+                                      ] || 1
+                                    : 1,
+                                },
+                              }))
+                            }
+                            className="h-5 w-5 rounded accent-green-500 border-gray-300  cursor-pointer"
+                          />
+                        </div>
                         <label
-                          htmlFor={field.name}
-                          className="block text-sm font-medium text-gray-700"
+                          htmlFor={`checkbox-${field.name}`}
+                          className="block text-sm font-medium text-gray-700 cursor-pointer flex-1"
                         >
                           {field.label}{" "}
-                          {field.required && (
-                            <span className="text-red-500">*</span>
+                          {field.price > 0 && (
+                            <span className="text-red-500 ml-1">
+                              +{field.price} MAD
+                            </span>
                           )}
                         </label>
-                        <select
-                          id={field.name}
-                          name={field.name}
-                          onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
-                          required={field.required}
-                        >
-                          <option value="">
-                            -- Sélectionnez {field.label} --
+                      </div>
+
+                      {formData.customFields[field.name] && (
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prev: any) => ({
+                                ...prev,
+                                customFields: {
+                                  ...prev.customFields,
+                                  [`${field.name}_count`]: Math.max(
+                                    1,
+                                    (prev.customFields[`${field.name}_count`] ||
+                                      1) - 1,
+                                  ),
+                                },
+                              }))
+                            }
+                            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled={
+                              formData.customFields[`${field.name}_count`] <= 1
+                            }
+                          >
+                            <span className="sr-only">Diminuer</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+
+                          <input
+                            type="number"
+                            name={`${field.name}_count`}
+                            min="1"
+                            value={formData.customFields[`${field.name}_count`]}
+                            onChange={(e) =>
+                              setFormData((prev: any) => ({
+                                ...prev,
+                                customFields: {
+                                  ...prev.customFields,
+                                  [`${field.name}_count`]: Math.max(
+                                    1,
+                                    Number(e.target.value) || 1,
+                                  ),
+                                },
+                              }))
+                            }
+                            className="w-12 text-center border-0 p-0 bg-transparent text-gray-900 focus:ring-0 font-medium text-sm"
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prev: any) => ({
+                                ...prev,
+                                customFields: {
+                                  ...prev.customFields,
+                                  [`${field.name}_count`]:
+                                    (prev.customFields[`${field.name}_count`] ||
+                                      1) + 1,
+                                },
+                              }))
+                            }
+                            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                            <span className="sr-only">Augmenter</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                if (field.type === "select") {
+                  return (
+                    <div className="space-y-1" key={index}>
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        {field.label}{" "}
+                        {field.required && (
+                          <span className="text-red-500">*</span>
+                        )}
+                      </label>
+                      <select
+                        id={field.name}
+                        name={field.name}
+                        onChange={handleChange}
+                        className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border bg-white"
+                        required={field.required}
+                      >
+                        <option value="">
+                          -- Sélectionnez {field.label} --
+                        </option>
+                        {field.options.map((opt: any, i: number) => (
+                          <option key={i} value={opt.value}>
+                            {opt.label}{" "}
+                            {opt.price > 0 ? `(+${opt.price} MAD)` : ""}
                           </option>
-                          {field.options.map((opt: any, i: number) => (
-                            <option key={i} value={opt.value}>
-                              {opt.label}{" "}
-                              {opt.price > 0 ? `(+${opt.price} MAD)` : ""}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    );
-                  }
+                        ))}
+                      </select>
+                    </div>
+                  );
+                }
 
-                  if (field.type === "date") {
-                    return (
-                      <div className="space-y-1" key={index}>
-                        <label
-                          htmlFor={field.name}
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          {field.label}{" "}
-                          {field.required && (
-                            <span className="text-red-500">*</span>
-                          )}
-                        </label>
-                        <input
-                          id={field.name}
-                          type="date"
-                          name={field.name}
-                          onChange={handleChange}
-                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
-                          required={field.required}
-                          max={new Date().toISOString().split("T")[0]}
-                        />
-                      </div>
-                    );
-                  }
+                if (field.type === "date") {
+                  return (
+                    <div className="space-y-1" key={index}>
+                      <label
+                        htmlFor={field.name}
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        {field.label}{" "}
+                        {field.required && (
+                          <span className="text-red-500">*</span>
+                        )}
+                      </label>
+                      <input
+                        id={field.name}
+                        type="date"
+                        name={field.name}
+                        onChange={handleChange}
+                        className="block w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-3 border"
+                        required={field.required}
+                        max={new Date().toISOString().split("T")[0]}
+                      />
+                    </div>
+                  );
+                }
 
-                  return null;
-                })}
+                return null;
+              })}
 
               {/* Booking summary */}
-              <div className="mt-6 border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+              <div className="mt-6 border border-gray-200 rounded-xl p-6 bg-white shadow-sm">
                 <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                   🧾 Résumé de la réservation
                 </h3>
@@ -514,7 +507,7 @@ export default function ReservationsFormDiscover({
                       if (field.type === "select") {
                         const selected = field.options.find(
                           (opt: any) =>
-                            opt.value === formData.customFields[field.name]
+                            opt.value === formData.customFields[field.name],
                         );
 
                         return selected?.price > 0 ? (

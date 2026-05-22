@@ -55,7 +55,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -67,36 +66,18 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { addTour, checkTourIdExists } from "@/actions/toursActions";
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useState,
-} from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { DatetimePicker } from "@/components/ui/datetime-picker";
-import Loading from "@/components/Loading";
 import RichTextEditor from "@/components/ui/rich-text-editor";
-import { get } from "http";
-import { getNatures } from "@/actions/natures";
-import {
-  getInternationalDestinations,
-  getNationalDestinations,
-} from "@/actions/destinations";
-import { Tour } from "@prisma/client";
 import ProgramForm from "@/app/admin/_components/programs-form";
 import DateForm from "@/app/admin/_components/dates-form";
 import StringLoop from "@/app/admin/_components/inclus-exlus-loop";
-import { getFileUrl, uploadFile } from "@/lib/cloudeFlare";
-import sharp from "sharp";
 import { useEffect } from "react";
-import { setgid } from "process";
-import { Switch } from "@radix-ui/react-switch";
+
 import ReservationFormBuilder from "./ReservationFormBuilder";
 import StepForm from "./steps-form";
 import ChecklistForm from "./checklist-form";
+import { TagsInput } from "./TagsInput";
 
 const tourSchema = z.object({
   id: z.string().min(1, "L'identifiant du circuit est requis"),
@@ -119,12 +100,12 @@ const tourSchema = z.object({
       .min(0, "Le prix doit être positif")
       .refine((v) => v !== undefined, {
         message: "Le prix original est requis",
-      })
+      }),
   ),
   priceDiscounted: z.preprocess(
     (val) =>
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
-    z.number().min(0, "Le prix doit être positif").optional()
+    z.number().min(0, "Le prix doit être positif").optional(),
   ),
   discountEndDate: z
     .date()
@@ -134,7 +115,7 @@ const tourSchema = z.object({
   advancedPrice: z.preprocess(
     (val) =>
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
-    z.number().min(0, "Le prix doit être positif").optional()
+    z.number().min(0, "Le prix doit être positif").optional(),
   ),
   dateCard: z.string().min(1, "La date du circuit est requise"),
   durationDays: z.preprocess(
@@ -145,7 +126,7 @@ const tourSchema = z.object({
       .min(1, "Au moins 1 jour")
       .refine((v) => v !== undefined, {
         message: "Le nombre de jours est requis",
-      })
+      }),
   ),
   durationNights: z.preprocess(
     (val) =>
@@ -155,7 +136,7 @@ const tourSchema = z.object({
       .min(0, "Nuits >= 0")
       .refine((v) => v !== undefined, {
         message: "Le nombre de nuits est requis",
-      })
+      }),
   ),
   videoUrl: z
     .string()
@@ -166,6 +147,9 @@ const tourSchema = z.object({
     .instanceof(File, { message: "L'image du circuit est requise" })
     .or(z.literal(""))
     .transform((val) => (val === "" ? undefined : val)),
+  images: z
+    .array(z.instanceof(File, { message: "L'image du circuit est requise" }))
+    .optional(),
   groupType: z.string().min(1, "Le type de groupe est requis"),
   groupSizeMax: z.preprocess(
     (val) =>
@@ -175,7 +159,7 @@ const tourSchema = z.object({
       .min(1, "Taille min 1")
       .refine((v) => v !== undefined, {
         message: "La taille du groupe est requise",
-      })
+      }),
   ),
   showReviews: z.boolean().default(true),
   showChecklist: z.boolean().default(true).optional(),
@@ -202,6 +186,7 @@ const tourSchema = z.object({
     .url("Lien Google Maps invalide")
     .optional()
     .or(z.literal("")),
+  tags: z.array(z.string()).optional(),
   programs: z
     .array(
       z.object({
@@ -216,7 +201,7 @@ const tourSchema = z.object({
               return undefined;
             return val;
           }),
-      })
+      }),
     )
     .optional(),
   bookinSteps: z
@@ -225,7 +210,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   checklist: z
@@ -234,7 +219,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   dates: z
@@ -251,11 +236,11 @@ const tourSchema = z.object({
                 : typeof val === "string"
                   ? Number(val)
                   : val,
-            z.number().min(0, "Le prix doit être positif")
+            z.number().min(0, "Le prix doit être positif"),
           )
           .optional(),
         visible: z.boolean().default(true),
-      })
+      }),
     )
     .optional(),
   destinations: z
@@ -313,6 +298,7 @@ export function AddTourForm({
 }: any) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cardImage, setCardImage] = useState<File[] | null>(null);
+  const [images, setImages] = useState<File[] | null>(null);
   const [reservationFields, setReservationFields] = useState<Field[]>([]);
 
   const form = useForm<z.infer<typeof tourSchema>>({
@@ -324,6 +310,7 @@ export function AddTourForm({
       titleCkecklist: "",
       descriptionCkecklist: "",
       isDiscover: false,
+      tags: [],
       priceOriginal: undefined,
       priceDiscounted: undefined,
       discountEndDate: undefined,
@@ -348,6 +335,7 @@ export function AddTourForm({
       exclus: "",
       extracts: "",
       bookinSteps: [],
+      images: [],
       services: [],
       programs: [],
       dates: [],
@@ -369,7 +357,9 @@ export function AddTourForm({
       form.setValue("imageURL", undefined);
     }
   }, [cardImage, form]);
-
+  const show = () => {
+    console.log(images);
+  };
   async function onSubmit(values: z.infer<typeof tourSchema>) {
     try {
       setIsSubmitting(true);
@@ -397,8 +387,8 @@ export function AddTourForm({
           ? values.arrayExtras.join(";")
           : values.extracts,
       };
-
-      const result = await addTour(formData, reservationFields);
+      console.log("validatedData.images", images);
+      const result = await addTour(formData, reservationFields, images || []);
 
       if (result.success) {
         toast.success("Circuit créé avec succès");
@@ -411,7 +401,7 @@ export function AddTourForm({
         toast.error(
           prismaError?.code
             ? `Erreur Prisma (${prismaError.code}): ${prismaError.message}`
-            : (prismaError?.message ?? "Erreur lors de la création du circuit")
+            : (prismaError?.message ?? "Erreur lors de la création du circuit"),
         );
 
         if (prismaError?.meta) {
@@ -429,22 +419,22 @@ export function AddTourForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Card className="border border-none">
-          <CardContent className=" ">
+        <Card className="shadow-none border-0">
+          <CardContent className=" border-0 shadow-none p-0">
             <div className="space-y-8 ">
               {/* Basic Information */}
-              <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Info className="inline mr-2" />
                   Informations de base
                 </h3>
-                <p className="text-lime-800 text-md  mb-4">
+                <p className="text-[#aa3a0a] text-md  mb-4">
                   Entrez les détails de base du circuit.
                 </p>
                 <Separator className="mb-6" />
 
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 align-middle">
+                  <div className="grid grid-cols-1  gap-4 align-middle">
                     <FormField
                       control={form.control}
                       name="id"
@@ -468,7 +458,7 @@ export function AddTourForm({
                                 if (field.value) {
                                   try {
                                     const res = await checkTourIdExists(
-                                      field.value
+                                      field.value,
                                     );
                                     if (res.exists) {
                                       form.setError("id", {
@@ -489,11 +479,7 @@ export function AddTourForm({
                               }}
                             />
                           </FormControl>
-                          <FormDescription>
-                            L&apos;identifiant du circuit doit être unique.
-                            Veuillez choisir un ID qui n&apos;est pas déjà
-                            utilisé.
-                          </FormDescription>
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -561,6 +547,28 @@ export function AddTourForm({
                                 value={field.value || ""}
                                 onChange={field.onChange}
                                 className="w-full" // Remove max-h and overflow
+                              />
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col items-start w-full">
+                        <FormLabel>Tags</FormLabel>
+                        <FormControl>
+                          <div className="w-full flex justify-start">
+                            <div className="w-full">
+                              <TagsInput
+                                value={field.value || []}
+                                onChange={field.onChange}
+                                className="w-full"
+                                maxTags={5}
                               />
                             </div>
                           </div>
@@ -653,12 +661,12 @@ export function AddTourForm({
                                           value={dest.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              dest.id
+                                              dest.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -677,7 +685,7 @@ export function AddTourForm({
                                               field.value &&
                                                 field.value.includes(dest.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {dest.name}
@@ -705,7 +713,7 @@ export function AddTourForm({
                                 <div className="mt-2 flex flex-wrap gap-2">
                                   {destinations
                                     .filter((dest: any) =>
-                                      field.value.includes(dest.id)
+                                      field.value.includes(dest.id),
                                     )
                                     .map((dest: any) => (
                                       <span
@@ -768,12 +776,12 @@ export function AddTourForm({
                                           value={nature.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              nature.id
+                                              nature.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -792,7 +800,7 @@ export function AddTourForm({
                                               field.value &&
                                                 field.value.includes(nature.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {nature.name}
@@ -821,7 +829,7 @@ export function AddTourForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {natures
                                   .filter((nature: any) =>
-                                    field.value.includes(nature.id)
+                                    field.value.includes(nature.id),
                                   )
                                   .map((nature: any) => (
                                     <span
@@ -881,12 +889,12 @@ export function AddTourForm({
                                           value={cat.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              cat.id
+                                              cat.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -905,7 +913,7 @@ export function AddTourForm({
                                               field.value &&
                                                 field.value.includes(cat.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {cat.name}
@@ -927,7 +935,7 @@ export function AddTourForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {categories
                                   .filter((cat: any) =>
-                                    field.value.includes(cat.id)
+                                    field.value.includes(cat.id),
                                   )
                                   .map((cat: any) => (
                                     <span
@@ -987,12 +995,12 @@ export function AddTourForm({
                                           value={service.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              service.id
+                                              service.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -1011,7 +1019,7 @@ export function AddTourForm({
                                               field.value &&
                                                 field.value.includes(service.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {service.name}
@@ -1033,7 +1041,7 @@ export function AddTourForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {services
                                   .filter((service: any) =>
-                                    field.value.includes(service.id)
+                                    field.value.includes(service.id),
                                   )
                                   .map((service: any) => (
                                     <span
@@ -1076,7 +1084,7 @@ export function AddTourForm({
                             },
                             multiple: true,
                           }}
-                          className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm"
+                          className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm"
                           orientation="vertical"
                         >
                           <FileInput className="border-2 border-dashed p-6 text-center hover:bg-gray-50">
@@ -1088,6 +1096,51 @@ export function AddTourForm({
 
                           <FileUploaderContent className="mt-4">
                             {cardImage?.map((file, index) => (
+                              <FileUploaderItem key={index} index={index}>
+                                <span className="truncate max-w-[200px]">
+                                  {file.name}
+                                </span>
+                              </FileUploaderItem>
+                            ))}
+                          </FileUploaderContent>
+                        </FileUploader>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* images of the tour */}
+                  <FormField
+                    control={form.control}
+                    name="images"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Images</FormLabel>
+                        <FileUploader
+                          {...field}
+                          value={images}
+                          onValueChange={setImages}
+                          dropzoneOptions={{
+                            maxFiles: 10,
+                            maxSize: 20 * 1024 * 1024,
+                            accept: {
+                              "image/*": [".jpg", ".jpeg", ".png", ".gif"],
+                              "application/pdf": [".pdf"],
+                            },
+                            multiple: true,
+                          }}
+                          className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm"
+                          orientation="vertical"
+                        >
+                          <FileInput className="border-2 border-dashed p-6 text-center hover:bg-gray-50">
+                            <p className="text-gray-500">
+                              Glissez-déposez vos fichiers ici ou cliquez pour
+                              parcourir.
+                            </p>
+                          </FileInput>
+
+                          <FileUploaderContent className="mt-4">
+                            {images?.map((file, index) => (
                               <FileUploaderItem key={index} index={index}>
                                 <span className="truncate max-w-[200px]">
                                   {file.name}
@@ -1271,8 +1324,8 @@ export function AddTourForm({
 
               {/* Hotels Information */}
               {/* {form.watch("type") === "INTERNATIONAL" && (
-                <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                  <h3 className="text-lime-600 text-l font-medium">
+                <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                  <h3 className="text-[#f7601f] text-l font-medium">
                     <BedDouble className="inline mr-2" />
                     Informations sur les hotels
                   </h3>
@@ -1394,8 +1447,8 @@ export function AddTourForm({
               )} */}
 
               {/* programms information */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <ClipboardPenLine className="inline mr-2" />
                   Informations sur le programmes
                 </h3>
@@ -1415,14 +1468,14 @@ export function AddTourForm({
                           image: p.image,
                           orderIndex: p.orderIndex ?? idx,
                           imagePreview: p.image, // assuming this is already a URL if it exists
-                        })
+                        }),
                       )}
                       onChange={(programs: any[]) => {
                         form.setValue(
                           "programs",
                           programs
                             .sort((a, b) => a.orderIndex - b.orderIndex)
-                            .map(({ id, imagePreview, ...rest }) => rest)
+                            .map(({ id, imagePreview, ...rest }) => rest),
                         );
                       }}
                     />
@@ -1431,8 +1484,8 @@ export function AddTourForm({
               </div>
 
               {/* Pricing Information */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Banknote className="inline mr-2" />
                   Informations sur les prix
                 </h3>
@@ -1470,11 +1523,11 @@ export function AddTourForm({
                                   discountedPrice < value
                                 ) {
                                   const discountPercent = Math.round(
-                                    ((value - discountedPrice) / value) * 100
+                                    ((value - discountedPrice) / value) * 100,
                                   );
                                   form.setValue(
                                     "discountPercent",
-                                    discountPercent
+                                    discountPercent,
                                   );
                                 } else {
                                   form.setValue("discountPercent", 0);
@@ -1511,11 +1564,11 @@ export function AddTourForm({
                                 ) {
                                   const discountPercent = Math.round(
                                     ((originalPrice - value) / originalPrice) *
-                                      100
+                                      100,
                                   );
                                   form.setValue(
                                     "discountPercent",
-                                    discountPercent
+                                    discountPercent,
                                   );
                                 } else {
                                   form.setValue("discountPercent", 0);
@@ -1606,8 +1659,8 @@ export function AddTourForm({
               </div>
 
               {/* Dates and Duration */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Calendar className="inline mr-2" />
                   Dates et durée
                 </h3>
@@ -1709,7 +1762,7 @@ export function AddTourForm({
                               description: d.description ?? "",
                               price: d.price ?? 0,
                               visible: d.visible ?? true,
-                            })
+                            }),
                           )}
                           onChange={(dates) =>
                             field.onChange(
@@ -1717,7 +1770,7 @@ export function AddTourForm({
                                 startDate:
                                   d.dateDebut &&
                                   Object.prototype.toString.call(
-                                    d.dateDebut
+                                    d.dateDebut,
                                   ) === "[object Date]"
                                     ? d.dateDebut
                                     : new Date(d.dateDebut),
@@ -1728,7 +1781,7 @@ export function AddTourForm({
                                 description: d.description,
                                 price: d.price,
                                 visible: d.visible,
-                              }))
+                              })),
                             )
                           }
                         />
@@ -1745,8 +1798,8 @@ export function AddTourForm({
               </div>
 
               {/* inclus et exclus */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Inclus & Exclus
                 </h3>
@@ -1763,7 +1816,7 @@ export function AddTourForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayInclus",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
@@ -1774,14 +1827,14 @@ export function AddTourForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayExlus",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
                 </div>
               </div>
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Checkliste
                 </h3>
@@ -1861,8 +1914,8 @@ export function AddTourForm({
                   />
                 </div>
               </div>
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <ClipboardType className="inline mr-2" />
                   Autre Checklist
                 </h3>
@@ -1880,7 +1933,7 @@ export function AddTourForm({
                           title: p.title,
                           description: p.description,
                           orderIndex: p.orderIndex ?? idx,
-                        })
+                        }),
                       )}
                       isNewTour={true}
                       onChange={(programs: any[]) => {
@@ -1888,7 +1941,7 @@ export function AddTourForm({
                           "checklist",
                           programs
                             .sort((a, b) => a.orderIndex - b.orderIndex)
-                            .map(({ id, ...rest }) => rest)
+                            .map(({ id, ...rest }) => rest),
                         );
                       }}
                     />
@@ -1896,8 +1949,8 @@ export function AddTourForm({
                 </div>
               </div>
               {/* Extras */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Extras
                 </h3>
@@ -1912,7 +1965,7 @@ export function AddTourForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayExtras",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
@@ -1920,8 +1973,8 @@ export function AddTourForm({
               </div>
 
               {/* Display Options */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <EyeIcon className="inline mr-2" />
                   Options d&apos;affichage
                 </h3>
@@ -2021,8 +2074,8 @@ export function AddTourForm({
             </div>
           </CardContent>
         </Card>
-        <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-          <h3 className="text-lime-600 text-l font-medium">
+        <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+          <h3 className="text-[#f7601f] text-l font-medium">
             <ClipboardType className="inline mr-2" />
             Étapes de Réservation
           </h3>
@@ -2040,7 +2093,7 @@ export function AddTourForm({
                     title: p.title,
                     description: p.description,
                     orderIndex: p.orderIndex ?? idx,
-                  })
+                  }),
                 )}
                 isNewTour={true}
                 onChange={(programs: any[]) => {
@@ -2048,7 +2101,7 @@ export function AddTourForm({
                     "bookinSteps",
                     programs
                       .sort((a, b) => a.orderIndex - b.orderIndex)
-                      .map(({ id, ...rest }) => rest)
+                      .map(({ id, ...rest }) => rest),
                   );
                 }}
               />
@@ -2060,8 +2113,8 @@ export function AddTourForm({
           <CardContent className=" ">
             <div className="space-y-8 ">
               {/* Basic Information */}
-              <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Info className="inline mr-2" />
                   Personnaliser le formulaire de réservation
                 </h3>
@@ -2092,7 +2145,7 @@ export function AddTourForm({
           <Button
             type="submit"
             size="lg"
-            className="bg-lime-600 text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
+            className="bg-[#f7601f] text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
             disabled={
               !form.formState.isValid ||
               form.formState.isSubmitting ||

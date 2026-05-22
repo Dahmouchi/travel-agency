@@ -45,7 +45,7 @@ const Footer = ({
         data.prenom,
         data.email,
         data.phone,
-        data.message
+        data.message,
       );
       if (res) {
         toast.success("Votre message a été envoyé");
@@ -171,7 +171,7 @@ const Footer = ({
         </div>
       </div>
 
-      <div className="bg-[#D97D55] w-full pt-10 md:pt-10 lg:pt-10 pb-4 md:pb-4 px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="bg-[#8EBD22] w-full pt-10 md:pt-10 lg:pt-10 pb-4 md:pb-4 px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 lg:pr-20">
             {/* Logo Section */}
@@ -352,7 +352,7 @@ const Footer = ({
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6">
               <div className="flex items-center space-x-3">
                 {/* Icônes de cartes de paiement avec fallback */}
-                <div className="bg-white p-2 rounded-lg">
+                <div className="bg-white p-2 rounded-xl">
                   {" "}
                   <img
                     src="/icons/Visa_logo.png"
@@ -360,7 +360,7 @@ const Footer = ({
                     alt=""
                   />
                 </div>
-                <div className="bg-white p-2 rounded-lg">
+                <div className="bg-white p-2 rounded-xl">
                   <img
                     src="/icons/Mastercard_logo.png"
                     className="w-auto h-6"

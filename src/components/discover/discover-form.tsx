@@ -122,12 +122,12 @@ const tourSchema = z.object({
       .min(0, "Le prix doit être positif")
       .refine((v) => v !== undefined, {
         message: "Le prix original est requis",
-      })
+      }),
   ),
   priceDiscounted: z.preprocess(
     (val) =>
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
-    z.number().min(0, "Le prix doit être positif").optional()
+    z.number().min(0, "Le prix doit être positif").optional(),
   ),
   discountEndDate: z
     .date()
@@ -137,7 +137,7 @@ const tourSchema = z.object({
   advancedPrice: z.preprocess(
     (val) =>
       val === "" ? undefined : typeof val === "string" ? Number(val) : val,
-    z.number().min(0, "Le prix doit être positif").optional()
+    z.number().min(0, "Le prix doit être positif").optional(),
   ),
   dateCard: z.string().min(1, "La date du circuit est requise"),
   durationDays: z.preprocess(
@@ -148,7 +148,7 @@ const tourSchema = z.object({
       .min(1, "Au moins 1 jour")
       .refine((v) => v !== undefined, {
         message: "Le nombre de jours est requis",
-      })
+      }),
   ),
   durationNights: z.preprocess(
     (val) =>
@@ -158,7 +158,7 @@ const tourSchema = z.object({
       .min(0, "Nuits >= 0")
       .refine((v) => v !== undefined, {
         message: "Le nombre de nuits est requis",
-      })
+      }),
   ),
   videoUrl: z
     .string()
@@ -178,7 +178,7 @@ const tourSchema = z.object({
       .min(1, "Taille min 1")
       .refine((v) => v !== undefined, {
         message: "La taille du groupe est requise",
-      })
+      }),
   ),
   showReviews: z.boolean().default(true),
   showChecklist: z.boolean().default(true).optional(),
@@ -219,7 +219,7 @@ const tourSchema = z.object({
               return undefined;
             return val;
           }),
-      })
+      }),
     )
     .optional(),
   bookinSteps: z
@@ -228,7 +228,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   checklist: z
@@ -237,7 +237,7 @@ const tourSchema = z.object({
         orderIndex: z.number().min(0, "Le prix doit être positif"),
         title: z.string().min(1, "Titre requis"),
         description: z.string().min(1, "Description requise"),
-      })
+      }),
     )
     .optional(),
   dates: z
@@ -254,11 +254,11 @@ const tourSchema = z.object({
                 : typeof val === "string"
                   ? Number(val)
                   : val,
-            z.number().min(0, "Le prix doit être positif")
+            z.number().min(0, "Le prix doit être positif"),
           )
           .optional(),
         visible: z.boolean().default(true),
-      })
+      }),
     )
     .optional(),
   destinations: z
@@ -404,7 +404,7 @@ export function DiscoverForm({
           : values.extracts,
       };
 
-      const result = await addTour(formData, reservationFields);
+      const result = await addTour(formData, reservationFields, []);
 
       if (result.success) {
         toast.success("Circuit créé avec succès");
@@ -417,7 +417,7 @@ export function DiscoverForm({
         toast.error(
           prismaError?.code
             ? `Erreur Prisma (${prismaError.code}): ${prismaError.message}`
-            : (prismaError?.message ?? "Erreur lors de la création du circuit")
+            : (prismaError?.message ?? "Erreur lors de la création du circuit"),
         );
 
         if (prismaError?.meta) {
@@ -439,8 +439,8 @@ export function DiscoverForm({
           <CardContent className=" ">
             <div className="space-y-8 ">
               {/* Basic Information */}
-              <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Info className="inline mr-2" />
                   Informations de base
                 </h3>
@@ -474,7 +474,7 @@ export function DiscoverForm({
                                 if (field.value) {
                                   try {
                                     const res = await checkTourIdExists(
-                                      field.value
+                                      field.value,
                                     );
                                     if (res.exists) {
                                       form.setError("id", {
@@ -659,12 +659,12 @@ export function DiscoverForm({
                                           value={dest.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              dest.id
+                                              dest.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -683,7 +683,7 @@ export function DiscoverForm({
                                               field.value &&
                                                 field.value.includes(dest.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {dest.name}
@@ -711,7 +711,7 @@ export function DiscoverForm({
                                 <div className="mt-2 flex flex-wrap gap-2">
                                   {destinations
                                     .filter((dest: any) =>
-                                      field.value.includes(dest.id)
+                                      field.value.includes(dest.id),
                                     )
                                     .map((dest: any) => (
                                       <span
@@ -774,12 +774,12 @@ export function DiscoverForm({
                                           value={nature.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              nature.id
+                                              nature.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -798,7 +798,7 @@ export function DiscoverForm({
                                               field.value &&
                                                 field.value.includes(nature.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {nature.name}
@@ -827,7 +827,7 @@ export function DiscoverForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {natures
                                   .filter((nature: any) =>
-                                    field.value.includes(nature.id)
+                                    field.value.includes(nature.id),
                                   )
                                   .map((nature: any) => (
                                     <span
@@ -887,12 +887,12 @@ export function DiscoverForm({
                                           value={cat.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              cat.id
+                                              cat.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -911,7 +911,7 @@ export function DiscoverForm({
                                               field.value &&
                                                 field.value.includes(cat.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {cat.name}
@@ -933,7 +933,7 @@ export function DiscoverForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {categories
                                   .filter((cat: any) =>
-                                    field.value.includes(cat.id)
+                                    field.value.includes(cat.id),
                                   )
                                   .map((cat: any) => (
                                     <span
@@ -993,12 +993,12 @@ export function DiscoverForm({
                                           value={service.id}
                                           onSelect={() => {
                                             const currentValue = Array.isArray(
-                                              field.value
+                                              field.value,
                                             )
                                               ? [...field.value]
                                               : [];
                                             const index = currentValue.indexOf(
-                                              service.id
+                                              service.id,
                                             );
                                             if (index === -1) {
                                               field.onChange([
@@ -1017,7 +1017,7 @@ export function DiscoverForm({
                                               field.value &&
                                                 field.value.includes(service.id)
                                                 ? "opacity-100"
-                                                : "opacity-0"
+                                                : "opacity-0",
                                             )}
                                           />
                                           {service.name}
@@ -1039,7 +1039,7 @@ export function DiscoverForm({
                               <div className="mt-2 flex flex-wrap gap-2">
                                 {services
                                   .filter((service: any) =>
-                                    field.value.includes(service.id)
+                                    field.value.includes(service.id),
                                   )
                                   .map((service: any) => (
                                     <span
@@ -1104,7 +1104,7 @@ export function DiscoverForm({
                             },
                             multiple: true,
                           }}
-                          className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm"
+                          className="border border-gray-300 rounded-xl p-4 bg-white shadow-sm"
                           orientation="vertical"
                         >
                           <FileInput className="border-2 border-dashed p-6 text-center hover:bg-gray-50">
@@ -1298,8 +1298,8 @@ export function DiscoverForm({
               </div>
 
               {/* programms information */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <ClipboardPenLine className="inline mr-2" />
                   Informations sur le programmes
                 </h3>
@@ -1319,14 +1319,14 @@ export function DiscoverForm({
                           image: p.image,
                           orderIndex: p.orderIndex ?? idx,
                           imagePreview: p.image, // assuming this is already a URL if it exists
-                        })
+                        }),
                       )}
                       onChange={(programs: any[]) => {
                         form.setValue(
                           "programs",
                           programs
                             .sort((a, b) => a.orderIndex - b.orderIndex)
-                            .map(({ id, imagePreview, ...rest }) => rest)
+                            .map(({ id, imagePreview, ...rest }) => rest),
                         );
                       }}
                     />
@@ -1335,8 +1335,8 @@ export function DiscoverForm({
               </div>
 
               {/* Pricing Information */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Banknote className="inline mr-2" />
                   Informations sur les prix
                 </h3>
@@ -1374,11 +1374,11 @@ export function DiscoverForm({
                                   discountedPrice < value
                                 ) {
                                   const discountPercent = Math.round(
-                                    ((value - discountedPrice) / value) * 100
+                                    ((value - discountedPrice) / value) * 100,
                                   );
                                   form.setValue(
                                     "discountPercent",
-                                    discountPercent
+                                    discountPercent,
                                   );
                                 } else {
                                   form.setValue("discountPercent", 0);
@@ -1415,11 +1415,11 @@ export function DiscoverForm({
                                 ) {
                                   const discountPercent = Math.round(
                                     ((originalPrice - value) / originalPrice) *
-                                      100
+                                      100,
                                   );
                                   form.setValue(
                                     "discountPercent",
-                                    discountPercent
+                                    discountPercent,
                                   );
                                 } else {
                                   form.setValue("discountPercent", 0);
@@ -1509,8 +1509,8 @@ export function DiscoverForm({
                 </div>
               </div>
 
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Calendar className="inline mr-2" />
                   Dates et durée
                 </h3>
@@ -1574,8 +1574,8 @@ export function DiscoverForm({
               </div>
 
               {/* inclus et exclus */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Inclus & Exclus
                 </h3>
@@ -1592,7 +1592,7 @@ export function DiscoverForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayInclus",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
@@ -1603,14 +1603,14 @@ export function DiscoverForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayExlus",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
                 </div>
               </div>
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Checkliste
                 </h3>
@@ -1690,8 +1690,8 @@ export function DiscoverForm({
                   />
                 </div>
               </div>
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <ClipboardType className="inline mr-2" />
                   Autre Checklist
                 </h3>
@@ -1709,7 +1709,7 @@ export function DiscoverForm({
                           title: p.title,
                           description: p.description,
                           orderIndex: p.orderIndex ?? idx,
-                        })
+                        }),
                       )}
                       isNewTour={true}
                       onChange={(programs: any[]) => {
@@ -1717,7 +1717,7 @@ export function DiscoverForm({
                           "checklist",
                           programs
                             .sort((a, b) => a.orderIndex - b.orderIndex)
-                            .map(({ id, ...rest }) => rest)
+                            .map(({ id, ...rest }) => rest),
                         );
                       }}
                     />
@@ -1725,8 +1725,8 @@ export function DiscoverForm({
                 </div>
               </div>
               {/* Extras */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <CheckSquare className="inline mr-2" />
                   Extras
                 </h3>
@@ -1741,7 +1741,7 @@ export function DiscoverForm({
                     onChange={(value) => {
                       form.setValue(
                         "arrayExtras",
-                        Array.isArray(value) ? value : [value]
+                        Array.isArray(value) ? value : [value],
                       );
                     }}
                   />
@@ -1749,8 +1749,8 @@ export function DiscoverForm({
               </div>
 
               {/* Display Options */}
-              <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <EyeIcon className="inline mr-2" />
                   Options d&apos;affichage
                 </h3>
@@ -1850,8 +1850,8 @@ export function DiscoverForm({
             </div>
           </CardContent>
         </Card>
-        <div className="space-y-4 p-6 rounded-lg shadow-lg border border-gray-200">
-          <h3 className="text-lime-600 text-l font-medium">
+        <div className="space-y-4 p-6 rounded-xl shadow-lg border border-gray-200">
+          <h3 className="text-[#f7601f] text-l font-medium">
             <ClipboardType className="inline mr-2" />
             Étapes de Réservation
           </h3>
@@ -1869,7 +1869,7 @@ export function DiscoverForm({
                     title: p.title,
                     description: p.description,
                     orderIndex: p.orderIndex ?? idx,
-                  })
+                  }),
                 )}
                 isNewTour={true}
                 onChange={(programs: any[]) => {
@@ -1877,7 +1877,7 @@ export function DiscoverForm({
                     "bookinSteps",
                     programs
                       .sort((a, b) => a.orderIndex - b.orderIndex)
-                      .map(({ id, ...rest }) => rest)
+                      .map(({ id, ...rest }) => rest),
                   );
                 }}
               />
@@ -1889,8 +1889,8 @@ export function DiscoverForm({
           <CardContent className=" ">
             <div className="space-y-8 ">
               {/* Basic Information */}
-              <div className="space-y-4 p-6 shadow-lg rounded-lg border border-gray-200">
-                <h3 className="text-lime-600 text-l font-medium">
+              <div className="space-y-4 p-6 shadow-lg rounded-xl border border-gray-200">
+                <h3 className="text-[#f7601f] text-l font-medium">
                   <Info className="inline mr-2" />
                   Personnaliser le formulaire de réservation
                 </h3>
@@ -1921,7 +1921,7 @@ export function DiscoverForm({
           <Button
             type="submit"
             size="lg"
-            className="bg-lime-600 text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
+            className="bg-[#f7601f] text-white hover:bg-lime-700 hover:cursor-pointer mr-8"
             disabled={
               !form.formState.isValid ||
               form.formState.isSubmitting ||

@@ -17,13 +17,13 @@ import { toast } from "react-toastify";
 
 const ConditionGenerale = ({ section }: { section?: any }) => {
   const [activeTab, setActiveTab] = useState<"condition" | "plitique">(
-    "condition"
+    "condition",
   );
   const [conditionContent, setConditionContent] = useState(
-    section?.condition || ""
+    section?.condition || "",
   );
   const [politiqueContent, setPolitiqueContent] = useState(
-    section?.plitique || ""
+    section?.plitique || "",
   );
   const [isSaving, setIsSaving] = useState(false);
 
@@ -42,7 +42,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
             type === "condition"
               ? "Conditions Générales"
               : "Politique de Confidentialité"
-          } sauvegardées avec succès!`
+          } sauvegardées avec succès!`,
         );
       } else {
         throw new Error(result.error);
@@ -60,11 +60,11 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
       <Card>
         <CardHeader className="pb-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
+            <div className="p-2 bg-blue-100 rounded-xl">
               {activeTab === "condition" ? (
-                <FileText className="w-5 h-5 text-[#D97D55]" />
+                <FileText className="w-5 h-5 text-[#8EBD22]" />
               ) : (
-                <ShieldCheck className="w-5 h-5 text-[#D97D55]" />
+                <ShieldCheck className="w-5 h-5 text-[#8EBD22]" />
               )}
             </div>
             <div>
@@ -84,7 +84,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
             <button
               className={`px-4 py-2 font-medium ${
                 activeTab === "condition"
-                  ? "text-[#D97D55] border-b-2 border-[#D97D55]"
+                  ? "text-[#8EBD22] border-b-2 border-[#8EBD22]"
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab("condition")}
@@ -94,7 +94,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
             <button
               className={`px-4 py-2 font-medium ${
                 activeTab === "plitique"
-                  ? "text-[#D97D55] border-b-2 border-[#D97D55]"
+                  ? "text-[#8EBD22] border-b-2 border-[#8EBD22]"
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab("plitique")}
@@ -116,7 +116,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={() => handleSave("condition")}
-                    className="px-6 py-2 bg-[#D97D55] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
+                    className="px-6 py-2 bg-[#8EBD22] text-white rounded-xl hover:bg-[#7daa1f] transition-colors"
                   >
                     Enregistrer les modifications
                   </button>
@@ -132,7 +132,7 @@ const ConditionGenerale = ({ section }: { section?: any }) => {
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={() => handleSave("plitique")}
-                    className="px-6 py-2 bg-[#D97D55] text-white rounded-lg hover:bg-[#7daa1f] transition-colors"
+                    className="px-6 py-2 bg-[#8EBD22] text-white rounded-xl hover:bg-[#7daa1f] transition-colors"
                   >
                     Enregistrer les modifications
                   </button>

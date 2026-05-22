@@ -1,13 +1,13 @@
-"use client"
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 
 import {
   DndContext,
@@ -16,20 +16,20 @@ import {
   useSensor,
   useSensors,
   useDroppable,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
   arrayMove,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import dynamic from 'next/dynamic';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import dynamic from "next/dynamic";
 
-const SortableItem = dynamic(() => import('./SortableItem'), { ssr: false });
+const SortableItem = dynamic(() => import("./SortableItem"), { ssr: false });
 interface StringLoopProps {
   title: string;
-  type: 'inclus' | 'exclus' | 'extracts';
+  type: "inclus" | "exclus" | "extracts";
   description?: string;
   value?: string[];
   onChange: (value: string[]) => void;
@@ -43,9 +43,9 @@ const StringLoop: React.FC<StringLoopProps> = ({
   onChange,
 }) => {
   const [strings, setStrings] = useState<string[]>(value ?? []);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState<string>('');
+  const [editValue, setEditValue] = useState<string>("");
 
   useEffect(() => {
     onChange(strings);
@@ -59,7 +59,7 @@ const StringLoop: React.FC<StringLoopProps> = ({
     setStrings((prev) => prev.filter((_, i) => i !== index));
     if (editIndex === index) {
       setEditIndex(null);
-      setEditValue('');
+      setEditValue("");
     }
   };
 
@@ -74,17 +74,17 @@ const StringLoop: React.FC<StringLoopProps> = ({
         prev.map((item, i) => (i === index ? editValue.trim() : item))
       );
       setEditIndex(null);
-      setEditValue('');
+      setEditValue("");
     }
   };
 
-  const badgeVariant = type === 'inclus' ? 'default' : 'destructive';
+  const badgeVariant = type === "inclus" ? "default" : "destructive";
   const badgeClassName =
-    type === 'inclus'
-      ? 'bg-lime-600 text-white'
-      : type === 'extracts'
-      ? 'bg-blue-600 text-white'
-      : '';
+    type === "inclus"
+      ? "bg-[#f7601f] text-white"
+      : type === "extracts"
+        ? "bg-blue-600 text-white"
+        : "";
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -105,7 +105,7 @@ const StringLoop: React.FC<StringLoopProps> = ({
           <Badge variant={badgeVariant} className={badgeClassName}>
             {type}
           </Badge>
-          {type !== 'extracts' && <span className="text-red-600">*</span>}
+          {type !== "extracts" && <span className="text-red-600">*</span>}
         </CardTitle>
         {description && <p className="text-sm text-gray-600">{description}</p>}
       </CardHeader>
@@ -123,21 +123,21 @@ const StringLoop: React.FC<StringLoopProps> = ({
             onClick={() => {
               if (inputValue.trim()) {
                 const newItems = inputValue
-                  .split(';')
+                  .split(";")
                   .map((s) => s.trim())
                   .filter((s) => s);
                 setStrings((prev) => [...prev, ...newItems]);
-                setInputValue('');
+                setInputValue("");
               }
             }}
-            className=" w-full sm:w-auto bg-lime-600 hover:bg-lime-700 text-white"
+            className=" w-full sm:w-auto bg-[#f7601f] hover:bg-lime-700 text-white"
           >
             Ajouter
           </Button>
         </div>
 
-        {(strings.length > 1 || (strings.length === 1 && strings[0].trim() !== '')) ? (
-          
+        {strings.length > 1 ||
+        (strings.length === 1 && strings[0].trim() !== "") ? (
           <div className="space-y-2">
             <h4 className="font-semibold text-sm my-2">
               {type} ({strings.length}):
@@ -153,22 +153,22 @@ const StringLoop: React.FC<StringLoopProps> = ({
                 strategy={verticalListSortingStrategy}
               >
                 <div className="max-h-60 overflow-y-auto space-y-1">
-                    {strings.map((string, index) =>
-                    string.trim() !== '' ? (
+                  {strings.map((string, index) =>
+                    string.trim() !== "" ? (
                       <SortableItem
-                      key={index}
-                      id={index.toString()}
-                      string={string}
-                      index={index}
-                      editIndex={editIndex}
-                      editValue={editValue}
-                      startEdit={startEdit}
-                      saveEdit={saveEdit}
-                      setEditValue={setEditValue}
-                      removeString={removeString}
+                        key={index}
+                        id={index.toString()}
+                        string={string}
+                        index={index}
+                        editIndex={editIndex}
+                        editValue={editValue}
+                        startEdit={startEdit}
+                        saveEdit={saveEdit}
+                        setEditValue={setEditValue}
+                        removeString={removeString}
                       />
                     ) : null
-                    )}
+                  )}
                 </div>
               </SortableContext>
             </DndContext>

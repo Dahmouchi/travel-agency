@@ -58,7 +58,7 @@ const FlightCard = ({
         <div className="line-clamp-2 my-3  ">
           <SafeHTML html={name} />
         </div>
-        <div className="text flex items-center gap-2 text-gray-50  w-fit bg-blue-600 bg-opacity-80 px-3 py-1 rounded-full">
+        <div className="text flex items-center gap-2 text-gray-50  w-fit bg-[#8EBD22] bg-opacity-80 px-3 py-1 rounded-full">
           <MapIcon className="w-3" />
           <p className="text-xs ">Departure : {departure}</p>
         </div>
@@ -67,7 +67,7 @@ const FlightCard = ({
         <div className="flex justify-between items-center w-full gap-2">
           <Link
             href={`/discover-morocco/${tourid}`}
-            className="bg-[#D97D55] carddd rounded-lg cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
+            className="bg-[#8EBD22] hover:bg-[#56DFCF]  rounded-xl cursor-pointer shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)] flex itce justify-between px-4 py-3 w-full text-white"
           >
             <Eye className="w-6 h-6" />
             <span className="text-white w-full text-center select-none">

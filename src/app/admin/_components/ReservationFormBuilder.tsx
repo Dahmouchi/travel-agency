@@ -54,7 +54,7 @@ export default function ReservationFormBuilder({
     index: number,
     optionIndex: number,
     field: keyof FieldOption,
-    value: string | number
+    value: string | number,
   ) => {
     const updated = [...fields];
     if (!updated[index].options) return;
@@ -117,7 +117,7 @@ export default function ReservationFormBuilder({
 
         <div
           onClick={addField}
-          className="col-span-2 cursor-pointer text-center bg-[#D97D55] text-white px-4 py-2 rounded-lg hover:bg-[#7DA61D]"
+          className="col-span-2 cursor-pointer text-center bg-[#8EBD22] text-white px-4 py-2 rounded-xl hover:bg-[#7DA61D]"
         >
           Add Field
         </div>
@@ -169,7 +169,7 @@ export default function ReservationFormBuilder({
                         index,
                         optIndex,
                         "price",
-                        Number(e.target.value)
+                        Number(e.target.value),
                       )
                     }
                     placeholder="Price"
@@ -177,7 +177,7 @@ export default function ReservationFormBuilder({
                 </div>
               ))}
               <div
-                className="text-[#D97D55] cursor-pointer"
+                className="text-[#8EBD22] cursor-pointer"
                 onClick={() => {
                   const updated = [...fields];
                   if (!updated[index].options) updated[index].options = [];
@@ -202,7 +202,7 @@ export default function ReservationFormBuilder({
         {onSubmit && (
           <button
             onClick={() => onSubmit(fields)}
-            className="mt-4 bg-[#D97D55] text-white hover:bg-[#7DA61D] hover:cursor-pointer mr-8 px-4 py-2 rounded"
+            className="mt-4 bg-[#8EBD22] text-white hover:bg-[#7DA61D] hover:cursor-pointer mr-8 px-4 py-2 rounded"
           >
             Enregistrer
           </button>

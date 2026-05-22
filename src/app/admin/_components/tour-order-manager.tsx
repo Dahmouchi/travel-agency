@@ -46,10 +46,10 @@ export default function TourOrderManager({
 }: TourOrderManagerProps) {
   const [nationalTours, setNationalTours] = useState(initialNationalTours);
   const [internationalTours, setInternationalTours] = useState(
-    initialInternationalTours
+    initialInternationalTours,
   );
   const [activeTab, setActiveTab] = useState<"NATIONAL" | "INTERNATIONAL">(
-    "NATIONAL"
+    "NATIONAL",
   );
   const [isSaving, setIsSaving] = useState(false);
 
@@ -70,7 +70,7 @@ export default function TourOrderManager({
         delay: 100, // 👈 small delay before activating drag
         tolerance: 5,
       },
-    })
+    }),
   );
   const [open, setOpen] = useState(false);
 
@@ -101,7 +101,7 @@ export default function TourOrderManager({
         toursToUpdate.map((tour, index) => ({
           id: tour.id,
           orderIndex: index + 1,
-        }))
+        })),
       );
       toast.success("Modifié avec succès");
     } finally {
@@ -122,7 +122,7 @@ export default function TourOrderManager({
               variant={activeTab === "NATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "NATIONAL"
-                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
+                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("NATIONAL")}
@@ -133,7 +133,7 @@ export default function TourOrderManager({
               variant={activeTab === "INTERNATIONAL" ? "default" : "outline"}
               className={
                 activeTab === "INTERNATIONAL"
-                  ? "bg-[#D97D55] hover:bg-[#7DA61D]"
+                  ? "bg-[#8EBD22] hover:bg-[#7DA61D]"
                   : ""
               }
               onClick={() => setActiveTab("INTERNATIONAL")}
@@ -164,7 +164,7 @@ export default function TourOrderManager({
               {currentTours.map((tour) => (
                 <SortableItem key={tour.id} id={tour.id}>
                   <div
-                    className="flex items-center justify-between  p-4 border rounded-lg bg-background hover:bg-accent"
+                    className="flex items-center justify-between  p-4 border rounded-xl bg-background hover:bg-accent"
                     style={{ touchAction: "none" }} // 👈 Important for mobile dragging
                   >
                     <div className="flex items-center space-x-4 cursor-move">
@@ -182,8 +182,8 @@ export default function TourOrderManager({
                               setOpen(true);
                             }}
                           >
-                            <Archive className="w-5 h-5 cursor-pointer text-[#D97D55] group-hover:scale-110 transition-transform" />
-                            <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#D97D55]/70" />
+                            <Archive className="w-5 h-5 cursor-pointer text-[#8EBD22] group-hover:scale-110 transition-transform" />
+                            <Box className="absolute -bottom-1 -right-1 w-3 h-3 text-[#8EBD22]/70" />
                           </div>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -208,7 +208,7 @@ export default function TourOrderManager({
                                   const result = await archiveTour(tour.id); // Replace with your archive function
                                   if (!result?.success) {
                                     throw new Error(
-                                      "Échec de l'archivage du tour"
+                                      "Échec de l'archivage du tour",
                                     );
                                   }
                                   toast.success("Tour archivé avec succès");
@@ -216,7 +216,7 @@ export default function TourOrderManager({
                                   window.location.reload();
                                 } catch (error) {
                                   toast.error(
-                                    `Échec de l'archivage : ${String(error)}`
+                                    `Échec de l'archivage : ${String(error)}`,
                                   );
                                   setOpen(false);
                                 }

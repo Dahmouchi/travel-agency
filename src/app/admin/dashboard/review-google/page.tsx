@@ -97,7 +97,7 @@ export default function BlogManagementPage() {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedFileProfil, setSelectedFileProfil] = useState<File | null>(
-    null
+    null,
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +109,7 @@ export default function BlogManagementPage() {
   };
 
   const handleFileChangeProfile = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -151,7 +151,7 @@ export default function BlogManagementPage() {
   const filteredBlogs = blogs.filter(
     (blog) =>
       blog.authorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (blog.text && blog.text.toLowerCase().includes(searchTerm.toLowerCase()))
+      (blog.text && blog.text.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -253,7 +253,7 @@ export default function BlogManagementPage() {
     const colors = [
       "bg-red-500",
       "bg-blue-500",
-      "bg-green-500",
+      "bg-[#8EBD22]",
       "bg-purple-500",
       "bg-pink-500",
       "bg-yellow-500",
@@ -532,7 +532,7 @@ export default function BlogManagementPage() {
                           control={form.control}
                           name="status"
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                            <FormItem className="flex flex-row items-center justify-between rounded-xl border p-4">
                               <div className="space-y-0.5">
                                 <FormLabel>Statut</FormLabel>
                                 <FormDescription>
@@ -613,7 +613,7 @@ export default function BlogManagementPage() {
               return (
                 <div key={review.id}>
                   <motion.div
-                    className="bg-white text-slate-700 p-4 rounded-lg mb-4 shadow-lg h-full"
+                    className="bg-white text-slate-700 p-4 rounded-xl mb-4 shadow-lg h-full"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
@@ -769,7 +769,7 @@ const GoogleMapsReview = ({ review }: any) => {
 
   return (
     <motion.div
-      className="bg-white text-slate-700 p-4 rounded-lg mb-4 shadow-lg"
+      className="bg-white text-slate-700 p-4 rounded-xl mb-4 shadow-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -847,7 +847,7 @@ const GoogleMapsReview = ({ review }: any) => {
           {review.photos.map((photo: any, index: any) => (
             <motion.div
               key={index}
-              className="relative aspect-video rounded-lg overflow-hidden cursor-pointer group"
+              className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group"
               whileHover={{ scale: 1.02 }}
               onClick={() => setSelectedPhoto(photo)}
             >

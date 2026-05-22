@@ -23,12 +23,15 @@ interface Program {
 
 interface ProgramFormProps {
   steps: Program[];
-  isNewTour?: boolean; 
+  isNewTour?: boolean;
   onChange: (steps: Program[]) => void;
-
 }
 
-const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => {
+const StepForm: React.FC<ProgramFormProps> = ({
+  steps,
+  isNewTour,
+  onChange,
+}) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState<string | null>(null);
   const [newProgram, setNewProgram] = useState<
@@ -36,7 +39,6 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
   >({
     title: "",
     description: "",
-   
   });
   const [initialized, setInitialized] = useState(false);
 
@@ -46,21 +48,24 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
         {
           id: uuidv4(),
           title: "Vérifier la disponibilité 23",
-          description: "Remplir le formulaire de réservation et contactez nous sur 0628324880 pour vérifier la disponibilité des places.",
-          orderIndex: 0
+          description:
+            "Remplir le formulaire de réservation et contactez nous sur 0628324880 pour vérifier la disponibilité des places.",
+          orderIndex: 0,
         },
         {
           id: uuidv4(),
           title: "Effectuer le virement 23",
-          description: "Faire la réservation par virement bancaire à notre RIB.<br/>RIB: 007 810 0004494000304008 16",
-          orderIndex: 1
+          description:
+            "Faire la réservation par virement bancaire à notre RIB.<br/>RIB: 007 810 0004494000304008 16",
+          orderIndex: 1,
         },
         {
           id: uuidv4(),
           title: "Envoyer le reçu 23",
-          description: "Renvoyer le reçu du virement via Whatsapp (+212 628 32 48 80) avec le nom et prénom du participant",
-          orderIndex: 2
-        }
+          description:
+            "Renvoyer le reçu du virement via Whatsapp (+212 628 32 48 80) avec le nom et prénom du participant",
+          orderIndex: 2,
+        },
       ];
       onChange(defaultSteps);
       setInitialized(true);
@@ -81,7 +86,6 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
       setNewProgram({
         title: "",
         description: "",
- 
       });
       setShowAddForm(false);
     }
@@ -126,7 +130,6 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
       setNewProgram({
         title: programToEdit.title,
         description: programToEdit.description,
-       
       });
       setEditingProgramId(id);
       setShowAddForm(true);
@@ -146,13 +149,12 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
               ...newProgram, // Update with new values
               orderIndex: program.orderIndex, // Explicitly preserve orderIndex
             }
-          : program
+          : program,
       );
       onChange(updatedsteps);
       setNewProgram({
         title: "",
         description: "",
-     
       });
       setEditingProgramId(null);
       setShowAddForm(false);
@@ -165,7 +167,7 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
       const reader = new FileReader();
       reader.onload = (e) => {
         setNewProgram((prev) => ({
-          ...prev,     
+          ...prev,
         }));
       };
       reader.readAsDataURL(file);
@@ -177,14 +179,12 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
     setEditingProgramId(null);
     setNewProgram({
       title: "",
-      description: "",  
+      description: "",
     });
   };
 
   // Sort steps by orderIndex before rendering
-  const sortedsteps = [...steps].sort(
-    (a, b) => a.orderIndex - b.orderIndex
-  );
+  const sortedsteps = [...steps].sort((a, b) => a.orderIndex - b.orderIndex);
 
   return (
     <div className="space-y-6">
@@ -206,10 +206,9 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
             >
               <CardContent className="px-6 w-full">
                 <div className="flex items-start gap-4">
-                 
                   <div className="flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-lime-600 text-sm font-medium rounded-full">
+                      <span className="inline-flex items-center justify-center w-6 h-6 bg-lime-100 text-[#f7601f] text-sm font-medium rounded-full">
                         {program.orderIndex + 1}
                       </span>
 
@@ -373,7 +372,7 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
       ${
         !newProgram.title.trim() || !newProgram.description.trim()
           ? "bg-gray-400 cursor-not-allowed"
-          : "bg-lime-600 hover:bg-lime-700"
+          : "bg-[#f7601f] hover:bg-lime-700"
       }
       text-white text-sm font-medium
       transition-colors duration-200
@@ -408,7 +407,7 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
       {!showAddForm && (
         <div
           onClick={() => setShowAddForm(true)}
-          className="w-full border-2 flex items-center justify-center rounded-lg border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
+          className="w-full border-2 flex items-center justify-center rounded-xl border-dashed border-gray-300 hover:border-lime-400 hover:bg-lime-50 transition-all duration-200 py-8"
         >
           <Plus className="w-5 h-5 mr-2 text-muted-foreground" />
           <span className="text-muted-foreground">Ajouter une étape</span>
@@ -422,8 +421,8 @@ const StepForm: React.FC<ProgramFormProps> = ({ steps,isNewTour, onChange }) => 
             Aucun étape ajouté pour le moment
           </p>
           <p className="text-sm">
-            Cliquez sur &quot;Ajouter une étape&quot; pour créer votre
-            premier étape de résérvation
+            Cliquez sur &quot;Ajouter une étape&quot; pour créer votre premier
+            étape de résérvation
           </p>
         </div>
       )}

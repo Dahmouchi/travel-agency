@@ -114,7 +114,7 @@ export default function RichTextEditor({
 
   return (
     <div
-      className={`w-full mx-auto border rounded-lg bg-white shadow-sm ${className}`}
+      className={`w-full mx-auto border rounded-xl bg-white shadow-sm ${className}`}
       style={style}
     >
       {/* Toolbar */}

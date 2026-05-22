@@ -26,7 +26,7 @@ export function TourInactiveNotice() {
             >
               Voir nos autres voyages
             </Button>
-            <Button className="bg-[#D97D55] hover:bg-[#7DAF1F]">
+            <Button className="bg-[#8EBD22] hover:bg-[#7DAF1F]">
               Nous contacter
             </Button>
           </div>

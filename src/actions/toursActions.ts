@@ -28,7 +28,9 @@ async function uploadImage(imageURL: File): Promise<string> {
 }
 
 const prisma = new PrismaClient();
-
+function generateId(tag: string) {
+  return tag + Date.now().toString();
+}
 function getCorrectId(id: string) {
   return id
     .normalize("NFD")
@@ -44,12 +46,21 @@ function getCorrectId(id: string) {
 
 export async function addTour(
   validatedData: any,
-  reservationFormFields: any[]
+  reservationFormFields: any[],
+  imagess: File[]
 ) {
   try {
     let imgUrl = "";
     if (validatedData.imageURL) {
       imgUrl = await uploadImage(validatedData.imageURL);
+    }
+    let imagesUrls: string[] = [];
+    console.log("Images received:", imagess);
+    if (imagess) {
+      const imagesToProcess = Array.isArray(imagess) ? imagess : [imagess];
+      imagesUrls = await Promise.all(
+        imagesToProcess.map((image: File) => uploadImage(image))
+      );
     }
 
     const tour = await prisma.tour.create({
@@ -59,6 +70,14 @@ export async function addTour(
         title: validatedData.title,
         villeDepart: validatedData.villeDepart,
         ville: validatedData.ville,
+        images:
+          imagesUrls.length > 0
+            ? {
+                create: imagesUrls.map((image: string) => ({
+                  url: image,
+                })),
+              }
+            : undefined,
         titleCkecklist: validatedData.titleCkecklist,
         descriptionCkecklist: validatedData.descriptionCkecklist,
         reservationForm: {
@@ -107,14 +126,18 @@ export async function addTour(
         difficultyLevel: validatedData.difficultyLevel,
         discountPercent: validatedData.discountPercent,
         accommodationType: validatedData.accommodationType,
-
+        tags: {
+          create: validatedData.tags.map((tag: string) => ({
+            name: tag,
+          })),
+        },
         dates: validatedData.dates
           ? {
               create: validatedData.dates.map((dateObj: any) => ({
                 startDate: dateObj.startDate,
                 endDate: dateObj.endDate,
                 description: dateObj.description,
-                price: dateObj.price ?? 0,
+                price: dateObj.price ?? validatedData.priceOriginal,
                 visible: dateObj.visible ?? true,
               })),
             }

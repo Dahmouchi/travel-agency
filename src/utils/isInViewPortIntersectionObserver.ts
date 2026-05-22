@@ -13,7 +13,7 @@ const checkInViewIntersectionObserver = ({
 }: InviewPortType) => {
   const _funCallback: IntersectionObserverCallback = (
     entries: IntersectionObserverEntry[],
-    observer: IntersectionObserver
+    observer: IntersectionObserver,
   ) => {
     entries.map((entry: IntersectionObserverEntry) => {
       if (entry.isIntersecting) {
@@ -31,13 +31,13 @@ const checkInViewIntersectionObserver = ({
   // _checkBrowserSupport-----
   if (typeof window.IntersectionObserver === "undefined") {
     console.error(
-      "window.IntersectionObserver === undefined! => Your Browser is Notsupport"
+      "window.IntersectionObserver === undefined! => Your Browser is Notsupport",
     );
     return;
   }
 
   const observer = new IntersectionObserver(_funCallback, options);
-  target && observer.observe(target);
+  if (target) observer.observe(target);
 };
 
 export default checkInViewIntersectionObserver;

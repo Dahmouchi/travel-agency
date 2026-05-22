@@ -22,7 +22,7 @@ const poppins = Poppins({
 });
 export const metadata: Metadata = {
   icons: {
-    icon: "/logo.png",
+    icon: "/horizontal1.png",
   },
   title: "HappyTrip",
   description: "Welcome to happytrip website",
@@ -35,11 +35,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} relative`}>
+      <body className={`${inter.className} relative overflow-x-hidden`}>
         <FacebookPixelWrapper />
         <FacebookPageView />
         <NextAuthProvider>
-          <div className="overflow-x-hidden">{children}</div>
+          <div>{children}</div>
         </NextAuthProvider>
         <ToastContainer
           position="top-right"

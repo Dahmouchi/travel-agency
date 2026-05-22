@@ -42,13 +42,13 @@ export function MonthlyFeaturedTours({
   // Navigation
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === activeTours.length - 1 ? 0 : prevIndex + 1
+      prevIndex === activeTours.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? activeTours.length - 1 : prevIndex - 1
+      prevIndex === 0 ? activeTours.length - 1 : prevIndex - 1,
     );
   };
 
@@ -100,7 +100,7 @@ export function MonthlyFeaturedTours({
   return (
     <div className="relative py-16 lg:px-16 overflow-hidden">
       {/* Fond décoratif avec motif */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-70">
+      <div className="absolute inset-0 ">
         <div
           className="absolute inset-0"
           style={{
@@ -124,13 +124,13 @@ export function MonthlyFeaturedTours({
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-block mb-3 px-4 py-1 bg-gradient-to-r from-[#D97D55] to-[#b0f70a] rounded-full text-white text-sm font-medium"
+            className="inline-block mb-3 px-4 py-1 bg-[#8EBD22] rounded-full text-white text-sm font-medium"
           >
             <TrendingUp className="inline-block w-4 h-4 mr-1 -mt-0.5" />
             Tendances
           </motion.div>
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#719912] via-[#b0f70a] to-[#719912] inline-block text-transparent bg-clip-text"
+            className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#8EBD22] via-[#56DFCF] to-[#8EBD22] inline-block text-transparent bg-clip-text"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.7 }}
@@ -172,7 +172,7 @@ export function MonthlyFeaturedTours({
               </div>
 
               {/* Overlay dégradé */}
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-purple-900/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />
 
               {/* Badge promo conditionnel */}
               {currentTour.priceOriginal !== currentTour.priceDiscounted && (
@@ -253,10 +253,6 @@ export function MonthlyFeaturedTours({
             <motion.div className="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 md:p-8 flex lg:flex-col flex-col-reverse">
               {/* Badge "Voyage du mois" */}
               <div>
-                <div className="inline-block px-4 py-1 bg-gradient-to-r from-purple-100 to-indigo-100 text-[#719912] rounded-full text-sm font-medium mb-4">
-                  ✨ Voyage du mois
-                </div>
-
                 <h4 className="text-xl font-bold mb-4">
                   Pourquoi nous l&apos;adorons
                 </h4>
@@ -269,7 +265,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <Star className="w-4 h-4 text-[#D97D55]" />
+                      <Star className="w-4 h-4 text-[#8EBD22]" />
                     </div>
                     <div>
                       <span className="font-medium block">
@@ -286,7 +282,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <Clock className="w-4 h-4 text-[#D97D55]" />
+                      <Clock className="w-4 h-4 text-[#8EBD22]" />
                     </div>
                     <div>
                       <span className="font-medium block">Période idéale</span>
@@ -301,7 +297,7 @@ export function MonthlyFeaturedTours({
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="bg-purple-100 rounded-full p-2 mr-3 mt-0.5">
-                      <MapPin className="w-4 h-4 text-[#D97D55]" />
+                      <MapPin className="w-4 h-4 text-[#8EBD22]" />
                     </div>
                     <div>
                       <span className="font-medium block">
@@ -324,7 +320,7 @@ export function MonthlyFeaturedTours({
                     {activeTours.slice(0, 9).map((tour, index) => (
                       <motion.div
                         key={tour.id}
-                        className={`relative min-w-[6rem] rounded-lg overflow-hidden cursor-pointer h-20 ${index === currentIndex ? "ring-2 ring-[#D97D55]" : ""}`}
+                        className={`relative min-w-[6rem] rounded-xl overflow-hidden cursor-pointer h-20 ${index === currentIndex ? "ring-2 ring-[#8EBD22]" : ""}`}
                         onClick={() => goToSlide(index)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
@@ -339,7 +335,7 @@ export function MonthlyFeaturedTours({
                         {index === currentIndex && (
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="bg-white rounded-full p-1">
-                              <div className="bg-[#D97D55] rounded-full w-2 h-2"></div>
+                              <div className="bg-[#8EBD22] rounded-full w-2 h-2"></div>
                             </div>
                           </div>
                         )}
@@ -367,7 +363,7 @@ export function MonthlyFeaturedTours({
                   <motion.button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`w-2.5 h-2.5 rounded-full ${index === currentIndex ? "bg-[#D97D55]" : "bg-purple-200"}`}
+                    className={`w-2.5 h-2.5 rounded-full ${index === currentIndex ? "bg-[#8EBD22]" : "bg-purple-200"}`}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.8 }}
                   />

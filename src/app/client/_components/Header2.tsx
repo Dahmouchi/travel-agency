@@ -101,9 +101,8 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   // Filter unread notifications or limit to 5
 
-
   return (
-    <header className="flex h-16 rounded-lg border shadow-[-4px_5px_10px_0px_rgba(0,_0,_0,_0.1)]  mb-1 shrink-0 bg-white dark:bg-slate-900 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+    <header className="flex h-16 rounded-xl border shadow-[-4px_5px_10px_0px_rgba(0,_0,_0,_0.1)]  mb-1 shrink-0 bg-white dark:bg-slate-900 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1 cursor-pointer" />
         <Separator
@@ -125,7 +124,6 @@ const Header = () => {
         </Breadcrumb>
       </div>
       <div className="lg:pr-10 w-1/2 flex items-center justify-end gap-4">
-       
         <div>
           {session?.user ? (
             <NavUser />

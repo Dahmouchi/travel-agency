@@ -138,15 +138,15 @@ export const reservationColumns = ({
       const [updating, setUpdating] = useState(false);
 
       const [localStatus, setLocalStatus] = useState(
-        row.getValue("status") as ReservationStatus
+        row.getValue("status") as ReservationStatus,
       );
 
       const statusColors: Record<ReservationStatus, string> = {
         [ReservationStatus.PENDING]:
-          "rounded-lg bg-yellow-200 text-yellow-800 p-1",
+          "rounded-xl bg-yellow-200 text-yellow-800 p-1",
         [ReservationStatus.CONFIRMED]:
-          "rounded-lg bg-green-200 text-green-800 p-1",
-        [ReservationStatus.CANCELED]: "rounded-lg bg-red-200 text-red-800 p-1",
+          "rounded-xl bg-green-200 text-green-800 p-1",
+        [ReservationStatus.CANCELED]: "rounded-xl bg-red-200 text-red-800 p-1",
       };
       const formatDate = (date: Date | string | null | undefined) => {
         if (!date) return "N/A";
@@ -162,7 +162,7 @@ export const reservationColumns = ({
           const newStatus = e.target.value as ReservationStatus;
           const response = await UpdateReservationStatus(
             row.original.id,
-            newStatus
+            newStatus,
           );
           if (newStatus === "CONFIRMED") {
             await sendEmailToClient(
@@ -227,7 +227,7 @@ export const reservationColumns = ({
               </p>
             </div>
           </div>
-          `
+          `,
             );
           } else if (newStatus === "CANCELED") {
             await sendEmailToClient(
@@ -302,7 +302,7 @@ export const reservationColumns = ({
     </p>
   </div>
 </div>
-          `
+          `,
             );
           }
           if (response.success) {
@@ -375,7 +375,7 @@ export const reservationColumns = ({
             </Button>
           </AlertDialogTrigger>
 
-          <AlertDialogContent className="w-full max-w-[95vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl max-h-[90vh] overflow-y-auto p-4 rounded-lg">
+          <AlertDialogContent className="w-full max-w-[95vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl max-h-[90vh] overflow-y-auto p-4 rounded-xl">
             <div className="absolute right-4 top-4">
               <AlertDialogCancel className="p-1 h-auto w-auto border-none bg-transparent  hover:bg-gray-200">
                 <X className="h-5 w-5" />

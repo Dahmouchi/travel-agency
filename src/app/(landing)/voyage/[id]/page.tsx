@@ -4,9 +4,11 @@ export const dynamic = "force-dynamic";
 
 import prisma from "@/lib/prisma";
 import TourDetails from "@/app/(landing)/_components/ProductDetails";
+import TourDetailsModern from "@/app/(landing)/_components/TourDetailsModern";
 import { safeHtmlToText } from "@/lib/safeHTML";
 import { Metadata } from "next";
 import TourDetailsAr from "../../_components/OmraSection";
+import TourDetailsRedesigned from "../../_components/lavabelTourDetails";
 
 // 1. Dynamic Metadata Function
 export async function generateMetadata(params: any): Promise<Metadata> {
@@ -25,7 +27,7 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     ? safeHtmlToText(tour.description).slice(0, 160)
     : "Découvrez ce voyage avec HappyTrip.";
 
-  const imageUrl = tour.imageUrl || "https://happytrip.ma/logo.png"; // 👈 use absolute URL
+  const imageUrl = tour.imageUrl || "https://happytrip.ma/horizontal1.png"; // 👈 use absolute URL
 
   return {
     title: `${tour.title} - HappyTrip`,
@@ -73,7 +75,7 @@ const TourDetailsMain = async (params: any) => {
       reservationForm: true,
       natures: true,
       destinations: true,
-
+      images: true,
       categories: true,
       reviews: true,
       services: true,
@@ -92,8 +94,11 @@ const TourDetailsMain = async (params: any) => {
 
   return (
     <div>
-      {tour.id ==="omra" ? <TourDetailsAr tour={tour} programss={programs}/> : <TourDetails tour={tour} programss={programs} />}
-      
+      {tour.id === "omra" ? (
+        <TourDetailsAr tour={tour} programss={programs} />
+      ) : (
+        <TourDetailsRedesigned tour={tour} programss={programs} />
+      )}
     </div>
   );
 };

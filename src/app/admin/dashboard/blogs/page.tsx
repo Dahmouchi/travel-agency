@@ -113,7 +113,7 @@ export default function BlogManagementPage() {
     (blog) =>
       blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (blog.description &&
-        blog.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        blog.description.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -314,7 +314,7 @@ export default function BlogManagementPage() {
                           control={form.control}
                           name="status"
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                            <FormItem className="flex flex-row items-center justify-between rounded-xl border p-4">
                               <div className="space-y-0.5">
                                 <FormLabel>Statut</FormLabel>
                                 <FormDescription>

@@ -57,7 +57,7 @@ const LoginForm = () => {
     } else {
       await update();
       setLoading(false);
-      redirect("/createur/dashboard")
+      redirect("/createur/dashboard");
     }
   }
 
@@ -71,7 +71,7 @@ const LoginForm = () => {
         <div className="pb-8">
           <div className="mt-5 w-full flex items-center justify-center ">
             <Link href="/" className="lg:flex">
-              <img src="/horizontal.png" alt="" className="w-56 h-auto" />
+              <img src="/horizontal1.png" alt="" className="w-56 h-auto" />
             </Link>
           </div>
           <div className="w-full flex items-center justify-center mt-4">
@@ -143,7 +143,7 @@ const LoginForm = () => {
             <div className="w-full flex items-center justify-start">
               <Button
                 type="submit"
-                className="w-full rounded-full py-3 bg-green-500 border-2 text-white hover:bg-green-700 cursor-pointer"
+                className="w-full rounded-full py-3 bg-[#8EBD22] border-2 text-white hover:bg-green-700 cursor-pointer"
               >
                 Soumettre
               </Button>

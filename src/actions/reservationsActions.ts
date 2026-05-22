@@ -4,9 +4,11 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { ReservationStatus, TravelRequestStatus } from "@prisma/client";
-import { Turtle } from "lucide-react";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { sendEmailToClient } from "./meetingsActions";
 import { sendCustomTravelReservationEmail } from "./team-building";
+import { reservationReceivedMessage } from "@/lib/whatsapp-templates";
+import { sendWhatsAppMessage, sendWhatsAppTemplate } from "@/lib/whatsapp";
 
 interface Reservation {
   tourId: string;
@@ -130,7 +132,7 @@ type CreateReservationInput = {
 };
 export async function UpdateStatuSurMesure(
   reservationId: string,
-  newStatus: TravelRequestStatus
+  newStatus: TravelRequestStatus,
 ) {
   try {
     const blogs = await prisma.travelRequest.findUnique({
@@ -152,6 +154,14 @@ export async function UpdateStatuSurMesure(
 }
 export async function CreateReservations(input: CreateReservationInput) {
   try {
+    // Normalise phone to E.164 so the WhatsApp API never rejects it.
+    // parsePhoneNumberFromString accepts numbers with or without a country code;
+    // we default to Morocco (MA) when no country prefix is present.
+    const parsedPhone = parsePhoneNumberFromString(input.phone, "MA");
+    const e164Phone = parsedPhone?.isValid()
+      ? parsedPhone.format("E.164")
+      : input.phone; // fallback: keep raw value rather than blocking the reservation
+
     // First, find the TourDate to get startDate and endDate
     const tourDate = await prisma.tourDate.findUnique({
       where: { id: input.travelDateId },
@@ -168,7 +178,7 @@ export async function CreateReservations(input: CreateReservationInput) {
         tourId: input.tourId,
         nom: input.nom,
         prenom: input.prenom,
-        phone: input.phone,
+        phone: e164Phone,
         email: input.email,
         data: input.data,
         basePrice: input.basePrice,
@@ -182,6 +192,27 @@ export async function CreateReservations(input: CreateReservationInput) {
       },
     });
     await sendEmailToAdmin(reservation);
+    // NEW: Send WhatsApp to user
+    try {
+      // 1. Send initial Template to open the 24h window
+      // 'hello_world' is the default template provided by Meta
+      await sendWhatsAppTemplate(reservation.phone, "hello_world");
+
+      // 2. Send the actual Reservation details
+      const message = reservationReceivedMessage({
+        prenom: reservation.prenom,
+        nom: reservation.nom,
+        tourName: reservation.tour.title,
+        startDate: reservation.startDate,
+        endDate: reservation.endDate,
+        finalPrice: reservation.finalPrice,
+        reservationId: reservation.id,
+      });
+      await sendWhatsAppMessage(reservation.phone, message);
+    } catch (err) {
+      // Don't block reservation if WhatsApp fails
+      console.error("WhatsApp send failed:", err);
+    }
     return reservation;
   } catch (error) {
     console.error(error);
@@ -189,7 +220,7 @@ export async function CreateReservations(input: CreateReservationInput) {
   }
 }
 export async function CreateReservationsDiscoverr(
-  input: CreateReservationInput
+  input: CreateReservationInput,
 ) {
   try {
     // First, find the TourDate to get startDate and endDate
@@ -229,7 +260,7 @@ function formatDate(date: Date): string {
 }
 
 export async function sendEmailToAdmin(reservation: any) {
-  const adminEmail = "happy.trip.voyage@gmail.com";
+  const adminEmail = "hassandahmouchi0@gmail.com";
 
   await sendEmailToClient(
     adminEmail,
@@ -237,19 +268,19 @@ export async function sendEmailToAdmin(reservation: any) {
     `<div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
       <!-- Header with logo and color accent -->
       <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-        <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
+        <img src="https://happytrip.ma/horizontal1.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
       </div>
       
       <!-- Email content -->
       <div style="padding: 20px; background-color: #ffffff; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-        <h2 style="color: #D97D55; margin-top: 0;">Nouvelle réservation reçue !</h2>
+        <h2 style="color: #8EBD22; margin-top: 0;">Nouvelle réservation reçue !</h2>
         <p style="font-size: 16px; line-height: 1.5;">
           Une nouvelle réservation a été effectuée sur le site Happy Trip.
         </p>
         
         <!-- Reservation details card -->
-        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #D97D55;">
-          <h3 style="color: #D97D55; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
+        <div style="margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8EBD22;">
+          <h3 style="color: #8EBD22; margin-top: 0; margin-bottom: 12px;">Détails de la réservation</h3>
           
           <p style="margin: 8px 0;"><strong>🔹 Référence :</strong> ${reservation?.tour?.title}</p>
           <p style="margin: 8px 0;"><strong>🔹 Client :</strong> ${reservation.nom} ${reservation.prenom}</p>
@@ -263,21 +294,21 @@ export async function sendEmailToAdmin(reservation: any) {
         <!-- Action buttons -->
         <div style="margin: 20px 0; text-align: center;">
           <a href="https://happytrip.ma/admin" 
-             style="display: inline-block; padding: 10px 20px; background-color: #D97D55; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+             style="display: inline-block; padding: 10px 20px; background-color: #8EBD22; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Voir la réservation
           </a>
         </div>
         
         <!-- Client information -->
         <div style="background-color: #f1f5f9; padding: 16px; border-radius: 8px; margin-top: 24px;">
-          <h4 style="margin-top: 0; color: #D97D55;">Informations supplémentaires :</h4>
+          <h4 style="margin-top: 0; color: #8EBD22;">Informations supplémentaires :</h4>
           <pre style="white-space: pre-wrap; font-family: Arial; margin: 0;">${JSON.stringify(reservation.data, null, 2)}</pre>
         </div>
         
         <!-- Signature -->
         <p style="margin-top: 24px; font-size: 15px;">
           Cordialement,<br>
-          <strong style="color: #D97D55;">Système de notification Happy Trip</strong>
+          <strong style="color: #8EBD22;">Système de notification Happy Trip</strong>
         </p>
       </div>
       
@@ -285,7 +316,7 @@ export async function sendEmailToAdmin(reservation: any) {
       <div style="text-align: center; padding: 16px; color: #64748b; font-size: 12px;">
         <p style="margin: 0;">© ${new Date().getFullYear()} Happy Trip. Tous droits réservés.</p>
       </div>
-    </div>`
+    </div>`,
   );
 }
 
@@ -333,7 +364,7 @@ export async function GetAllReservationsDiscover() {
 }
 export async function UpdateReservationStatus(
   id: string,
-  status: ReservationStatus
+  status: ReservationStatus,
 ) {
   try {
     const updatedReservation = await prisma.reservations.update({
@@ -349,7 +380,7 @@ export async function UpdateReservationStatus(
 
 export async function UpdateReservation(
   id: string,
-  data: Partial<Reservation>
+  data: Partial<Reservation>,
 ) {
   try {
     const updatedReservation = await prisma.reservation.update({

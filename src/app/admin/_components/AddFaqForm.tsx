@@ -62,7 +62,7 @@ const FaqManagement = () => {
       const result = await createFaq(
         formData.question,
         formData.answer,
-        formData.orderIndex
+        formData.orderIndex,
       );
 
       if (result.success !== false) {
@@ -144,8 +144,8 @@ const FaqManagement = () => {
       <Card>
         <CardHeader className="pb-4 flex items-center justify-between lg:flex-row flex-col">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <FileQuestion className="w-5 h-5 text-[#D97D55]" />
+            <div className="p-2 bg-blue-100 rounded-xl">
+              <FileQuestion className="w-5 h-5 text-[#8EBD22]" />
             </div>
             <div>
               <CardTitle className="text-xl">Manage FAQs</CardTitle>
@@ -158,7 +158,7 @@ const FaqManagement = () => {
             {/* Sélecteur de mode d'aperçu */}
             <button
               onClick={() => setShowCreateModal(true)}
-              className="inline-flex items-center px-6 py-3 bg-[#D97D55] text-white font-semibold rounded-lg hover:bg-[#50bd22] transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="inline-flex items-center px-6 py-3 bg-[#8EBD22] text-white font-semibold rounded-xl hover:bg-[#50bd22] transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               <svg
                 className="w-5 h-5 mr-2"
@@ -199,7 +199,7 @@ const FaqManagement = () => {
                 </p>
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="inline-flex items-center px-4 py-2 bg-[#D97D55] text-white font-medium rounded-lg hover:bg-[#819551] transition-colors"
+                  className="inline-flex items-center px-4 py-2 bg-[#8EBD22] text-white font-medium rounded-xl hover:bg-[#819551] transition-colors"
                 >
                   Créer une FAQ
                 </button>
@@ -229,7 +229,7 @@ const FaqManagement = () => {
                         <div className="flex items-center space-x-2 ml-4">
                           <button
                             onClick={() => openEditModal(faq)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors duration-200"
                             title="Modifier"
                           >
                             <svg
@@ -248,7 +248,7 @@ const FaqManagement = () => {
                           </button>
                           <button
                             onClick={() => handleDeleteFaq(faq.id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors duration-200"
                             title="Supprimer"
                           >
                             <svg
@@ -322,7 +322,7 @@ const FaqManagement = () => {
                       orderIndex: parseInt(e.target.value) || 0,
                     })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Ex: 1, 2, 3..."
                   required
                 />
@@ -338,7 +338,7 @@ const FaqManagement = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, question: e.target.value })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Entrez votre question..."
                   required
                 />
@@ -354,7 +354,7 @@ const FaqManagement = () => {
                     setFormData({ ...formData, answer: e.target.value })
                   }
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
                   placeholder="Entrez votre réponse..."
                   required
                 />
@@ -364,13 +364,13 @@ const FaqManagement = () => {
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="px-6 py-3 text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors font-medium"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-[#D97D55] text-white rounded-lg hover:bg-[#94ab5f] transition-colors font-medium shadow-lg"
+                  className="px-6 py-3 bg-[#8EBD22] text-white rounded-xl hover:bg-[#94ab5f] transition-colors font-medium shadow-lg"
                 >
                   Créer la FAQ
                 </button>
@@ -424,7 +424,7 @@ const FaqManagement = () => {
                       orderIndex: parseInt(e.target.value) || 0,
                     })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Ex: 1, 2, 3..."
                   required
                 />
@@ -440,7 +440,7 @@ const FaqManagement = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, question: e.target.value })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   placeholder="Entrez votre question..."
                   required
                 />
@@ -456,7 +456,7 @@ const FaqManagement = () => {
                     setFormData({ ...formData, answer: e.target.value })
                   }
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
                   placeholder="Entrez votre réponse..."
                   required
                 />
@@ -466,13 +466,13 @@ const FaqManagement = () => {
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="px-6 py-3 text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors font-medium"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-[#D97D55] text-white rounded-lg hover:bg-[#788a4d] transition-colors font-medium shadow-lg"
+                  className="px-6 py-3 bg-[#8EBD22] text-white rounded-xl hover:bg-[#788a4d] transition-colors font-medium shadow-lg"
                 >
                   Mettre à jour
                 </button>

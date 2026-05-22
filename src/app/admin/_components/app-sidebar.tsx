@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
- 
+
 "use client";
 
 import type * as React from "react";
@@ -20,7 +20,7 @@ import {
   ListOrdered,
   StarHalf,
   Sparkle,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 
 import { NavMain } from "./nav-main";
@@ -30,11 +30,9 @@ import {
   SidebarHeader,
   SidebarRail,
   useSidebar,
-  
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { title } from "process";
-
 
 // This is sample data.
 const datas = {
@@ -77,8 +75,9 @@ const datas = {
           title: "Discover Order",
           url: "/admin/dashboard/discover-morocco/order",
         },
-      ],},
-     
+      ],
+    },
+
     {
       title: "Landing Page",
       url: "/admin/dashboard/landing",
@@ -98,7 +97,7 @@ const datas = {
           title: "Réservations Tours",
           url: "/admin/dashboard/reservations",
         },
-         {
+        {
           title: "Discover Morocco",
           url: "/admin/dashboard/reservations-discover-morocco",
         },
@@ -106,13 +105,13 @@ const datas = {
           title: "Voyages sur mesure",
           url: "/admin/dashboard/sur-mesure",
         },
-       {
+        {
           title: "Team Building",
           url: "/admin/dashboard/team-building",
         },
-      ],},
-     
-    
+      ],
+    },
+
     {
       title: "Réunions",
       url: "/admin/dashboard/meetings",
@@ -127,25 +126,25 @@ const datas = {
       title: "Avis",
       url: "#",
       icon: Star,
-      items:[
+      items: [
         {
-            title: "Avis Site web",
+          title: "Avis Site web",
           url: "/admin/dashboard/reviews",
         },
         {
           title: "Avis Google",
           url: "/admin/dashboard/review-google",
-           icon: Newspaper,
-        }
+          icon: Newspaper,
+        },
       ],
     },
-     
-     {
+
+    {
       title: "Blogs",
       url: "/admin/dashboard/blogs",
       icon: Newspaper,
     },
-     {
+    {
       title: "NewsLetter",
       url: "/admin/dashboard/news",
       icon: MessagesSquare,
@@ -159,12 +158,21 @@ const datas = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {state} = useSidebar()
+  const { state } = useSidebar();
 
   return (
-    <Sidebar collapsible="icon" {...props} className="bg-white dark:bg-slate-800 p-2 flex flex-col items-center justify-center bg ">
+    <Sidebar
+      collapsible="icon"
+      {...props}
+      className="bg-white dark:bg-slate-800 p-2 flex flex-col items-center justify-center bg "
+    >
       <SidebarHeader className="dark:bg-slate-900 flex items-center bg-white justify-center rounded-t-xl ">
-        <Image src={`${state === "expanded" ? '/horizontal.png':'/logo.png'}`} alt="logo" width={state === "expanded" ? 300 : 500 } height={state === "expanded" ? 200 : 500 }/>
+        <Image
+          src={`${state === "expanded" ? "/horizontal1.png" : "/horizontal1.png"}`}
+          alt="logo"
+          width={state === "expanded" ? 300 : 500}
+          height={state === "expanded" ? 200 : 500}
+        />
       </SidebarHeader>
       <SidebarContent className="dark:bg-slate-900 pl-0 bg-white rounded-b-xl">
         <NavMain items={datas.navMain} />

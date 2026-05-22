@@ -274,23 +274,34 @@ model ReservationForm {
 }
 
 model Reservations {
-  id         String            @id @default(uuid())
-  tour       Tour              @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  tourId     String
-  nom        String
-  prenom     String
-  phone      String
-  email      String?
-  status     ReservationStatus @default(PENDING)
-  data       Json
-  finalPrice Float
-  basePrice  Float
-  isDiscover Boolean           @default(false)
+  id             String            @id @default(uuid())
+  tour           Tour              @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId         String
+  nom            String
+  prenom         String
+  phone          String
+  email          String?
+  status         ReservationStatus @default(PENDING)
+  data           Json
+  finalPrice     Float
+  basePrice      Float
+  isDiscover     Boolean           @default(false)
   // New fields
-  startDate  DateTime
-  endDate    DateTime
+  startDate      DateTime
+  endDate        DateTime
+  reviewAi       ReviewAI?
+  paymentReceipt String? // URL of receipt image
+  paymentStatus  PaymentStatus     @default(PENDING)
+  receiptSentAt  DateTime?
+  createdAt      DateTime          @default(now())
+  messages       MessageLog[]
+}
 
-  createdAt DateTime @default(now())
+enum PaymentStatus {
+  PENDING
+  RECEIPT_RECEIVED
+  CONFIRMED
+  REJECTED
 }
 
 model Checklist {
@@ -323,11 +334,11 @@ model Faq {
 }
 
 model Tour {
-  id                   String            @id
+  id                   String     @id
   title                String
   description          String?
-  type                 TravelType        @default(NATIONAL)
-  isDiscover           Boolean           @default(false)
+  type                 TravelType @default(NATIONAL)
+  isDiscover           Boolean    @default(false)
   priceOriginal        Int?
   priceDiscounted      Int?
   durationDays         Int?
@@ -337,17 +348,17 @@ model Tour {
   titleCkecklist       String?
   descriptionCkecklist String?
   groupSizeMax         Int?
-  showReviews          Boolean           @default(true)
-  showChecklist        Boolean           @default(true)
-  showHebergement      Boolean           @default(true)
-  showDifficulty       Boolean           @default(true)
-  showDiscount         Boolean           @default(true)
+  showReviews          Boolean    @default(true)
+  showChecklist        Boolean    @default(true)
+  showHebergement      Boolean    @default(true)
+  showDifficulty       Boolean    @default(true)
+  showDiscount         Boolean    @default(true)
   difficultyLevel      Int?
-  totalReviews         Int               @default(0)
-  averageRating        Float             @default(0.0)
+  totalReviews         Int        @default(0)
+  averageRating        Float      @default(0.0)
   discountPercent      Int?
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
   dateCard             String?
   orderIndex           Int?
   villeDepart          String?
@@ -359,24 +370,49 @@ model Tour {
   advancedPrice        Int?
   googleMapsUrl        String?
   videoUrl             String?
-  active               Boolean           @default(true)
-  archive              Boolean           @default(false)
+  active               Boolean    @default(true)
+  archive              Boolean    @default(false)
   discountEndDate      DateTime?
-  images               File[]
-  programs             Program[]         @relation("TourPrograms")
-  reviews              Review[]
-  bookinSteps          BookingSteps[]
-  checklist            Checklist[]
-  dates                TourDate[]
-  reservation          Reservation[]
-  reservations         Reservations[]
-  reservationForm      ReservationForm[]
-  categories           Category[]        @relation("CategoryTours")
-  hotels               Hotel[]           @relation("HotelTours")
-  natures              Nature[]          @relation("NatureTours")
-  destinations         Destination[]     @relation("TourDestinations")
-  services             Service[]         @relation("TourServices")
-  favorites            Favorite[]
+  // seo 
+  seoTitle             String?
+  seoDescription       String?
+  slug                 String?    @unique
+  theme                String? // ex: Adventure, Luxury, Culture, Relax, Trekking
+
+  images          File[]
+  programs        Program[]         @relation("TourPrograms")
+  reviews         Review[]
+  bookinSteps     BookingSteps[]
+  checklist       Checklist[]
+  dates           TourDate[]
+  reservation     Reservation[]
+  reservations    Reservations[]
+  reservationForm ReservationForm[]
+  categories      Category[]        @relation("CategoryTours")
+  hotels          Hotel[]           @relation("HotelTours")
+  natures         Nature[]          @relation("NatureTours")
+  destinations    Destination[]     @relation("TourDestinations")
+  services        Service[]         @relation("TourServices")
+  favorites       Favorite[]
+  tags            Tag[]             @relation("TourTags")
+}
+
+model ReviewAI {
+  id            String       @id @default(uuid())
+  reservationId String       @unique
+  reservation   Reservations @relation(fields: [reservationId], references: [id])
+  rating        Int? // 1-5, AI will guess this
+  sentiment     String // "POSITIVE", "NEUTRAL", "NEGATIVE"
+  summary       String // AI summary of their email
+  rawText       String // The actual email reply
+  createdAt     DateTime     @default(now())
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  tours     Tour[]   @relation("TourTags")
 }
 
 model File {
@@ -412,15 +448,21 @@ model Reservation {
   tour       Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Review {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   fullName  String
   message   String
-  rating    Int      @default(5)
-  status    Boolean  @default(false)
+  rating    Int          @default(5)
+  status    ReviewStatus @default(PENDING) // Changed from Boolean
   tourId    String
-  createdAt DateTime @default(now())
-  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+  tour      Tour         @relation(fields: [tourId], references: [id], onDelete: Cascade)
 }
 
 model TourDate {
@@ -511,6 +553,24 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
+model MessageLog {
+  id            String           @id @default(uuid())
+  reservationId String
+  direction     MessageDirection // INBOUND / OUTBOUND
+  content       String
+  channel       String // WHATSAPP / EMAIL
+  status        String // SENT / DELIVERED / READ / FAILED
+  aiGenerated   Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+
+  reservation Reservations @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
 enum Role {
   USER
   ADMIN
@@ -533,4 +593,6 @@ enum ReservationStatus {
   PENDING
   CONFIRMED
   CANCELED
+  AWAITING_CONFIRMATION
+  AWAITING_PAYMENT
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,15 +10,21 @@ interface PaginatedToursProps {
   tours: any[];
   itemsPerPage?: number;
   session: any;
+  likedTourIds?: string[];
 }
 
 export const PaginatedTours = ({
   tours,
   itemsPerPage = 8,
   session,
+  likedTourIds = [],
 }: PaginatedToursProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [direction, setDirection] = useState(0);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [tours]);
 
   const totalPages = Math.ceil(tours.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -33,7 +39,7 @@ export const PaginatedTours = ({
 
   const handleDragEnd = (
     e: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
+    info: PanInfo,
   ) => {
     const swipeThreshold = 50;
 
@@ -63,7 +69,7 @@ export const PaginatedTours = ({
   const maxVisiblePages = 5;
 
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+  const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
   if (endPage - startPage + 1 < maxVisiblePages) {
     startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -101,7 +107,7 @@ export const PaginatedTours = ({
                 key={tour.id}
                 data={tour}
                 session={session}
-                iLiked={false}
+                iLiked={likedTourIds.includes(tour.id)}
                 auth={session ? true : false}
               />
             ))}
@@ -121,7 +127,7 @@ export const PaginatedTours = ({
             size="icon"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="rounded-full w-10 h-10"
+            className="rounded-full w-10 h-10 "
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
@@ -133,7 +139,7 @@ export const PaginatedTours = ({
                   variant="outline"
                   size="icon"
                   onClick={() => handlePageChange(1)}
-                  className="rounded-full w-10 h-10"
+                  className="rounded-full w-10 h-10 bg-[#8EBD22]"
                 >
                   1
                 </Button>
@@ -151,7 +157,8 @@ export const PaginatedTours = ({
                 onClick={() => handlePageChange(page)}
                 className={cn(
                   "rounded-full w-10 h-10 transition-all duration-200",
-                  currentPage === page && "tour-gradient text-white shadow-lg"
+                  currentPage === page &&
+                    "tour-gradient text-white bg-[#8EBD22] hover:bg-[#56DFCF] shadow-lg",
                 )}
               >
                 {page}

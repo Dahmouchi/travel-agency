@@ -73,7 +73,7 @@ const TeamBuildingFomr = () => {
       ...prev,
       [field]: prev[field as keyof typeof prev].includes(value)
         ? (prev[field as keyof typeof prev] as string[]).filter(
-            (item) => item !== value
+            (item) => item !== value,
           )
         : [...(prev[field as keyof typeof prev] as string[]), value],
     }));
@@ -181,7 +181,7 @@ const TeamBuildingFomr = () => {
     <main className="relative -top-20 z-50">
       <form
         onSubmit={handleSubmit}
-        className="max-w-[95%] relative border-4 border-[#D97D55] lg:max-w-[90%] bg-white mx-auto shadow-lg p-4 lg:p-8 md:p-12 rounded-lg"
+        className="max-w-[95%] relative border-4 border-[#8EBD22] lg:max-w-[90%] bg-white mx-auto shadow-lg p-4 lg:p-8 md:p-12 rounded-xl"
       >
         {/* Header Sections */}
         <div className="absolute top-4 right-4">
@@ -206,7 +206,7 @@ const TeamBuildingFomr = () => {
           <div className="space-y-8">
             {/* Vous Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 bg-[#D97D55] w-fit px-4 rounded-full ">
+              <h3 className="text-lg font-semibold mb-4 bg-[#8EBD22] w-fit px-4 rounded-full ">
                 Informations
               </h3>
               <div className="space-y-4">
@@ -317,7 +317,7 @@ const TeamBuildingFomr = () => {
 
             {/* Dates */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Dates de séjour
               </h3>
               <div className="space-y-4">
@@ -396,7 +396,7 @@ const TeamBuildingFomr = () => {
 
             {/* Hébergement */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Hébergement
               </h3>
               <div className="space-y-4">
@@ -518,7 +518,7 @@ const TeamBuildingFomr = () => {
           {/* Right Column - Message Section */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Destination & Transport
               </h3>
               <div className="space-y-4">
@@ -586,7 +586,7 @@ const TeamBuildingFomr = () => {
 
             {/* Activités */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Activités
               </h3>
               <div className="space-y-3 mb-4">
@@ -620,7 +620,7 @@ const TeamBuildingFomr = () => {
 
             {/* Enjeux */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Vos enjeux
               </h3>
               <div className="space-y-3 mb-4">
@@ -672,7 +672,7 @@ const TeamBuildingFomr = () => {
 
             {/* Budget */}
             <div>
-              <h3 className="text-lg font-semibold bg-[#D97D55] w-fit px-4 rounded-full text-white mb-4">
+              <h3 className="text-lg font-semibold bg-[#8EBD22] w-fit px-4 rounded-full text-white mb-4">
                 Budget
               </h3>
               <div className="space-y-4">
@@ -720,7 +720,7 @@ const TeamBuildingFomr = () => {
               value={formData.message}
               onChange={(e) => handleChange("message", e.target.value)}
               placeholder="Décrivez vos besoins techniques, demandes spéciales et autres commentaires..."
-              className="w-full h-40 p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full h-40 p-4 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             />
           </div>
 
@@ -744,7 +744,7 @@ const TeamBuildingFomr = () => {
                     />
                     <span className="text-sm text-gray-900">{method}</span>
                   </label>
-                )
+                ),
               )}
             </div>
           </div>

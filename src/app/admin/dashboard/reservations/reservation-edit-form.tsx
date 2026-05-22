@@ -82,10 +82,10 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
 }) => {
   const [formData, setFormData] = useState<ReservationFormData>(reservation);
   const [availableTourDates, setAvailableTourDates] = useState<TourDate[]>(
-    () => (reservation as any).availableTourDates || []
+    () => (reservation as any).availableTourDates || [],
   );
   const [availableHotels, setAvailableHotels] = useState<Hotel[]>(
-    () => (reservation as any).availableHotels || []
+    () => (reservation as any).availableHotels || [],
   );
 
   React.useEffect(() => {
@@ -103,7 +103,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
   }, [formData.reservation?.tourTitle]);
   const handleInputChange = (
     field: keyof ReservationFormData["reservation"],
-    value: any
+    value: any,
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -124,7 +124,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
     try {
       const result = await UpdateReservation(
         formData.reservation.id,
-        reservationData
+        reservationData,
       );
       if (result.error) {
         toast.error("Erreur lors de la mise à jour de la réservation.");
@@ -134,7 +134,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
       onSave(formData);
     } catch (error) {
       toast.error(
-        "Erreur lors de la mise à jour de la réservation. Veuillez réessayer."
+        "Erreur lors de la mise à jour de la réservation. Veuillez réessayer.",
       );
     }
   };
@@ -153,8 +153,8 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
           Modifier la réservation
         </CardTitle>
         <div className="flex justify-between items-center mt-4">
-          <span className="flex items-center gap-2 text-base font-semibold text-lime-800 bg-gradient-to-r from-lime-100 to-lime-50 px-4 py-2 rounded-lg shadow-sm border border-lime-200">
-            <MapPin className="w-4 h-4 text-lime-600" />
+          <span className="flex items-center gap-2 text-base font-semibold text-lime-800 bg-gradient-to-r from-lime-100 to-lime-50 px-4 py-2 rounded-xl shadow-sm border border-lime-200">
+            <MapPin className="w-4 h-4 text-[#f7601f]" />
             {formData.reservation.tourTitle}
           </span>
         </div>
@@ -168,7 +168,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
               <User className="w-5 h-5 text-blue-600" />
               Informations personnelles
             </h3>
-            <div className="bg-white rounded-lg p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormField icon={User} label="Nom complet">
                 <Input
                   value={formData.reservation.fullName}
@@ -206,7 +206,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
               <MapPin className="w-5 h-5 text-green-600" />
               Détails du voyage
             </h3>
-            <div className="bg-white rounded-lg p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-xl p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField icon={Calendar} label="Date de voyage">
                 <select
                   className="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -214,7 +214,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                   onChange={(e) => {
                     const selectedId = e.target.value;
                     const selectedDate = availableTourDates.find(
-                      (date) => date.id === selectedId
+                      (date) => date.id === selectedId,
                     );
                     handleInputChange("travelDateId", selectedId);
                     handleInputChange("travelDate", selectedDate || null);
@@ -248,7 +248,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
               <Users className="w-5 h-5 text-purple-600" />
               Détails de la réservation
             </h3>
-            <div className="bg-white rounded-lg p-4 space-y-4 border border-gray-100">
+            <div className="bg-white rounded-xl p-4 space-y-4 border border-gray-100">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <FormField icon={Users} label="Adulte(s)">
                   <Input
@@ -258,7 +258,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                     onChange={(e) =>
                       handleInputChange(
                         "adultCount",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                   />
@@ -272,7 +272,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                     onChange={(e) =>
                       handleInputChange(
                         "childCount",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                   />
@@ -286,7 +286,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                     onChange={(e) =>
                       handleInputChange(
                         "infantCount",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                   />
@@ -317,7 +317,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
               <MessageSquare className="w-5 h-5 text-indigo-600" />
               Demandes spéciales
             </h3>
-            <div className="bg-white rounded-lg p-4 border border-gray-100">
+            <div className="bg-white rounded-xl p-4 border border-gray-100">
               <Textarea
                 value={formData.reservation.specialRequests || ""}
                 onChange={(e) =>
@@ -338,7 +338,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                 <Building2 className="w-5 h-5 text-orange-600" />
                 Hébergement & Prix
               </h3>
-              <div className="bg-white rounded-lg p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-4 space-y-4 border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField icon={Building2} label="Nom de l'hôtel">
                   <select
                     className="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -346,7 +346,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                     onChange={(e) => {
                       const selectedId = e.target.value;
                       const selectedHotel = availableHotels.find(
-                        (hotel) => hotel.id === selectedId
+                        (hotel) => hotel.id === selectedId,
                       );
                       handleInputChange("hotelId", selectedId);
                       handleInputChange("hotel", selectedHotel || null);
@@ -408,7 +408,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
                 onChange={(e) =>
                   handleInputChange(
                     "finalPrice",
-                    parseFloat(e.target.value) || 0
+                    parseFloat(e.target.value) || 0,
                   )
                 }
                 placeholder="Prix total"
@@ -421,7 +421,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
           <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4 mt-6">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2 bg-lime-600 text-white rounded-lg shadow hover:bg-lime-700 transition-colors font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-[#f7601f] text-white rounded-xl shadow hover:bg-lime-700 transition-colors font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <svg
                 className="w-5 h-5"
@@ -441,7 +441,7 @@ export const ReservationEditForm: React.FC<ReservationEditFormProps> = ({
             <button
               type="button"
               onClick={onCancel}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-800 rounded-lg shadow hover:bg-gray-300 transition-colors font-semibold focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-gray-200 text-gray-800 rounded-xl shadow hover:bg-gray-300 transition-colors font-semibold focus:outline-none focus:ring-2 focus:ring-gray-400"
             >
               <svg
                 className="w-5 h-5"

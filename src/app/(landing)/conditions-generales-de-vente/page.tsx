@@ -11,7 +11,7 @@ export default async function CategoryToursPage() {
 
   return (
     <div>
-      <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#5a7c15] via-[#D97D55] to-[#b5e637] overflow-hidden">
+      <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#5a7c15] via-[#8EBD22] to-[#b5e637] overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -55,14 +55,14 @@ export default async function CategoryToursPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
             <a
               href="#conditions"
-              className="inline-flex justify-center items-center px-8 py-4 bg-white text-[#D97D55] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-flex justify-center items-center px-8 py-4 bg-white text-[#8EBD22] rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <FileText className="w-5 h-5 mr-2" />
               <span>Lire les conditions</span>
             </a>
             <a
               href="#contact"
-              className="inline-flex justify-center items-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#D97D55] transition-all duration-300 transform hover:scale-105"
+              className="inline-flex justify-center items-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-[#8EBD22] transition-all duration-300 transform hover:scale-105"
             >
               <HelpCircle className="w-5 h-5 mr-2" />
               <span>Questions ?</span>

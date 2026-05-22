@@ -62,7 +62,7 @@ const AdminDashboard = ({
     meetingId: string,
     clientName: string,
     clientPhone: string,
-    clientEmail: string
+    clientEmail: string,
   ) => {
     onConfirmMeeting(meetingId);
   };
@@ -99,7 +99,7 @@ const AdminDashboard = ({
 
   const pendingMeetings = meetings.filter((m) => m.status === "pending");
   const allMeetings = [...meetings].sort(
-    (a, b) => parseMeetingDate(a).getTime() - parseMeetingDate(b).getTime()
+    (a, b) => parseMeetingDate(a).getTime() - parseMeetingDate(b).getTime(),
   );
 
   return (
@@ -177,7 +177,7 @@ const AdminDashboard = ({
                 return (
                   <div
                     key={meeting.id}
-                    className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-lg bg-orange-50 gap-4 w-full"
+                    className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-xl bg-orange-50 gap-4 w-full"
                   >
                     <div className="flex-1 w-full">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 flex-wrap">
@@ -186,7 +186,7 @@ const AdminDashboard = ({
                           <span className="font-medium">
                             {formatWithOptions(
                               { locale: fr },
-                              "dd MMM yyyy"
+                              "dd MMM yyyy",
                             )(dateObj)}
                           </span>
                         </div>
@@ -284,7 +284,7 @@ const AdminDashboard = ({
                                   meeting.id,
                                   meeting.clientName!,
                                   meeting.clientPhone!,
-                                  meeting.clientEmail!
+                                  meeting.clientEmail!,
                                 )
                               }
                               className="bg-green-600 hover:bg-green-700"
@@ -349,7 +349,7 @@ const AdminDashboard = ({
               return (
                 <div
                   key={meeting.id}
-                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-lg gap-4 w-full"
+                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-xl gap-4 w-full"
                 >
                   <div className="flex flex-col gap-1 flex-1 w-full">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 flex-wrap">
@@ -358,7 +358,7 @@ const AdminDashboard = ({
                         <span className="font-medium">
                           {formatWithOptions(
                             { locale: fr },
-                            "dd MMM yyyy"
+                            "dd MMM yyyy",
                           )(dateObj)}
                         </span>
                       </div>
@@ -393,7 +393,7 @@ const AdminDashboard = ({
                                   const jitsiRoom = `meeting-${meeting.id}`;
                                   window.open(
                                     `https://meet.jit.si/${jitsiRoom}`,
-                                    "_blank"
+                                    "_blank",
                                   );
                                 }}
                                 className="bg-blue-600 hover:bg-blue-700 text-xs"

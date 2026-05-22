@@ -21,7 +21,7 @@ export default async function CategoryToursPage() {
 
   return (
     <div>
-      <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#3a5a0a] via-[#6d911a] to-[#D97D55] overflow-hidden">
+      <section className="relative min-h-fit py-16 flex items-center justify-center bg-gradient-to-br from-[#3a5a0a] via-[#6d911a] to-[#8EBD22] overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>

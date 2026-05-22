@@ -42,7 +42,7 @@ const SectionSliderNewCategories: FC<Props> = ({
     <div className={clsx("relative", className)}>
       <div
         ref={sliderRef}
-        className="hidden-scrollbar relative -mx-2 flex snap-x snap-mandatory overflow-x-auto lg:-mx-3.5"
+        className="hidden-scrollbar relative -mx-2 flex snap-x snap-mandatory overflow-x-hidden lg:-mx-3.5"
       >
         {categories.map((item) => (
           <div

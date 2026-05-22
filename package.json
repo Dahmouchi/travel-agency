@@ -7,9 +7,6 @@
     "build": "set NODE_ENV=production && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare-data": "tsx scripts/prepare-training-data-v3.ts",
-    "upload-vectors": "tsx scripts/upload-vectors.ts",
-    "sync-ai": "npm run prepare-data && npm run upload-vectors"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.856.0",

@@ -9,6 +9,7 @@ import { sendEmailToClient } from "./meetingsActions";
 import { sendCustomTravelReservationEmail } from "./team-building";
 import { reservationReceivedMessage } from "@/lib/whatsapp-templates";
 import { sendWhatsAppMessage, sendWhatsAppTemplate } from "@/lib/whatsapp";
+import { triggerN8nWorkflow } from "@/lib/n8n";
 
 interface Reservation {
   tourId: string;
@@ -191,6 +192,7 @@ export async function CreateReservations(input: CreateReservationInput) {
         tour: true,
       },
     });
+    await triggerN8nWorkflow(reservation); // Replace direct WhatsApp send
     await sendEmailToAdmin(reservation);
     // NEW: Send WhatsApp to user
     try {

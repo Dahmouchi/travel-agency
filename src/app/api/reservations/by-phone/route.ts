@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       where: {
         phone: {
           contains: phone.replace(
-            'whatsapp:',
+            'whatsapp:+',
             ''
           )
         }

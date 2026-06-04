@@ -21,8 +21,12 @@ export async function GET(req: NextRequest) {
           )
         }
       },
-      include:{
-        tour:true,
+      include: {
+        tour: {
+          include: {
+            programs: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc'

@@ -204,7 +204,6 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md border">
       <div className="flex items-center justify-between py-4 px-4">
-        <div onClick={()=>console.log(data)}>test</div>
         <Input
           placeholder="Filtrer par le Nom..."
           value={(table.getColumn("nom")?.getFilterValue() as string) ?? ""}

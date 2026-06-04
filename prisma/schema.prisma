@@ -294,8 +294,7 @@ model Reservations {
   paymentStatus  PaymentStatus     @default(PENDING)
   receiptSentAt  DateTime?
   createdAt      DateTime          @default(now())
-  messages       MessageLog[]$
-
+  messages       MessageLog[]
 }
 
 enum PaymentStatus {

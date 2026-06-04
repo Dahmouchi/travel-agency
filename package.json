@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "set NODE_ENV=production && prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.856.0",
@@ -95,7 +95,6 @@
     "next": "15.3.6",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.10.1",
-    "openai": "^6.34.0",
     "pg": "^8.16.3",
     "rc-slider": "^11.1.9",
     "react": "^19.1.0",

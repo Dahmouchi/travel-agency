@@ -153,16 +153,27 @@ export async function UpdateStatuSurMesure(
     return [];
   }
 }
+
+function normalizePhone(phone: string) {
+  const parsedPhone =
+    parsePhoneNumberFromString(phone, 'MA')
+
+  const e164Phone = parsedPhone?.isValid()
+    ? parsedPhone.format('E.164')
+    : phone
+
+  return e164Phone.replace('+', '')
+}
 export async function CreateReservations(input: CreateReservationInput) {
   try {
     // Normalise phone to E.164 so the WhatsApp API never rejects it.
     // parsePhoneNumberFromString accepts numbers with or without a country code;
     // we default to Morocco (MA) when no country prefix is present.
-    const parsedPhone = parsePhoneNumberFromString(input.phone, "MA");
-    const e164Phone = parsedPhone?.isValid()
-      ? parsedPhone.format("E.164")
-      : input.phone; // fallback: keep raw value rather than blocking the reservation
-
+    //const parsedPhone = parsePhoneNumberFromString(input.phone, "MA");
+    //const e164Phone = parsedPhone?.isValid()
+      //? parsedPhone.format("E.164")
+      //: input.phone; // fallback: keep raw value rather than blocking the reservation
+    const e164Phone = normalizePhone(input.phone)
     // First, find the TourDate to get startDate and endDate
     const tourDate = await prisma.tourDate.findUnique({
       where: { id: input.travelDateId },
@@ -192,30 +203,22 @@ export async function CreateReservations(input: CreateReservationInput) {
         tour: true,
       },
     });
-    await triggerN8nWorkflow(reservation); // Replace direct WhatsApp send
-    await sendEmailToAdmin(reservation);
-    // NEW: Send WhatsApp to user
-    try {
-      // 1. Send initial Template to open the 24h window
-      // 'hello_world' is the default template provided by Meta
-      await sendWhatsAppTemplate(reservation.phone, "hello_world");
+    await fetch(
+      `${process.env.N8N_WEBHOOK_URL}/new-reservation`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reservation)
+      }
+    )
+    // const n8nResult = await triggerN8nWorkflow(reservation);
+    // console.log("n8nResult", n8nResult);
 
-      // 2. Send the actual Reservation details
-      const message = reservationReceivedMessage({
-        prenom: reservation.prenom,
-        nom: reservation.nom,
-        tourName: reservation.tour.title,
-        startDate: reservation.startDate,
-        endDate: reservation.endDate,
-        finalPrice: reservation.finalPrice,
-        reservationId: reservation.id,
-      });
-      await sendWhatsAppMessage(reservation.phone, message);
-    } catch (err) {
-      // Don't block reservation if WhatsApp fails
-      console.error("WhatsApp send failed:", err);
-    }
-    return reservation;
+    // Replace direct WhatsApp send
+    await sendEmailToAdmin(reservation);
+    return { reservation };
   } catch (error) {
     console.error(error);
     throw new Error("❌ Failed to create reservation.");

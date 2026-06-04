@@ -1,17 +1,15 @@
-import prisma from "./prisma";
-
 // lib/n8n.ts
 export async function triggerN8nWorkflow(reservation: any) {
+    // e.g., http://localhost:5678/webhook-test/new-reservation
     const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
-    // e.g., http://localhost:5678/webhook/new-reservation
 
     try {
-        const response = await fetch(`${N8N_WEBHOOK_URL}/new-reservation`, {
+        const response = await fetch(`${N8N_WEBHOOK_URL}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: reservation.id,
-                phone: reservation.phone,
+                phone: reservation.phone, // Ensure this strips the '+' and has the country code
                 prenom: reservation.prenom,
                 nom: reservation.nom,
                 tourName: reservation.tour.title,
@@ -27,4 +25,3 @@ export async function triggerN8nWorkflow(reservation: any) {
         return false;
     }
 }
-

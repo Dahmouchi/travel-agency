@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -21,8 +19,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Star, Download } from "lucide-react";
+import { Star, Download, Trash } from "lucide-react";
 import * as XLSX from "xlsx";
+import { DelteAllReservations } from "@/actions/reservationsActions";
+import { toast } from "react-toastify";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -185,6 +185,10 @@ export function DataTable<TData, TValue>({
     compression: true 
   });
 };
+const deleteAllreser=async()=>{
+  const res=await DelteAllReservations()
+  toast.success("Reservations deleted successfully")
+}
 
   const translateStatus = (
     status: "PENDING" | "CONFIRMED" | "CANCELED"
@@ -222,7 +226,7 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
+                <TableHead key={header.id} className="text-xs px-2 py-1.5 whitespace-nowrap">
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -243,7 +247,7 @@ export function DataTable<TData, TValue>({
                 className={idx % 2 === 1 ? "bg-lime-50" : ""}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="px-2 py-1.5">
                     {cell.column.id === "rating" ? (
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (

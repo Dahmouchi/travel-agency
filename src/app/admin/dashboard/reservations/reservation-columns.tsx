@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -14,26 +13,21 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogCancel,
-  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { toast } from "react-toastify";
-import { Pencil, Trash2, X } from "lucide-react";
+import { Receipt, X } from "lucide-react";
 import {
-  DeleteReservation,
   UpdateReservationStatus,
 } from "@/actions/reservationsActions";
 import type {
   Hotel,
-  Prisma,
   Reservation,
   Tour,
   TourDate,
 } from "@prisma/client";
 
 import { ReservationDetails } from "./reservation-details-form";
-import TourDetails from "@/app/(landing)/_components/ProductDetails";
-import { ReservationEditForm } from "./reservation-edit-form";
 import { sendEmailToClient } from "@/actions/meetingsActions";
 import { ReservationStatus } from "@/types/data/blog";
 
@@ -41,6 +35,7 @@ type ReservationData = Reservation & {
   tourTitle: string;
   hotel: Hotel;
   tour: Tour;
+  paymentReceipt: string | null;
   travelDate: TourDate;
   createdAt: Date;
   startDate: Date;
@@ -60,7 +55,7 @@ export const reservationColumns = ({
     cell: ({ row }) => {
       const title = row.getValue("nom") as string;
       return (
-        <span>{title.length > 15 ? `${title.slice(0, 17)}...` : title}</span>
+        <span className="text-xs whitespace-nowrap">{title.length > 15 ? `${title.slice(0, 17)}...` : title}</span>
       );
     },
   },
@@ -68,24 +63,27 @@ export const reservationColumns = ({
   {
     accessorKey: "prenom",
     header: "Prenom",
-    cell: ({ row }) => row.getValue("prenom"),
+    cell: ({ row }) => <span className="text-xs whitespace-nowrap">{row.getValue("prenom") as string}</span>,
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({ row }) => row.getValue("email"),
+    cell: ({ row }) => <span className="text-xs truncate max-w-[140px] block">{row.getValue("email") as string}</span>,
   },
   {
     accessorKey: "createdAt",
     header: "Date de réservation",
-    cell: ({ row }) =>
-      new Date(row.getValue("createdAt")).toLocaleString("fr-FR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+    cell: ({ row }) => (
+      <span className="text-xs whitespace-nowrap">
+        {new Date(row.getValue("createdAt")).toLocaleString("fr-FR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
+      </span>
+    ),
   },
 
   {
@@ -98,7 +96,7 @@ export const reservationColumns = ({
 
       if (startDate) {
         return (
-          <span>
+          <span className="text-xs whitespace-nowrap">
             {new Date(startDate).toLocaleDateString("fr-FR", {
               year: "numeric",
               month: "2-digit",
@@ -113,7 +111,7 @@ export const reservationColumns = ({
           </span>
         );
       }
-      return <span className="text-gray-500">Aucune date de voyage</span>;
+      return <span className="text-xs text-gray-500">Aucune date</span>;
     },
   },
   {
@@ -164,6 +162,18 @@ export const reservationColumns = ({
             row.original.id,
             newStatus,
           );
+          await fetch(
+  "https://db-n8n.puunoo.easypanel.host/webhook/payment-approved",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      reservationId: row.original.id,
+    }),
+  }
+);
           if (newStatus === "CONFIRMED") {
             await sendEmailToClient(
               row.getValue("email"),
@@ -321,7 +331,7 @@ export const reservationColumns = ({
 
       return (
         <select
-          className={`px-2 py-1 rounded ${statusColors[localStatus]} ${
+          className={`px-1.5 py-0.5 rounded text-xs ${statusColors[localStatus]} ${
             updating ? "opacity-50" : ""
           }`}
           value={localStatus}
@@ -332,6 +342,68 @@ export const reservationColumns = ({
           <option value={ReservationStatus.CONFIRMED}>Confirmée</option>
           <option value={ReservationStatus.CANCELED}>Annulée</option>
         </select>
+      );
+    },
+  },
+  {
+    id: "paymentReceipt",
+    accessorKey: "paymentReceipt",
+    header: "Reçu de paiement",
+    cell: ({ row }) => {
+      const [open, setOpen] = useState(false);
+      const receiptUrl = row.original.paymentReceipt as string | null | undefined;
+
+      if (!receiptUrl) {
+        return <span className="text-gray-400 text-center block">—</span>;
+      }
+
+      return (
+        <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1.5 text-xs"
+            >
+              <Receipt className="h-3.5 w-3.5" />
+              Voir le reçu
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="w-full max-w-[95vw] sm:max-w-xl md:max-w-2xl max-h-[90vh] overflow-y-auto p-4 rounded-xl">
+            <div className="absolute right-4 top-4">
+              <AlertDialogCancel className="p-1 h-auto w-auto border-none bg-transparent hover:bg-gray-200">
+                <X className="h-5 w-5" />
+              </AlertDialogCancel>
+            </div>
+
+            <AlertDialogHeader className="mt-6">
+              <AlertDialogTitle>Reçu de paiement</AlertDialogTitle>
+              <AlertDialogDescription>
+                Preuve de paiement envoyée par le client
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <div className="flex justify-center p-4">
+              <img
+                src={receiptUrl}
+                alt="Reçu de paiement"
+                className="max-w-full max-h-[60vh] rounded-lg border object-contain"
+              />
+            </div>
+
+            <AlertDialogFooter className="mt-4 flex gap-2">
+              <a
+                href={receiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+              >
+                Ouvrir dans un nouvel onglet
+              </a>
+              <AlertDialogCancel>Fermer</AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     },
   },

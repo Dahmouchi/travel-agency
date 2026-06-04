@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -9,7 +7,6 @@ import { toast } from 'react-toastify';
 import { reservationColumns } from './reservation-columns';
 import { GetAllReservations } from '@/actions/reservationsActions';
 import { DataTable } from './reservations-data-table';
-import { hasUncaughtExceptionCaptureCallback } from 'process';
 
 type ReservationData = Reservation & {
     tourTitle: string;

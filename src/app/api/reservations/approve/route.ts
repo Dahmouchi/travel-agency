@@ -6,15 +6,14 @@ export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const { reservationId,paymentReceipt } = body;
+    const { reservationId } = body;
 
     const reservation = await prisma.reservations.update({
       where: {
         id: reservationId,
       },
       data: {
-        paymentStatus: PaymentStatus.RECEIPT_RECEIVED,
-        paymentReceipt:paymentReceipt,
+        paymentStatus: PaymentStatus.CONFIRMED,
       },
     });
 

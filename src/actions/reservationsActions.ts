@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // reservationActions.ts
 "use server";
 import prisma from "@/lib/prisma";
@@ -365,6 +364,15 @@ export async function GetAllReservationsDiscover() {
     return reservations;
   } catch (error) {
     throw new Error("Failed to fetch reservations");
+  }
+}
+export async function DelteAllReservations(){
+  try {
+    await prisma.reservations.deleteMany({
+    });
+    return { success: true };
+  } catch (error) {
+    throw new Error("Failed to delete reservations");
   }
 }
 export async function UpdateReservationStatus(

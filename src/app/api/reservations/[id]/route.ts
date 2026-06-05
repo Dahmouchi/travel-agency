@@ -3,18 +3,19 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function GET(
   _req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ reservationId: string }> },
 ) {
-
-  const { id } = await params;
+  const { reservationId } = await params;
 
   const reservation = await prisma.reservations.findFirst({
     where: {
-      id,
-    }
+      id: reservationId,
+    },
+    include: {
+      tour: true,
+    },
   });
 
   return NextResponse.json({ reservation });

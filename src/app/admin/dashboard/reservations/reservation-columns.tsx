@@ -17,15 +17,8 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { toast } from "react-toastify";
 import { Receipt, X } from "lucide-react";
-import {
-  UpdateReservationStatus,
-} from "@/actions/reservationsActions";
-import type {
-  Hotel,
-  Reservation,
-  Tour,
-  TourDate,
-} from "@prisma/client";
+import { UpdateReservationStatus } from "@/actions/reservationsActions";
+import type { Hotel, Reservation, Tour, TourDate } from "@prisma/client";
 
 import { ReservationDetails } from "./reservation-details-form";
 import { sendEmailToClient } from "@/actions/meetingsActions";
@@ -55,7 +48,9 @@ export const reservationColumns = ({
     cell: ({ row }) => {
       const title = row.getValue("nom") as string;
       return (
-        <span className="text-xs whitespace-nowrap">{title.length > 15 ? `${title.slice(0, 17)}...` : title}</span>
+        <span className="text-xs whitespace-nowrap">
+          {title.length > 15 ? `${title.slice(0, 17)}...` : title}
+        </span>
       );
     },
   },
@@ -63,12 +58,20 @@ export const reservationColumns = ({
   {
     accessorKey: "prenom",
     header: "Prenom",
-    cell: ({ row }) => <span className="text-xs whitespace-nowrap">{row.getValue("prenom") as string}</span>,
+    cell: ({ row }) => (
+      <span className="text-xs whitespace-nowrap">
+        {row.getValue("prenom") as string}
+      </span>
+    ),
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({ row }) => <span className="text-xs truncate max-w-[140px] block">{row.getValue("email") as string}</span>,
+    cell: ({ row }) => (
+      <span className="text-xs truncate max-w-[140px] block">
+        {row.getValue("email") as string}
+      </span>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -163,17 +166,18 @@ export const reservationColumns = ({
             newStatus,
           );
           await fetch(
-  "https://db-n8n.puunoo.easypanel.host/webhook/payment-approved",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      reservationId: row.original.id,
-    }),
-  }
-);
+            "https://db-n8n.puunoo.easypanel.host/webhook/payment-approved",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                reservationId: row.original.id,
+                status: newStatus,
+              }),
+            },
+          );
           if (newStatus === "CONFIRMED") {
             await sendEmailToClient(
               row.getValue("email"),
@@ -351,7 +355,10 @@ export const reservationColumns = ({
     header: "Reçu de paiement",
     cell: ({ row }) => {
       const [open, setOpen] = useState(false);
-      const receiptUrl = row.original.paymentReceipt as string | null | undefined;
+      const receiptUrl = row.original.paymentReceipt as
+        | string
+        | null
+        | undefined;
 
       if (!receiptUrl) {
         return <span className="text-gray-400 text-center block">—</span>;

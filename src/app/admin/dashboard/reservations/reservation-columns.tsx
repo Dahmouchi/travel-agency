@@ -165,19 +165,7 @@ export const reservationColumns = ({
             row.original.id,
             newStatus,
           );
-          await fetch(
-            "https://db-n8n.puunoo.easypanel.host/webhook/payment-approved",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                reservationId: row.original.id,
-                status: newStatus,
-              }),
-            },
-          );
+
           if (newStatus === "CONFIRMED") {
             await sendEmailToClient(
               row.getValue("email"),

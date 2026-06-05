@@ -1,4 +1,3 @@
-
 // reservationActions.ts
 "use server";
 import prisma from "@/lib/prisma";
@@ -154,14 +153,13 @@ export async function UpdateStatuSurMesure(
 }
 
 function normalizePhone(phone: string) {
-  const parsedPhone =
-    parsePhoneNumberFromString(phone, 'MA')
+  const parsedPhone = parsePhoneNumberFromString(phone, "MA");
 
   const e164Phone = parsedPhone?.isValid()
-    ? parsedPhone.format('E.164')
-    : phone
+    ? parsedPhone.format("E.164")
+    : phone;
 
-  return e164Phone.replace('+', '')
+  return e164Phone.replace("+", "");
 }
 export async function CreateReservations(input: CreateReservationInput) {
   try {
@@ -170,9 +168,9 @@ export async function CreateReservations(input: CreateReservationInput) {
     // we default to Morocco (MA) when no country prefix is present.
     //const parsedPhone = parsePhoneNumberFromString(input.phone, "MA");
     //const e164Phone = parsedPhone?.isValid()
-      //? parsedPhone.format("E.164")
-      //: input.phone; // fallback: keep raw value rather than blocking the reservation
-    const e164Phone = normalizePhone(input.phone)
+    //? parsedPhone.format("E.164")
+    //: input.phone; // fallback: keep raw value rather than blocking the reservation
+    const e164Phone = normalizePhone(input.phone);
     // First, find the TourDate to get startDate and endDate
     const tourDate = await prisma.tourDate.findUnique({
       where: { id: input.travelDateId },
@@ -202,16 +200,13 @@ export async function CreateReservations(input: CreateReservationInput) {
         tour: true,
       },
     });
-    await fetch(
-      `${process.env.N8N_WEBHOOK_URL}/new-reservation`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(reservation)
-      }
-    )
+    await fetch(`${process.env.N8N_WEBHOOK_URL}/new-reservation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reservation),
+    });
     // const n8nResult = await triggerN8nWorkflow(reservation);
     // console.log("n8nResult", n8nResult);
 
@@ -366,10 +361,9 @@ export async function GetAllReservationsDiscover() {
     throw new Error("Failed to fetch reservations");
   }
 }
-export async function DelteAllReservations(){
+export async function DelteAllReservations() {
   try {
-    await prisma.reservations.deleteMany({
-    });
+    await prisma.reservations.deleteMany({});
     return { success: true };
   } catch (error) {
     throw new Error("Failed to delete reservations");
@@ -382,8 +376,30 @@ export async function UpdateReservationStatus(
   try {
     const updatedReservation = await prisma.reservations.update({
       where: { id },
-      data: { status },
+      data: {
+        status,
+        paymentStatus:
+          status === ReservationStatus.CONFIRMED ? "CONFIRMED" : "REJECTED",
+      },
     });
+
+    // Notify n8n webhook server-side (avoids CORS issues from the browser)
+    try {
+      const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
+      if (N8N_WEBHOOK_URL) {
+        await fetch(`${N8N_WEBHOOK_URL}/payment-approved`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            reservationId: id,
+            status,
+          }),
+        });
+      }
+    } catch (webhookError) {
+      // Don't fail the status update if the webhook fails
+      console.error("n8n webhook notification failed:", webhookError);
+    }
 
     return { success: true, reservation: updatedReservation };
   } catch (error) {

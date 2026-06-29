@@ -65,7 +65,7 @@ export function NavMain({
                       className={clsx(
                         "cursor-pointer transition-all rounded-xl duration-200 py-5",
                         isActive || hasActiveSubitem
-                          ? "bg-[#8EBD22] shadow-[4px_6px_7px_0px_rgba(0,_0,_0,_0.1)] text-white hover:bg-[#f7601f] hover:text-white font-semibold"
+                          ? "bg-[#8EBD22] shadow-[4px_6px_7px_0px_rgba(0,_0,_0,_0.1)] text-white hover:bg-[#6e9b03] hover:text-white font-semibold"
                           : "hover:bg-white dark:hover:bg-gray-800",
                       )}
                     >

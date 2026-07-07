@@ -173,7 +173,7 @@ export const reservationColumns = ({
               `<div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
             <!-- Header with logo and color accent -->
             <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-              <img src="https://happytrip.ma/wp-content/uploads/2016/04/cropped-PNG-Final-Logo-1.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
+              <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
             </div>
             
             <!-- Email content -->
@@ -189,7 +189,7 @@ export const reservationColumns = ({
                 
                 <p style="margin: 8px 0;"><strong>🔹 Référence :</strong> ${row.original.id}</p>
                 <p style="margin: 8px 0;"><strong>🔹 Circuit :</strong> ${row.original.tour.title}</p>
-                <p style="margin: 8px 0;"><strong>🔹 Dates :</strong> Du ${formatDate(row.original.travelDate.startDate)} au ${formatDate(row.original.travelDate.endDate)}</p>
+                <p style="margin: 8px 0;"><strong>🔹 Dates :</strong> Du ${formatDate(row.original.startDate)} au ${formatDate(row.original.endDate)}</p>
                 <p style="margin: 8px 0;"><strong>🔹 Montant total :</strong> ${row.getValue("finalPrice")} MAD</p>
               </div>
               
@@ -238,7 +238,7 @@ export const reservationColumns = ({
               `<div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
   <!-- Header with logo and color accent -->
   <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-    <img src="https://happytrip.ma/wp-content/uploads/2016/04/cropped-PNG-Final-Logo-1.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
+    <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
   </div>
   
   <!-- Email content -->
@@ -254,7 +254,7 @@ export const reservationColumns = ({
       
       <p style="margin: 8px 0;"><strong>🔹 Référence :</strong> ${row.original.id}</p>
       <p style="margin: 8px 0;"><strong>🔹 Circuit :</strong> ${row.original.tour.title}</p>
-      <p style="margin: 8px 0;"><strong>🔹 Dates prévues :</strong> Du ${formatDate(row.original.travelDate.startDate)} au ${formatDate(row.original.travelDate.endDate)}</p>
+      <p style="margin: 8px 0;"><strong>🔹 Dates prévues :</strong> Du ${formatDate(row.original.startDate)} au ${formatDate(row.original.endDate)}</p>
       <p style="margin: 8px 0;"><strong>🔹 Montant :</strong> ${row.original.totalPrice} MAD</p>
     </div>
     
@@ -315,6 +315,7 @@ export const reservationColumns = ({
             toast.error("Erreur lors de la mise à jour du statut");
           }
         } catch (error) {
+          console.log(error);
           toast.error("Erreur inattendue");
         } finally {
           setUpdating(false);

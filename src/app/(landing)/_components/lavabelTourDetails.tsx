@@ -732,7 +732,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                                   className="w-6 h-6"
                                 />*/}
                     <h2 className="text-xl font-bold text-gray-800  flex items-center justify-center text-center">
-                      Ce que disent nos voyageurs sur Build Travel
+                      Ce que disent nos voyageurs sur Google maps
                     </h2>
                   </div>
                   {reviews.length === 0 ? (

@@ -139,7 +139,7 @@ export const reservationColumns = ({
               `<div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
             <!-- Header with logo and color accent -->
             <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-              <img src="https://happytrip.ma/wp-content/uploads/2016/04/cropped-PNG-Final-Logo-1.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
+              <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
             </div>
             
             <!-- Email content -->
@@ -204,7 +204,7 @@ export const reservationColumns = ({
               `<div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: 0 auto;">
   <!-- Header with logo and color accent -->
   <div style="background-color: #fff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-    <img src="https://happytrip.ma/wp-content/uploads/2016/04/cropped-PNG-Final-Logo-1.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
+    <img src="https://happytrip.ma/horizontal.png" alt="Happy Trip Logo" style="max-height: 80px; display: block; margin: 0 auto;">
   </div>
   
   <!-- Email content -->

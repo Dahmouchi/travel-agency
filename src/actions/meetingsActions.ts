@@ -1,9 +1,8 @@
-'use server';
+"use server";
 import prisma from "@/lib/prisma";
 import nodemailer from "nodemailer";
 
-export async function getAllMeetings()
-{
+export async function getAllMeetings() {
   try {
     const meetings = await prisma.meeting.findMany({
       orderBy: { createdAt: "asc" },
@@ -23,7 +22,6 @@ export async function getAllMeetings()
   }
 }
 
-
 export async function deleteMeeting(meetingId: string) {
   try {
     const deletedMeeting = await prisma.meeting.delete({
@@ -40,7 +38,7 @@ export async function confirmMeeting(meetingId: string) {
   try {
     const updatedMeeting = await prisma.meeting.update({
       where: { id: meetingId },
-      data: { status: 'confirmed' },
+      data: { status: "confirmed" },
     });
     return updatedMeeting;
   } catch (error) {
@@ -53,7 +51,7 @@ export async function updateMeeting(
   meetingId: string,
   title: string,
   date: Date,
-  description?: string
+  description?: string,
 ) {
   try {
     const updatedMeeting = await prisma.meeting.update({
@@ -71,12 +69,11 @@ export async function updateMeeting(
   }
 }
 
-
 export async function finishMeeting(meetingId: string) {
   try {
     const updatedMeeting = await prisma.meeting.update({
       where: { id: meetingId },
-      data: { status: 'finished' },
+      data: { status: "finished" },
     });
     return updatedMeeting;
   } catch (error) {
@@ -85,29 +82,31 @@ export async function finishMeeting(meetingId: string) {
   }
 }
 
-
-
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: "happy.trip.voyage@gmail.com", 
-    pass: "gryk xtuu lpfv naqc", 
+    user: process.env.SMTP_USER || "",
+    pass: process.env.SMTP_PASS || "",
   },
 });
 
-export async function sendEmailToClient(to: string, subject: string, html: string) {
+export async function sendEmailToClient(
+  to: string,
+  subject: string,
+  html: string,
+) {
+  const mailOptions = {
+    from: "contact@build360.ma",
+    to,
+    subject,
+    html,
+  };
   try {
-    const info = await transporter.sendMail({
-      from: `"HappyTrip"`, 
-      to,
-      subject,
-      html,
-    });
-
-    console.log("Email sent:", info.messageId);
-    return { success: true };
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
   } catch (error) {
-    console.error("Failed to send email:", error);
-    return { success: false, error };
+    console.error("Error sending email:", error);
   }
 }

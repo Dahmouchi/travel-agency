@@ -28,6 +28,18 @@ import {
   TrendingUp,
   MapPinHouse,
   MessageCircle,
+  Play,
+  Shield,
+  Heart,
+  ArrowRight,
+  Quote,
+  Globe,
+  Camera,
+  CircleCheck,
+  CircleX,
+  CirclePlus,
+  HelpCircle,
+  FileText,
 } from "lucide-react";
 import {
   Carousel,
@@ -71,6 +83,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
   const [sampleFaqData, setSampleFaqData] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
   const [landing, setLanding] = useState<any>(null);
+  const [activeSection, setActiveSection] = useState("overview");
 
   async function fetchData() {
     try {
@@ -178,254 +191,306 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
     }
   };
 
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/10 to-background ">
-      {/* Hero Section with Image Carousel */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="relative h-[80vh] overflow-hidden"
-      >
-        <Carousel
-          opts={{ loop: true }}
-          plugins={[plugin.current]}
-          className="h-full"
-          onMouseEnter={() => plugin.current.stop()}
-          onMouseLeave={() => plugin.current.play()}
-        >
-          <CarouselContent>
-            <CarouselItem>
-              <div className="relative h-[80vh]">
+    <div className="min-h-screen bg-[#fafbf7] pb-20 lg:pb-0">
+      {/* ═══════════════════════════════════════════════════════════
+          HERO SECTION — Split layout with single image
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="relative bg-gradient-to-br bg-[#47663B] overflow-hidden">
+        {/* Subtle background pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+
+        <div className="  px-4 md:px-8 lg:px-24 pt-4 lg:pt-32 pb-16">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Left — Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-6 relative z-10 order-2 lg:order-1"
+            >
+              {/* Tags */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
+                  <MapPin className="w-4 h-4 text-[#8EBD22]" />
+                  <span className="text-white/90 text-sm font-medium">
+                    {tour.destinations[0]?.name} •{" "}
+                    {tour.type === "NATIONAL" ? "Maroc" : "International"}
+                  </span>
+                </div>
+                {tour.showReviews && reviewCount > 0 && (
+                  <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
+                    <Star className="w-4 h-4 fill-[#8EBD22] text-[#8EBD22]" />
+                    <span className="text-white/90 text-sm font-medium">
+                      {averageRating} ({reviewCount} avis)
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Title */}
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
+                {tour.title}
+              </h1>
+
+              {/* Quick info chips */}
+              <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2 text-white/70 text-sm">
+                  <Clock className="w-4 h-4 text-[#8EBD22]" />
+                  <span>
+                    {tour.durationDays}J / {tour.durationNights}N
+                  </span>
+                </div>
+                <div className="w-px h-5 bg-white/20" />
+                <div className="flex items-center gap-2 text-white/70 text-sm">
+                  <Users className="w-4 h-4 text-[#8EBD22]" />
+                  <span>Max {tour.groupSizeMax} pers.</span>
+                </div>
+                {getNextTourDate && (
+                  <>
+                    <div className="w-px h-5 bg-white/20" />
+                    <div className="flex items-center gap-2 text-white/70 text-sm">
+                      <Calendar className="w-4 h-4 text-[#8EBD22]" />
+                      <span>{getNextTourDate}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Price & CTA */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 pt-2">
+                <div>
+                  <span className="text-white/80 text-xs uppercase tracking-wider font-medium block mb-1">
+                    À partir de
+                  </span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-4xl md:text-5xl font-black text-[#aae61f]">
+                      {tour.priceDiscounted}
+                    </span>
+                    <span className="text-lg text-[#fff] font-semibold">
+                      MAD
+                    </span>
+                  </div>
+                </div>
+                <Button
+                  size="lg"
+                  onClick={scrollToBooking}
+                  className="bg-[#8EBD22] hover:bg-[#7aa91c] text-white font-semibold px-8 py-6 rounded-xl text-base  hover:shadow-[0_8px_40px_rgba(142,189,34,0.5)] transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  Réserver maintenant
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Right — Single Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative order-1 lg:order-2"
+            >
+              <div className="relative rounded-2xl border-r-4  border-r-[#8EBD22] overflow-hidden aspect-[4/3] lg:aspect-[4/2.5]">
                 <img
                   src={tour.imageUrl}
                   alt={tour.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-              </div>
-            </CarouselItem>
-            {tour.images?.map((image: any, index: number) => (
-              <CarouselItem key={index}>
-                <div className="relative h-[80vh]">
-                  <img
-                    src={image.url}
-                    alt={tour.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-4 bg-background/80 hover:bg-background" />
-          <CarouselNext className="right-4 bg-background/80 hover:bg-background" />
-        </Carousel>
+                <div className="absolute inset-0 bg-gradient-to-t  from-black/30 via-transparent to-transparent" />
 
-        {/* Floating Info Card */}
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="absolute bottom-10 px-2 lg:px-24 left-1/2 -translate-x-1/2 w-full max-w-6xl"
-        >
-          <Card className="backdrop-blur-xl py-0 bg-card/95 border-[#8EBD22] shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <MapPin className="w-4 h-4 text-[#8EBD22]" />
-                    <span className="text-sm text-muted-foreground">
-                      {tour.destinations[0]?.name} •{" "}
-                      {tour.type === "NATIONAL" ? "Maroc" : "International"}
-                    </span>
-                  </div>
-                  <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
-                    {tour.title}
-                  </h1>
-                  {tour.showReviews && reviewCount > 0 && (
-                    <div className="flex items-center gap-2">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "w-4 h-4",
-                              i < Math.round(Number(averageRating))
-                                ? "fill-[#8EBD22] text-[#8EBD22]"
-                                : "text-muted",
-                            )}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        {averageRating}/5 ({reviewCount} avis)
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-col items-end gap-3">
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground">
-                      À partir de
-                    </div>
-                    <div className="text-4xl font-bold text-[#8EBD22]">
-                      {tour.priceDiscounted}{" "}
-                      <span className="text-lg">MAD</span>
-                    </div>
-                  </div>
-                  <Button
-                    size="lg"
-                    onClick={scrollToBooking}
-                    className="bg-[#8EBD22] hover:bg-[#8EBD22]/90 text-white shadow-lg"
-                  >
-                    Réserver maintenant
-                  </Button>
+                {/* Floating badge on image */}
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/15 backdrop-blur-md rounded-xl px-3 py-2 border border-white/20">
+                  <Hotel className="w-4 h-4 text-white" />
+                  <span className="text-white text-xs font-medium">
+                    {tour.accommodationType}
+                  </span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </motion.div>
 
-      {/* Quick Info Bar */}
-      <motion.div
+              {/* Decorative glow behind image */}
+              <div className="absolute -inset-4 bg-[#8EBD22]/10 rounded-[2rem] blur-3xl -z-10" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          QUICK STATS BAR
+      ═══════════════════════════════════════════════════════════ */}
+      <motion.section
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="container mx-auto px-4 -mt-8 relative z-10 lg:px-24"
+        transition={{ delay: 0.5, duration: 0.6 }}
+        className="relative z-20 px-4 md:px-8 lg:px-24 -top-6 "
       >
-        <Card className="bg-[#8EBD22] py-0 border-[#8EBD22]/20">
-          <CardContent className="p-4">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-full bg-white/10">
-                  <Clock className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-xs text-white">Durée</div>
-                  <div className="font-semibold text-white">
-                    {tour.durationDays}J / {tour.durationNights}N
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-full bg-white/10">
-                  <Calendar className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-xs text-white">Prochaine date</div>
-                  <div className="font-semibold text-sm text-white">
-                    {getNextTourDate || "À venir"}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-full bg-white/10">
-                  <Users className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-xs text-white">Groupe max</div>
-                  <div className="font-semibold text-white">
-                    {tour.groupSizeMax} personnes
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-full bg-white/10">
-                  <Hotel className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-xs text-white">Hébergement</div>
-                  <div className="font-semibold text-white">
-                    {tour.accommodationType}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Main Content */}
-      <div className="container px-2 lg:px-24 mx-auto py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Description */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="py-0">
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                    Description du voyage
-                  </h2>
-                  <div
-                    className={cn(
-                      "prose prose-sm max-w-none transition-all duration-300",
-                      !expanded && "line-clamp-6",
-                    )}
-                    dangerouslySetInnerHTML={{ __html: tour.description || "" }}
-                  />
-                  {tour.description && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setExpanded(!expanded)}
-                      className="mt-2"
-                    >
-                      {expanded ? "Voir moins" : "Voir plus"}
-                      <ChevronDown
-                        className={cn(
-                          "w-4 h-4 ml-2 transition-transform",
-                          expanded && "rotate-180",
-                        )}
-                      />
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Video Section */}
-            {tour.videoUrl && (
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
+        <div className="bg-white rounded-2xl border-[0.5px] border-[#7676763f] shadow-[0_4px_40px_rgba(0,0,0,0.06)]  p-1">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: Clock,
+                label: "Durée",
+                value: `${tour.durationDays}J / ${tour.durationNights}N`,
+              },
+              {
+                icon: Calendar,
+                label: "Prochaine date",
+                value: getNextTourDate || "À venir",
+              },
+              {
+                icon: Users,
+                label: "Groupe max",
+                value: `${tour.groupSizeMax} personnes`,
+              },
+              {
+                icon: Hotel,
+                label: "Hébergement",
+                value: tour.accommodationType,
+              },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "flex items-center gap-4 p-5 rounded-xl transition-colors hover:bg-[#8EBD22]/5",
+                  i < 3 && "lg:border-r border-gray-100",
+                )}
               >
-                <Card className="py-0">
-                  <CardContent className="p-0">
-                    <div className="aspect-video">
-                      <iframe
-                        className="w-full h-full rounded-xl"
-                        src={tour.videoUrl}
-                        title="Video du tour"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )}
+                <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-[#8EBD22]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+                    {stat.label}
+                  </div>
+                  <div className="font-semibold text-gray-800 text-sm truncate">
+                    {stat.value}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
 
-            {/* Program Itinerary */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+      {/* ═══════════════════════════════════════════════════════════
+          MAIN CONTENT AREA — Interleaved on mobile, 2-col on desktop
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="lg:max-w-7xl lg:mx-auto px-4 md:px-8 lg:px-24 py-8 md:py-12 lg:py-16">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_380px] gap-6 md:gap-8 lg:gap-10">
+          {/* DESCRIPTION — order-1 on mobile, stays in left col on desktop */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="order-1 lg:order-none lg:col-start-1"
+          >
+            <SectionHeader
+              icon={<FileText className="w-5 h-5" />}
+              title="Description du voyage"
+            />
+            <div className="mt-6 bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
+              <div
+                className={cn(
+                  "prose prose-gray prose-sm max-w-none",
+                  "prose-headings:text-gray-800 prose-p:text-gray-600 prose-p:leading-relaxed",
+                  "prose-a:text-[#8EBD22] prose-strong:text-gray-700",
+                  !expanded && "line-clamp-6",
+                )}
+                dangerouslySetInnerHTML={{ __html: tour.description || "" }}
+              />
+              {tour.description && (
+                <button
+                  onClick={() => setExpanded(!expanded)}
+                  className="mt-4 inline-flex items-center gap-2 text-[#8EBD22] hover:text-[#7aa91c] font-semibold text-sm transition-colors group"
+                >
+                  {expanded ? "Voir moins" : "Lire la suite"}
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5",
+                      expanded && "rotate-180",
+                    )}
+                  />
+                </button>
+              )}
+            </div>
+          </motion.section>
+
+          {/* VIDEO — order-4 on mobile */}
+          {tour.videoUrl && (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+              className="order-4 lg:order-none lg:col-start-1"
             >
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Mountain className="w-6 h-6 text-[#8EBD22]" />
-                Programme du voyage
-              </h2>
+              <SectionHeader
+                icon={<Play className="w-5 h-5" />}
+                title="Vidéo du voyage"
+              />
+              <div className="mt-6 rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.08)] border border-gray-100/80">
+                <div className="aspect-video">
+                  <iframe
+                    className="w-full h-full"
+                    src={tour.videoUrl}
+                    title="Video du tour"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </motion.section>
+          )}
+
+          {/* PROGRAM / ITINERARY */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="order-5 lg:order-none lg:col-start-1"
+          >
+            <SectionHeader
+              icon={<Mountain className="w-5 h-5" />}
+              title="Programme du voyage"
+            />
+            <div className="mt-6 relative">
+              {/* Timeline connecting line */}
+              <div className="absolute left-[23px] top-8 bottom-8 w-[2px] bg-gradient-to-b from-[#8EBD22] via-[#8EBD22]/30 to-transparent hidden md:block" />
+
               <Accordion
                 type="multiple"
-                className="space-y-3"
+                className="space-y-4"
                 defaultValue={[programss[0]?.id]}
               >
                 {programss.map((prog: any, index: any) => (
@@ -434,21 +499,35 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                     key={prog.id}
                     className="border-none"
                   >
-                    <Card className="py-0">
-                      <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                    <div className="relative bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 overflow-hidden hover:shadow-[0_4px_30px_rgba(0,0,0,0.08)] transition-shadow duration-300">
+                      <AccordionTrigger className="px-6 py-5 hover:no-underline [&[data-state=open]>div>.day-badge]:bg-[#8EBD22] [&[data-state=open]>div>.day-badge]:text-white [&[data-state=open]>div>.day-badge]:shadow-[0_4px_15px_rgba(142,189,34,0.3)]">
                         <div className="flex items-center gap-4 text-left">
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#8EBD22] text-white flex items-center justify-center font-bold">
-                            {index + 1}
+                          <div className="day-badge flex-shrink-0 w-10 h-10 rounded-xl bg-[#8EBD22]/10 text-[#8EBD22] flex items-center justify-center font-bold text-sm transition-all duration-300">
+                            J{index + 1}
                           </div>
-                          <span className="font-semibold">{prog.title}</span>
+                          <div>
+                            <span className="font-semibold text-gray-800 text-base block">
+                              {prog.title}
+                            </span>
+                            <span className="text-xs text-gray-400 font-medium">
+                              Jour {index + 1}
+                            </span>
+                          </div>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
-                        <CardContent className="pt-0">
+                        <div className="px-6 pb-6">
+                          <div className="h-px bg-gradient-to-r from-[#8EBD22]/20 via-gray-100 to-transparent mb-6" />
                           <div className="grid lg:grid-cols-3 gap-6">
-                            <div className="lg:col-span-2">
+                            <div
+                              className={
+                                prog.imageUrl
+                                  ? "lg:col-span-2"
+                                  : "lg:col-span-3"
+                              }
+                            >
                               <div
-                                className="prose prose-sm max-w-none"
+                                className="prose prose-sm max-w-none prose-p:text-gray-600 prose-p:leading-relaxed"
                                 dangerouslySetInnerHTML={{
                                   __html: prog.description || "",
                                 }}
@@ -459,371 +538,395 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                                 <img
                                   src={prog.imageUrl}
                                   alt={prog.title}
-                                  className="rounded-xl w-full h-48 object-cover"
+                                  className="rounded-xl w-full h-48 object-cover shadow-sm"
                                 />
                               </div>
                             )}
                           </div>
-                        </CardContent>
+                        </div>
                       </AccordionContent>
-                    </Card>
+                    </div>
                   </AccordionItem>
                 ))}
               </Accordion>
-            </motion.div>
+            </div>
+          </motion.section>
 
-            {/* Includes / Excludes */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Included */}
-                {includes.length > 0 && (
-                  <Card className="border-[#8EBD22]/20">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-[#8EBD22]">
-                        <Check className="w-5 h-5" />
-                        Inclus dans le voyage
-                      </h3>
-                      <ul className="space-y-3">
-                        {includes.map((item: any, index: any) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <Check className="w-4 h-4 text-[#8EBD22] mt-0.5 flex-shrink-0" />
-                            <span className="text-sm">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                )}
+          {/* INCLUDES / EXCLUDES / EXTRAS */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="order-7 lg:order-none lg:col-start-1"
+          >
+            <SectionHeader
+              icon={<Shield className="w-5 h-5" />}
+              title="Ce qui est compris"
+            />
+            <div className="mt-6 grid md:grid-cols-2 gap-5">
+              {/* Included */}
+              {includes.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#8EBD22] to-[#8EBD22]/30 rounded-l-2xl" />
+                  <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-[#8EBD22]/10 flex items-center justify-center">
+                      <CircleCheck className="w-4 h-4 text-[#8EBD22]" />
+                    </div>
+                    Inclus
+                  </h3>
+                  <ul className="space-y-3">
+                    {includes.map((item: any, index: any) => (
+                      <li key={index} className="flex items-start gap-3 group">
+                        <Check className="w-4 h-4 text-[#8EBD22] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-                {/* Excluded */}
-                {excludes.length > 0 && (
-                  <Card className="border-destructive/20">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-destructive">
-                        <X className="w-5 h-5" />
-                        Non inclus
-                      </h3>
-                      <ul className="space-y-3">
-                        {excludes.map((item: any, index: any) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <X className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
-                            <span className="text-sm">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                )}
+              {/* Excluded */}
+              {excludes.length > 0 && (
+                <div className="bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-400 to-red-400/30 rounded-l-2xl" />
+                  <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
+                      <CircleX className="w-4 h-4 text-red-400" />
+                    </div>
+                    Non inclus
+                  </h3>
+                  <ul className="space-y-3">
+                    {excludes.map((item: any, index: any) => (
+                      <li key={index} className="flex items-start gap-3 group">
+                        <X className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Extras */}
+            {extract.length > 0 && (
+              <div className="mt-5 bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-400 to-blue-400/30 rounded-l-2xl" />
+                <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+                    <CirclePlus className="w-4 h-4 text-blue-500" />
+                  </div>
+                  Suppléments optionnels
+                </h3>
+                <ul className="space-y-3">
+                  {extract.map((item: any, index: any) => (
+                    <li key={index} className="flex items-start gap-3 group">
+                      <Plus className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </motion.section>
+
+          {/* CHECKLIST */}
+          {tour.showChecklist &&
+            tour.checklist &&
+            tour.checklist.length > 0 && (
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6 }}
+                className="order-9 lg:order-none lg:col-start-1"
+              >
+                <SectionHeader
+                  icon={<Check className="w-5 h-5" />}
+                  title={tour.titleCkecklist || "Checklist"}
+                />
+                <div className="mt-6 bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
+                  <div className="space-y-6">
+                    {tour.checklist.map((item: any, index: any) => (
+                      <div key={index} className="group">
+                        <h3 className="text-base font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-[#8EBD22]/10 flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-[#8EBD22]">
+                              {index + 1}
+                            </span>
+                          </div>
+                          {item.title}
+                        </h3>
+                        <div
+                          className="prose prose-sm max-w-none pl-8 prose-p:text-gray-600 prose-p:leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: item.description,
+                          }}
+                        />
+                        {index < tour.checklist.length - 1 && (
+                          <div className="h-px bg-gray-100 mt-6" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.section>
+            )}
+          {/* ─── SIDEBAR SECTIONS (interleaved on mobile, sticky column on desktop) ─── */}
+
+          {/* Booking Card — order-2 on mobile (right after description) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="order-2 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-6"
+          >
+            <div className=" lg:top-6 space-y-5 sm:space-y-6">
+              <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] border border-gray-100/80 overflow-hidden">
+                {/* Card Header */}
+                <div className="bg-gradient-to-r from-[#8EBD22] to-[#6da015] p-5">
+                  <h3 className="text-lg font-bold text-white">
+                    Réservez votre place
+                  </h3>
+                  <p className="text-white/80 text-xs mt-0.5">
+                    Places limitées • Réservez tôt
+                  </p>
+                </div>
+
+                <div className="p-6">
+                  {availableDates.length > 0 ? (
+                    <div className="space-y-5">
+                      <div>
+                        <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
+                          Choisissez votre date
+                        </label>
+                        <select
+                          value={selectedDate || ""}
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                          className="w-full p-3.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:ring-2 focus:ring-[#8EBD22] focus:border-[#8EBD22] transition-all text-sm font-medium text-gray-700 appearance-none cursor-pointer"
+                        >
+                          {availableDates
+                            .filter((date) => date.visible)
+                            .map((date) => (
+                              <option key={date.id} value={date.id}>
+                                {formatDate(date.startDate)} - {date.price} MAD
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div className="bg-[#8EBD22]/5 rounded-xl p-4 border border-[#8EBD22]/10">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-500">
+                            Prix par personne
+                          </span>
+                          <div className="text-right">
+                            <span className="text-2xl font-extrabold text-[#8EBD22]">
+                              {tour.priceDiscounted}
+                            </span>
+                            <span className="text-sm font-semibold text-[#8EBD22]/70 ml-1">
+                              MAD
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <Button
+                        onClick={scrollToBooking}
+                        className="w-full bg-[#8EBD22] hover:bg-[#7aa91c] text-white font-semibold py-6 rounded-xl text-base shadow-[0_8px_30px_rgba(142,189,34,0.25)] hover:shadow-[0_8px_40px_rgba(142,189,34,0.4)] transition-all duration-300 hover:-translate-y-0.5"
+                        size="lg"
+                      >
+                        Réserver maintenant
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+
+                      <p className="text-xs text-center text-gray-400 flex items-center justify-center gap-1">
+                        <Shield className="w-3 h-3" />
+                        Réservation sécurisée
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                        <Calendar className="w-5 h-5 text-gray-400" />
+                      </div>
+                      <p className="text-gray-500 text-sm">
+                        Aucune date disponible
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Extras */}
-              {extract.length > 0 && (
-                <Card className="mt-6 border-blue-600/20">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-blue-600">
-                      <Plus className="w-5 h-5" />
-                      Suppléments optionnels
-                    </h3>
-                    <ul className="space-y-3">
-                      {extract.map((item: any, index: any) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <Plus className="w-4 h-4 text-bluborder-blue-600 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-            </motion.div>
-
-            {/* Checklist */}
-            {tour.showChecklist &&
-              tour.checklist &&
-              tour.checklist.length > 0 && (
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card>
-                    <CardContent className="p-6">
-                      <h2 className="text-2xl font-bold mb-6">
-                        {tour.titleCkecklist}
-                      </h2>
-                      <div className="space-y-6">
-                        {tour.checklist.map((item: any, index: any) => (
-                          <div key={index}>
-                            <h3 className="text-lg font-semibold mb-2">
-                              {item.title}
-                            </h3>
-                            <div
-                              className="prose prose-sm max-w-none"
-                              dangerouslySetInnerHTML={{
-                                __html: item.description,
-                              }}
-                            />
-                          </div>
+              {/* Tour Details Card */}
+              <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 p-6">
+                <h3 className="text-base font-bold text-gray-800 mb-5 flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#8EBD22]" />
+                  Détails du voyage
+                </h3>
+                <div className="space-y-4 mt-4">
+                  {tour.showDifficulty && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-500">Niveau</span>
+                      <div className="flex gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <div
+                            key={i}
+                            className={cn(
+                              "w-5 h-2 rounded-full transition-colors",
+                              i < (tour.difficultyLevel || 0)
+                                ? "bg-[#8EBD22]"
+                                : "bg-gray-100",
+                            )}
+                          />
                         ))}
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )}
-          </div>
-
-          {/* Right Column - Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 space-y-6">
-              {/* Booking Card */}
-              <motion.div
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                <Card className="border-[#8EBD22]/20 shadow-lg">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-4 text-center">
-                      Réservez votre place
-                    </h3>
-
-                    {/* Date Selection */}
-                    {availableDates.length > 0 ? (
-                      <div className="space-y-4">
-                        <div>
-                          <label className="text-sm font-medium mb-2 block">
-                            Choisissez votre date
-                          </label>
-                          <select
-                            value={selectedDate || ""}
-                            onChange={(e) => setSelectedDate(e.target.value)}
-                            className="w-full p-3 rounded-xl border bg-background focus:ring-2 focus:ring-[#8EBD22]"
-                          >
-                            {availableDates
-                              .filter((date) => date.visible)
-                              .map((date) => (
-                                <option key={date.id} value={date.id}>
-                                  {formatDate(date.startDate)} - {date.price}{" "}
-                                  MAD
-                                </option>
-                              ))}
-                          </select>
-                        </div>
-
-                        <div className="py-4 border-y">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-muted-foreground">
-                              Prix par personne
-                            </span>
-                            <span className="text-2xl font-bold text-[#8EBD22]">
-                              {tour.priceDiscounted} MAD
-                            </span>
-                          </div>
-                        </div>
-
-                        <Button
-                          onClick={scrollToBooking}
-                          className="w-full bg-[#8EBD22] hover:bg-[#8EBD22]/90 text-[#8EBD22]-foreground"
-                          size="lg"
-                        >
-                          Réserver maintenant
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="text-center py-8">
-                        <p className="text-muted-foreground">
-                          Aucune date disponible
-                        </p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Tour Details Card */}
-              <motion.div
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
-                <Card>
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-bold mb-4">
-                      Détails du voyage
-                    </h3>
-                    <div className="space-y-4">
-                      {tour.showDifficulty && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">
-                            Niveau
-                          </span>
-                          <div className="flex gap-1">
-                            {[...Array(5)].map((_, i) => (
-                              <div
-                                key={i}
-                                className={cn(
-                                  "w-6 h-6 rounded-sm",
-                                  i < (tour.difficultyLevel || 0)
-                                    ? "bg-[#8EBD22]"
-                                    : "bg-muted",
-                                )}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">
-                          Destination
-                        </span>
-                        <span className="font-medium">
-                          {tour.destinations.map((d: any) => d.name).join(", ")}
-                        </span>
-                      </div>
-
-                      {tour.natures && tour.natures.length > 0 && (
-                        <div>
-                          <span className="text-sm text-muted-foreground block mb-2">
-                            Thématiques
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {tour.natures.map((nature: any) => (
-                              <Badge key={nature.id} variant="info">
-                                {nature.name}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {tour.services && tour.services.length > 0 && (
-                        <div>
-                          <span className="text-sm text-muted-foreground block mb-2">
-                            Services
-                          </span>
-                          <div className="flex flex-wrap gap-2">
-                            {tour.services.map((service: any) => (
-                              <Badge
-                                key={service.id}
-                                className="bg-[#8EBD22]/10 text-[#8EBD22]"
-                              >
-                                {service.name}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  )}
 
-              {landing?.reviews && (
-                <div className="bg-[#FFEDF3] my-4 p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans">
-                  <div className="flex items-center justify-center mb-4 gap-3">
-                    {/* Reviews Section <img
-                                  src="/icons/google-logo-Photoroom.png"
-                                  alt=""
-                                  className="w-6 h-6"
-                                />*/}
-                    <h2 className="text-xl font-bold text-gray-800  flex items-center justify-center text-center">
-                      Ce que disent nos voyageurs sur Google maps
-                    </h2>
+                  <div className="h-px bg-gray-50" />
+
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-500">Destination</span>
+                    <span className="font-medium text-gray-800 text-sm text-right max-w-[180px]">
+                      {tour.destinations.map((d: any) => d.name).join(", ")}
+                    </span>
                   </div>
+
+                  {tour.natures && tour.natures.length > 0 && (
+                    <>
+                      <div className="h-px bg-gray-50" />
+                      <div>
+                        <span className="text-sm text-gray-500 block mb-2">
+                          Thématiques
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {tour.natures.map((nature: any) => (
+                            <span
+                              key={nature.id}
+                              className="inline-flex items-center px-3 py-1 rounded-lg bg-[#8EBD22]/5 text-[#8EBD22] text-xs font-medium border border-[#8EBD22]/10"
+                            >
+                              {nature.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {tour.services && tour.services.length > 0 && (
+                    <>
+                      <div className="h-px bg-gray-50" />
+                      <div>
+                        <span className="text-sm text-gray-500 block mb-2">
+                          Services
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {tour.services.map((service: any) => (
+                            <span
+                              key={service.id}
+                              className="inline-flex items-center px-3 py-1 rounded-lg bg-gray-50 text-gray-600 text-xs font-medium border border-gray-100"
+                            >
+                              {service.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+              {/* Google Reviews Sidebar */}
+              {landing?.reviews && (
+                <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 p-6">
+                  <div className="flex items-center gap-2 mb-5">
+                    <img
+                      src="/icons/google-logo-Photoroom.png"
+                      alt="Google"
+                      className="w-5 h-5"
+                    />
+                    <h3 className="text-sm font-bold text-gray-800">
+                      Avis Google Maps
+                    </h3>
+                  </div>
+
                   {reviews.length === 0 ? (
-                    <div className="text-center text-gray-500 py-8">
-                      Aucun avis pour ce tour pour le moment.
+                    <div className="text-center text-gray-400 py-6 text-sm">
+                      Aucun avis pour le moment.
                     </div>
                   ) : reviews.length > 1 ? (
                     <Carousel
-                      opts={{
-                        align: "center",
-                        loop: true,
-                      }}
+                      opts={{ align: "center", loop: true }}
                       plugins={[
                         Autoplay({
                           delay: 5000,
                           stopOnInteraction: false,
                         }),
                       ]}
-                      className="relative group"
+                      className="relative"
                     >
-                      <CarouselContent className="-ml-1 px-8 py-4">
+                      <CarouselContent className="-ml-1">
                         {reviews
                           .filter((review: any) => review.status)
                           .map((review: any) => (
                             <ReviewItem key={review.id} review={review} />
                           ))}
                       </CarouselContent>
-
-                      {/* Navigation Arrows */}
-                      <div className="hidden sm:block">
-                        <CarouselPrevious className="absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white text-[#8EBD22] rounded-full shadow-lg hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 opacity-0 group-hover:opacity-100 z-10" />
-                        <CarouselNext className="absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white text-[#8EBD22] rounded-full shadow-lg hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200 opacity-0 group-hover:opacity-100 z-10" />
-                      </div>
-
-                      {/* Mobile Navigation */}
-                      <div className="sm:hidden flex justify-center gap-4 mt-6">
-                        <CarouselPrevious className="static w-10 h-10 bg-white text-[#8EBD22] rounded-full shadow hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200">
-                          <ChevronLeft className="w-5 h-5" />
-                        </CarouselPrevious>
-                        <CarouselNext className="static w-10 h-10 bg-white text-[#8EBD22] rounded-full shadow hover:bg-[#8EBD22] hover:text-white transition-all border border-gray-200">
-                          <ChevronRight className="w-5 h-5" />
-                        </CarouselNext>
+                      <div className="flex justify-center gap-2 mt-4">
+                        <CarouselPrevious className="static w-8 h-8 bg-gray-50 text-gray-500 rounded-lg hover:bg-[#8EBD22]/10 hover:text-[#8EBD22] transition-all border-gray-100" />
+                        <CarouselNext className="static w-8 h-8 bg-gray-50 text-gray-500 rounded-lg hover:bg-[#8EBD22]/10 hover:text-[#8EBD22] transition-all border-gray-100" />
                       </div>
                     </Carousel>
                   ) : (
-                    <div className="w-full">
-                      <ReviewsCard
-                        review={{
-                          name: approvedReviews[0]?.fullName,
-                          message: approvedReviews[0]?.message,
-                          rating: approvedReviews[0]?.rating,
-                          role: "Client",
-                          avatarUrl: "/home/ubuntu/upload/image.png",
-                        }}
-                      />
-                    </div>
+                    <ReviewsCard
+                      review={{
+                        name: approvedReviews[0]?.fullName,
+                        message: approvedReviews[0]?.message,
+                        rating: approvedReviews[0]?.rating,
+                        role: "Client",
+                        avatarUrl: "/home/ubuntu/upload/image.png",
+                      }}
+                    />
                   )}
+
                   {landing?.googleAvie && (
-                    <div className="text-center ">
-                      <a
-                        href={`https://www.google.com/maps/place/Happy+Trip/@34.0202687,-6.8372415,722m/data=!3m2!1e3!4b1!4m6!3m5!1s0xda76de9c8728317:0x46dc98bb0096920e!8m2!3d34.0202687!4d-6.8372415!16s%2Fg%2F11r8xd0s0x?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-[#8EBD22] text-white rounded-xl hover:bg-[#6db05e] transition-all duration-200 font-medium shadow-sm hover:shadow-md"
-                      >
-                        <Star className="w-5 h-5" />
-                        <span>Voir tous les avis sur Google Maps</span>
-                      </a>
-                    </div>
+                    <a
+                      href={`https://www.google.com/maps/place/Happy+Trip/@34.0202687,-6.8372415,722m/data=!3m2!1e3!4b1!4m6!3m5!1s0xda76de9c8728317:0x46dc98bb0096920e!8m2!3d34.0202687!4d-6.8372415!16s%2Fg%2F11r8xd0s0x?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-[#8EBD22]/10 hover:text-[#8EBD22] transition-all duration-200 text-xs font-medium border border-gray-100"
+                    >
+                      <Star className="w-3.5 h-3.5" />
+                      Voir tous les avis Google Maps
+                    </a>
                   )}
                 </div>
               )}
+
+              {/* Tour Reviews Sidebar */}
               {tour.showReviews && (
-                <div className="bg-[#FFEDF3]  p-6 md:p-8 rounded-xl border border-slate-200 shadow-lg max-w-2xl mx-auto font-sans">
-                  <h2 className="text-xl text-center font-bold text-gray-800 mb-6 flex flex-col gap-2 items-center justify-center">
-                    <MessageCircle />
-                    Les avis de nos clients à propos de ce voyage
-                  </h2>
+                <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 p-6">
+                  <h3 className="text-sm font-bold text-gray-800 mb-5 flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-[#8EBD22]" />
+                    Avis de nos clients
+                  </h3>
                   {approvedReviews.length === 0 ? (
-                    <div className="text-center text-gray-500 py-8">
-                      Aucun avis pour ce tour pour le moment.
+                    <div className="text-center text-gray-400 py-6 text-sm">
+                      Aucun avis pour le moment.
                     </div>
                   ) : approvedReviews.length > 1 ? (
                     <Carousel
-                      plugins={[plugin.current]} // Add plugin ref here for autoplay
+                      plugins={[plugin.current]}
                       className="w-full"
-                      opts={{
-                        align: "start",
-                        loop: true,
-                      }}
-                      onMouseEnter={plugin.current.stop} // Optional: pause on hover
+                      opts={{ align: "start", loop: true }}
+                      onMouseEnter={plugin.current.stop}
                       onMouseLeave={plugin.current.reset}
                     >
                       <CarouselContent>
@@ -833,7 +936,6 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                               key={index}
                               className="md:basis-1/1 lg:basis-1/1"
                             >
-                              {/* Show 1 item at a time */}
                               <div className="p-1">
                                 <ReviewsCard
                                   review={{
@@ -849,74 +951,106 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                           ),
                         )}
                       </CarouselContent>
-                      <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-lime-400 hover:bg-lime-500 text-white border-none rounded-full w-8 h-8" />
-                      <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-lime-400 hover:bg-lime-500 text-white border-none rounded-full w-8 h-8" />
+                      <div className="flex justify-center gap-2 mt-3">
+                        <CarouselPrevious className="static w-8 h-8 bg-gray-50 text-gray-500 rounded-lg hover:bg-[#8EBD22]/10 hover:text-[#8EBD22] transition-all border-gray-100" />
+                        <CarouselNext className="static w-8 h-8 bg-gray-50 text-gray-500 rounded-lg hover:bg-[#8EBD22]/10 hover:text-[#8EBD22] transition-all border-gray-100" />
+                      </div>
                     </Carousel>
                   ) : (
-                    <div className="w-full">
-                      <ReviewsCard
-                        review={{
-                          name: approvedReviews[0].fullName,
-                          message: approvedReviews[0].message,
-                          rating: approvedReviews[0].rating,
-                          role: "Client",
-                          avatarUrl: "/home/ubuntu/upload/image.png",
-                        }}
-                      />
-                    </div>
+                    <ReviewsCard
+                      review={{
+                        name: approvedReviews[0].fullName,
+                        message: approvedReviews[0].message,
+                        rating: approvedReviews[0].rating,
+                        role: "Client",
+                        avatarUrl: "/home/ubuntu/upload/image.png",
+                      }}
+                    />
                   )}
-                  <ReviewModal tourId={tour.id} />
+                  <div className="mt-4">
+                    <ReviewModal tourId={tour.id} />
+                  </div>
                 </div>
               )}
+
+              {/* Booking Steps */}
               {tour?.bookinSteps?.length > 0 && (
-                <div className="w-full max-w-4xl mx-auto p-6 md:p-8 font-sans bg-[#FFEDF3] rounded-xl shadow border border-slate-200">
-                  <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
-                    Comment faire la réservation
-                  </h2>
-                  <p className="text-center text-sm text-gray-600 mb-8">
+                <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 p-6">
+                  <h3 className="text-sm font-bold text-gray-800 mb-5 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-[#8EBD22]" />
+                    Comment réserver
+                  </h3>
+                  <p className="text-xs text-gray-400 mb-4">
                     La réservation est ouverte à la limite des places
                     disponibles.
                   </p>
-                  {/* Steps Section */}
-                  <div className="space-y-2 mb-10">
+                  <div className="space-y-3 relative">
+                    <div className="absolute left-[15px] top-6 bottom-6 w-[2px] bg-gradient-to-b from-[#8EBD22]/40 to-transparent" />
                     {tour?.bookinSteps.map((ste: any) => (
                       <div
                         key={ste.orderIndex}
-                        className="flex items-start space-x-2 p-4 bg-white rounded-xl border border-blue-100"
+                        className="flex items-start gap-3 relative"
                       >
-                        <div className="flex items-center justify-center w-4 h-4 p-3 rounded-full text-white bg-[#8EBD22] font-semibold text-xs shadow">
-                          {ste.orderIndex + 1}
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#8EBD22]/10 flex items-center justify-center z-10 border-2 border-white">
+                          <span className="text-xs font-bold text-[#8EBD22]">
+                            {ste.orderIndex + 1}
+                          </span>
                         </div>
-                        <div>
-                          <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                        <div className="flex-1 min-w-0 pt-1">
+                          <h4 className="text-sm font-semibold text-gray-800 mb-0.5">
                             {ste.title}
-                          </h3>
-                          <div className="text-gray-700 text-sm">
+                          </h4>
+                          <div className="text-xs text-gray-500">
                             <SafeHTML html={ste.description || ""} />
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <div className="text-center border-t pt-2 mt-4">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                      Contact
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-1">
+                  <div className="mt-5 pt-4 border-t border-gray-100 text-center">
+                    <p className="text-xs text-gray-500">
                       GSM/Whatsapp: 06255555
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs text-gray-500">
                       Email: buildTravel@gmail.com
                     </p>
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Booking Form Anchor */}
+      {/* ═══════════════════════════════════════════════════════════
+          STICKY MOBILE BOTTOM CTA BAR
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <span className="text-[10px] text-gray-400 uppercase tracking-wider font-medium block">
+              À partir de
+            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl font-extrabold text-[#8EBD22]">
+                {tour.priceDiscounted}
+              </span>
+              <span className="text-xs font-semibold text-gray-500">MAD</span>
+            </div>
+          </div>
+          <Button
+            onClick={scrollToBooking}
+            className="bg-[#8EBD22] hover:bg-[#7aa91c] text-white font-semibold px-6 py-5 rounded-xl text-sm shadow-[0_4px_15px_rgba(142,189,34,0.3)]"
+          >
+            Réserver
+            <ArrowRight className="w-4 h-4 ml-1.5" />
+          </Button>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          RESERVATION FORM
+      ═══════════════════════════════════════════════════════════ */}
       <div id="reservation-form">
         <ReservationFormRedesigned
           fields={tour.reservationForm[0]?.fields || []}
@@ -924,36 +1058,52 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
           basePrice={tour.priceDiscounted}
           travelDates={tour.dates || []}
         />
-        {/* <ReservationSection
-                availableDates={sampleAvailableDates}
-                hotels={sampleHotels}
-                tour={tour}
-                imageSrc="/path/to/your/image.jpg" // Provide image path
-              /> */}
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          IMAGE GALLERY
+      ═══════════════════════════════════════════════════════════ */}
       <TravelImageGallery images={tour.images} />
 
+      {/* ═══════════════════════════════════════════════════════════
+          GOOGLE MAPS EMBED
+      ═══════════════════════════════════════════════════════════ */}
       {tour.googleMapsUrl && (
-        <div className="bg-white p-6 lg:px-12 rounded-xl shadow-sm">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-3 justify-center">
-            <MapPinHouse />
-            Votre Destination.
-          </h2>
-          {/* Map Placeholder - Replace with actual map embed or component */}
-          <div className="mb-3 rounded overflow-hidden border border-gray-200 w-full">
-            <iframe
-              className="w-full rounded-xl"
-              src={tour.googleMapsUrl}
-              width={600}
-              height={450}
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-7xl mx-auto px-4 md:px-8 lg:px-24 pb-16"
+        >
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center">
+                <MapPinHouse className="w-5 h-5 text-[#8EBD22]" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-800">
+                Votre Destination
+              </h2>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-gray-100">
+              <iframe
+                className="w-full"
+                src={tour.googleMapsUrl}
+                width={600}
+                height={400}
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
-        </div>
+        </motion.section>
       )}
+
+      {/* ═══════════════════════════════════════════════════════════
+          FAQ SECTION
+      ═══════════════════════════════════════════════════════════ */}
       <FaqSection faqData={sampleFaqData} />
     </div>
   );
@@ -961,6 +1111,27 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
 
 export default TourDetailsRedesigned;
 
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADER — Reusable component for section titles
+═══════════════════════════════════════════════════════════════ */
+const SectionHeader = ({
+  icon,
+  title,
+}: {
+  icon: React.ReactNode;
+  title: string;
+}) => (
+  <div className="flex items-center gap-3">
+    <div className="w-10 h-10 rounded-xl bg-[#8EBD22]/10 flex items-center justify-center text-[#8EBD22]">
+      {icon}
+    </div>
+    <h2 className="text-xl md:text-2xl font-bold text-gray-800">{title}</h2>
+  </div>
+);
+
+/* ═══════════════════════════════════════════════════════════════
+   FAQ SECTION
+═══════════════════════════════════════════════════════════════ */
 const FaqSection = ({
   faqData,
   title = "Questions fréquemment posées",
@@ -968,137 +1139,144 @@ const FaqSection = ({
   return (
     <div>
       {faqData.length > 0 && (
-        <div className="w-full max-w-3xl mx-auto p-4 md:p-8 font-sans">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8 flex items-center justify-center">
-            {/* Optional Icon */}
-            {/* <QuestionIcon /> */}
-            {title}
-          </h2>
+        <section className="max-w-3xl mx-auto px-4 md:px-8 py-16">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#8EBD22]/10 mb-4">
+              <HelpCircle className="w-6 h-6 text-[#8EBD22]" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+              {title}
+            </h2>
+            <p className="text-gray-400 text-sm mt-2">
+              Trouvez les réponses à vos questions
+            </p>
+          </div>
 
-          {/* Shadcn Accordion Component */}
           <Accordion type="single" collapsible className="w-full space-y-3">
             {faqData?.map((item: any) => (
               <AccordionItem
                 key={item.id}
-                value={item.id} // Use unique ID for value
-                className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden"
+                value={item.id}
+                className="border-none"
               >
-                <AccordionTrigger className="flex justify-between items-center w-full p-4 md:p-5 text-left font-medium text-gray-700 hover:bg-gray-50 transition-colors [&[data-state=open]>svg]:rotate-180">
-                  <span className="flex-1 mr-4">{item.question}</span>
-                  {/* Default chevron is included in AccordionTrigger, styled via CSS */}
-                  {/* You can customize the icon if needed */}
-                  {/* <ChevronDownIcon className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" /> */}
-                </AccordionTrigger>
-                <AccordionContent className="p-4 md:p-5 pt-0 text-gray-600 text-sm leading-relaxed bg-white">
-                  {item.answer}
-                </AccordionContent>
+                <div className="bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80 overflow-hidden hover:shadow-[0_4px_30px_rgba(0,0,0,0.06)] transition-shadow">
+                  <AccordionTrigger className="flex justify-between items-center w-full p-5 text-left font-medium text-gray-700 hover:text-[#8EBD22] hover:no-underline transition-colors">
+                    <span className="flex-1 mr-4 text-sm">{item.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-5 pb-5 pt-0 text-gray-500 text-sm leading-relaxed">
+                    {item.answer}
+                  </AccordionContent>
+                </div>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </section>
       )}
     </div>
   );
 };
+
+/* ═══════════════════════════════════════════════════════════════
+   REVIEWS CARD — For tour reviews
+═══════════════════════════════════════════════════════════════ */
 const ReviewsCard = ({ review }: { review: any }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showFullReview, setShowFullReview] = useState(false);
 
-  // Check if review message needs truncation (more than 4 lines)
   const needsTruncation =
     review?.message?.split("\n").length > 4 || review?.message?.length > 200;
 
   return (
     <>
-      <Card className="mx-2 border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
-        <CardContent className="p-6 flex flex-col items-start text-left">
-          <div className="flex justify-between items-center w-full mb-3">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={
-                    i < review?.rating ? "text-yellow-400" : "text-gray-300"
-                  }
-                  fill={i < review?.rating ? "#facc15" : "none"}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Review text with line clamp */}
-          <div className="relative w-full">
-            <p
-              className={`text-gray-600 text-sm mb-4 leading-relaxed ${
-                !isExpanded && needsTruncation ? "line-clamp-4" : ""
-              }`}
-            >
-              &quot;{review?.message}&quot;
-            </p>
-
-            {/* Show "Voir plus" button if text is truncated */}
-            {needsTruncation && !isExpanded && (
-              <button
-                onClick={() => setShowFullReview(true)}
-                className="text-[#8EBD22] hover:text-blue-800 text-sm font-medium mt-1"
-              >
-                Voir plus
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center mt-auto pt-4 border-t border-gray-100 w-full">
-            <img
-              src="/icons/user.png"
-              alt={review?.name}
-              className="w-10 h-10 rounded-full mr-3 object-cover"
+      <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100">
+        <div className="flex items-center gap-0.5 mb-3">
+          {[...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              className={cn(
+                "w-3.5 h-3.5",
+                i < review?.rating
+                  ? "text-amber-400 fill-amber-400"
+                  : "text-gray-200",
+              )}
             />
-            <div>
-              <p className="font-semibold text-gray-800 text-sm">
-                {review?.name}
-              </p>
-              <p className="text-gray-500 text-xs">{review?.role}</p>
-            </div>
+          ))}
+        </div>
+
+        <div className="relative">
+          <p
+            className={`text-gray-600 text-sm leading-relaxed italic ${
+              !isExpanded && needsTruncation ? "line-clamp-3" : ""
+            }`}
+          >
+            &quot;{review?.message}&quot;
+          </p>
+
+          {needsTruncation && !isExpanded && (
+            <button
+              onClick={() => setShowFullReview(true)}
+              className="text-[#8EBD22] hover:text-[#7aa91c] text-xs font-semibold mt-1"
+            >
+              Voir plus
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center mt-3 pt-3 border-t border-gray-100">
+          <div className="w-8 h-8 rounded-full bg-[#8EBD22]/10 flex items-center justify-center mr-2.5 flex-shrink-0">
+            <span className="text-xs font-bold text-[#8EBD22]">
+              {review?.name?.charAt(0)?.toUpperCase() || "?"}
+            </span>
           </div>
-        </CardContent>
-      </Card>
+          <div>
+            <p className="font-semibold text-gray-800 text-xs">
+              {review?.name}
+            </p>
+            <p className="text-gray-400 text-[10px]">{review?.role}</p>
+          </div>
+        </div>
+      </div>
 
       {/* Full review dialog */}
       <AlertDialog open={showFullReview} onOpenChange={setShowFullReview}>
-        <AlertDialogContent className="text-left max-h-[90vh] overflow-y-auto animate-in fade-in-90 zoom-in-95">
+        <AlertDialogContent className="text-left max-h-[90vh] overflow-y-auto rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={
-                    i < review?.rating ? "text-yellow-400" : "text-gray-300"
-                  }
-                  fill={i < review?.rating ? "#facc15" : "none"}
+                  className={cn(
+                    "w-5 h-5",
+                    i < review?.rating
+                      ? "text-amber-400 fill-amber-400"
+                      : "text-gray-200",
+                  )}
                 />
               ))}
-              <span>Avis de {review?.name}</span>
+              <span className="text-sm font-semibold">
+                Avis de {review?.name}
+              </span>
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <p className="text-gray-800 italic mb-4">
+          <p className="text-gray-600 italic text-sm leading-relaxed">
             &quot;{review?.message}&quot;
           </p>
           <div className="flex items-center mt-4">
-            <img
-              src="/icons/user.png"
-              alt={review?.name}
-              className="w-8 h-8 rounded-full mr-2 object-cover"
-            />
+            <div className="w-10 h-10 rounded-full bg-[#8EBD22]/10 flex items-center justify-center mr-3 flex-shrink-0">
+              <span className="text-sm font-bold text-[#8EBD22]">
+                {review?.name?.charAt(0)?.toUpperCase() || "?"}
+              </span>
+            </div>
             <div>
-              <p className="font-medium text-gray-800 text-sm">
+              <p className="font-semibold text-gray-800 text-sm">
                 {review?.name}
               </p>
-              <p className="text-gray-500 text-xs">{review?.role}</p>
+              <p className="text-gray-400 text-xs">{review?.role}</p>
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-xl cursor-pointer">
+            <AlertDialogCancel className="bg-[#8EBD22] text-white px-6 py-2 rounded-xl cursor-pointer hover:bg-[#7aa91c]">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>
@@ -1108,14 +1286,15 @@ const ReviewsCard = ({ review }: { review: any }) => {
   );
 };
 
+/* ═══════════════════════════════════════════════════════════════
+   REVIEW ITEM — For Google reviews carousel
+═══════════════════════════════════════════════════════════════ */
 const ReviewItem = ({ review }: { review: any }) => {
-  // Create a ref to detect if text is clamped
   const textRef = React.useRef<HTMLParagraphElement>(null);
   const [isClamped, setIsClamped] = React.useState(false);
   const [isExpanded, setIsExpanded] = React.useState(false);
   const [selectedReview, setSelectedReview] = React.useState<any>(null);
 
-  // Check if text is clamped after render
   React.useEffect(() => {
     if (textRef.current) {
       setIsClamped(textRef.current.scrollHeight > textRef.current.clientHeight);
@@ -1123,54 +1302,49 @@ const ReviewItem = ({ review }: { review: any }) => {
   }, [review.text]);
 
   const getInitialsAvatar = (fullName: string) => {
-    // Split the name into parts
     const nameParts = fullName.trim().split(" ");
-
-    // Get first letter of first name
     const firstNameInitial = nameParts[0] ? nameParts[0][0] : "";
-
-    // Get first letter of last name (if exists)
     const lastNameInitial =
       nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "";
-
     return `${firstNameInitial}${lastNameInitial}`;
   };
+
   const renderStars = (rating: any) => {
     return Array(5)
       .fill(0)
       .map((_, i) => (
         <Star
           key={i}
-          className={`w-4 h-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-500"}`}
+          className={`w-3.5 h-3.5 ${
+            i < rating ? "text-amber-400 fill-amber-400" : "text-gray-200"
+          }`}
         />
       ));
   };
 
-  const getRandomColor = () => {
-    const colors = [
-      "bg-red-500",
-      "bg-blue-500",
-      "bg-[#8EBD22]",
-      "bg-purple-500",
-      "bg-pink-500",
-      "bg-yellow-500",
-      "bg-indigo-500",
-      "bg-teal-500",
-      "bg-orange-500",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
+  const avatarColors = [
+    "bg-rose-500",
+    "bg-sky-500",
+    "bg-[#8EBD22]",
+    "bg-violet-500",
+    "bg-pink-500",
+    "bg-amber-500",
+    "bg-indigo-500",
+    "bg-teal-500",
+    "bg-orange-500",
+  ];
+
+  const getAvatarColor = (name: string) => {
+    const index = name ? name.charCodeAt(0) % avatarColors.length : 0;
+    return avatarColors[index];
   };
 
   const formatRelativeTime = (inputDate: string | Date): string => {
-    // Convert input to Date object if it's a string
     const date =
       typeof inputDate === "string" ? new Date(inputDate) : inputDate;
     const now = new Date();
-
-    // Calculate time difference in seconds
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    // Define time intervals in seconds
     const intervals = {
       year: 31536000,
       month: 2592000,
@@ -1180,91 +1354,79 @@ const ReviewItem = ({ review }: { review: any }) => {
       minute: 60,
     };
 
-    // Calculate time passed for each interval
     if (diffInSeconds >= intervals.year) {
       const years = Math.floor(diffInSeconds / intervals.year);
-      return `${years}${years === 1 ? " années" : " années"}`;
+      return `${years} ${years === 1 ? "an" : "ans"}`;
     }
     if (diffInSeconds >= intervals.month) {
       const months = Math.floor(diffInSeconds / intervals.month);
-      return `${months}${months === 1 ? " mois" : " mois"}`;
+      return `${months} mois`;
     }
     if (diffInSeconds >= intervals.week) {
       const weeks = Math.floor(diffInSeconds / intervals.week);
-      return `${weeks}${weeks === 1 ? " semaines" : " semaines"}`;
+      return `${weeks} ${weeks === 1 ? "semaine" : "semaines"}`;
     }
     if (diffInSeconds >= intervals.day) {
       const days = Math.floor(diffInSeconds / intervals.day);
-      return `${days}${days === 1 ? " jours" : " jours"}`;
+      return `${days} ${days === 1 ? "jour" : "jours"}`;
     }
     if (diffInSeconds >= intervals.hour) {
       const hours = Math.floor(diffInSeconds / intervals.hour);
-      return `${hours}${hours === 1 ? "h" : "h"}`;
+      return `${hours}h`;
     }
     if (diffInSeconds >= intervals.minute) {
       const minutes = Math.floor(diffInSeconds / intervals.minute);
-      return `${minutes}${minutes === 1 ? "m" : "m"}`;
+      return `${minutes}m`;
     }
 
-    return "Just now";
+    return "À l'instant";
   };
+
   return (
-    <CarouselItem className="">
-      <motion.div
-        className="bg-white h-full text-slate-700 border border-gray-100 p-4 rounded-xl mb-4 shadow-lg mx-auto max-w-md"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Header with avatar and user info */}
+    <CarouselItem className="pl-2">
+      <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100">
+        {/* Header */}
         <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-2.5">
             {review.profilePhotoUrl ? (
               <img
                 src={review.profilePhotoUrl}
                 alt=""
-                className="h-10 w-10 rounded-full bg-cover"
+                className="h-8 w-8 rounded-full object-cover"
               />
             ) : (
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${getRandomColor()}`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-semibold ${getAvatarColor(review.authorName)}`}
               >
                 {getInitialsAvatar(review.authorName)}
               </div>
             )}
             <div>
-              <h3 className="font-medium text-black text-sm">
+              <h4 className="font-medium text-gray-800 text-xs">
                 {review.authorName}
-              </h3>
-              <div className="flex items-center text-gray-400 text-xs space-x-1">
-                <span>{review.originalText || 1} avis</span>
-              </div>
+              </h4>
+              <span className="text-gray-400 text-[10px]">
+                il y a {formatRelativeTime(review.time)}
+              </span>
             </div>
           </div>
           <img
             src="/icons/google-logo-Photoroom.png"
             alt=""
-            className="w-6 h-6"
+            className="w-4 h-4"
           />
         </div>
 
-        {/* Rating and date */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-1">
-              {renderStars(review.rating)}
-            </div>
-            <span className="text-gray-400 text-sm">
-              il y a {formatRelativeTime(review.time)}
-            </span>
-          </div>
+        {/* Stars */}
+        <div className="flex items-center gap-0.5 mb-2">
+          {renderStars(review.rating)}
         </div>
 
-        {/* Review text with expand functionality */}
-        <div className="mb-4">
+        {/* Text */}
+        <div className="mb-2">
           <p
             ref={textRef}
-            className={`text-gray-800 text-sm leading-relaxed ${
+            className={`text-gray-600 text-xs leading-relaxed ${
               !isExpanded ? "line-clamp-3" : ""
             }`}
           >
@@ -1279,9 +1441,9 @@ const ReviewItem = ({ review }: { review: any }) => {
                   rating: review.rating,
                 });
               }}
-              className="text-blue-400 hover:text-blue-300 ml-1 font-medium"
+              className="text-[#8EBD22] hover:text-[#7aa91c] text-[10px] font-semibold mt-0.5"
             >
-              Plus
+              Voir plus
             </button>
           )}
         </div>
@@ -1290,39 +1452,41 @@ const ReviewItem = ({ review }: { review: any }) => {
           <img
             src={review.language}
             alt=""
-            className="w-full h-40 rounded-2xl"
+            className="w-full h-28 rounded-lg object-cover mt-2"
           />
         )}
-      </motion.div>
+      </div>
 
       <AlertDialog
         open={!!selectedReview}
         onOpenChange={(open) => !open && setSelectedReview(null)}
       >
-        <AlertDialogContent className="text-left max-h-[90vh] overflow-y-auto">
+        <AlertDialogContent className="text-left max-h-[90vh] overflow-y-auto rounded-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               {selectedReview &&
                 [...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={
+                    className={cn(
+                      "w-5 h-5",
                       i < selectedReview.rating
-                        ? "text-yellow-400"
-                        : "text-gray-300"
-                    }
-                    fill={i < selectedReview.rating ? "#facc15" : "none"}
+                        ? "text-amber-400 fill-amber-400"
+                        : "text-gray-200",
+                    )}
                   />
                 ))}
-              <span>Avis de {selectedReview?.authorName}</span>
+              <span className="text-sm">
+                Avis de {selectedReview?.authorName}
+              </span>
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <p className="text-gray-800 italic mb-4">
+          <p className="text-gray-600 italic text-sm leading-relaxed">
             &quot;{selectedReview?.text}&quot;
           </p>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-2.5 mt-4">
             {review.profilePhotoUrl ? (
               <img
                 src={review.profilePhotoUrl}
@@ -1331,23 +1495,20 @@ const ReviewItem = ({ review }: { review: any }) => {
               />
             ) : (
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${getRandomColor()}`}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${getAvatarColor(review.authorName)}`}
               >
                 {getInitialsAvatar(review.authorName)}
               </div>
             )}
             <div>
-              <h3 className="font-medium text-black text-sm">
+              <h4 className="font-medium text-gray-800 text-sm">
                 {review.authorName}
-              </h3>
-              <div className="flex items-center text-gray-400 text-xs space-x-1">
-                <span>1 avis</span>
-              </div>
+              </h4>
             </div>
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#8EBD22] text-white px-4 py-1 rounded-xl cursor-pointer">
+            <AlertDialogCancel className="bg-[#8EBD22] text-white px-6 py-2 rounded-xl cursor-pointer hover:bg-[#7aa91c]">
               Fermer
             </AlertDialogCancel>
           </AlertDialogFooter>

@@ -197,6 +197,108 @@
 .safe-html ol {
   list-style-type: decimal;
 }
+
+.safe-html li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+}
+
+.safe-html ul ul,
+.safe-html ol ol,
+.safe-html ul ol,
+.safe-html ol ul {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.safe-html h1,
+.safe-html h2,
+.safe-html h3,
+.safe-html h4,
+.safe-html h5,
+.safe-html h6 {
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  color: #1f2937;
+}
+
+.safe-html h1 { font-size: 1.5rem; }
+.safe-html h2 { font-size: 1.25rem; }
+.safe-html h3 { font-size: 1.125rem; }
+.safe-html h4 { font-size: 1rem; }
+
+.safe-html a {
+  color: #8EBD22;
+  text-decoration: underline;
+}
+
+.safe-html a:hover {
+  color: #7aa91c;
+}
+
+.safe-html blockquote {
+  border-left: 3px solid #8EBD22;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #4b5563;
+  font-style: italic;
+}
+
+.safe-html img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.safe-html hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1rem 0;
+}
+
+.safe-html table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.safe-html th,
+.safe-html td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.safe-html th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+.safe-html code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.safe-html pre {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.safe-html pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
 .cardd {
   background: #4fa8ff;
   box-shadow:

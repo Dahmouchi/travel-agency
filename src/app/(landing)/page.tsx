@@ -135,7 +135,7 @@ const LandigPage = async ({
           </div>
         </div>
        } */}
-      <div className="pb-18">
+      <div className="pb-18 w-full flex flex-col items-center">
         {/* Hero section */}
         {(sections?.hero ?? true) && <Hero inp={sections} tours={allTours} />}
 

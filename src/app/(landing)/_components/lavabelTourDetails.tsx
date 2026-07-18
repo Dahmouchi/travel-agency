@@ -403,7 +403,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
       {/* ═══════════════════════════════════════════════════════════
           MAIN CONTENT AREA — Interleaved on mobile, 2-col on desktop
       ═══════════════════════════════════════════════════════════ */}
-      <div className="lg:max-w-7xl lg:mx-auto px-4 md:px-8 lg:px-24 py-8 md:py-12 lg:py-16">
+      <div className="lg:max-w-[80%] lg:mx-auto px-4 md:px-8 lg:px-24 py-8 md:py-12 lg:py-16">
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_380px] gap-6 md:gap-8 lg:gap-10">
           {/* DESCRIPTION — order-1 on mobile, stays in left col on desktop */}
           <motion.section
@@ -420,9 +420,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
             <div className="mt-6 bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
               <div
                 className={cn(
-                  "prose prose-gray prose-sm max-w-none",
-                  "prose-headings:text-gray-800 prose-p:text-gray-600 prose-p:leading-relaxed",
-                  "prose-a:text-[#8EBD22] prose-strong:text-gray-700",
+                  "safe-html text-sm text-gray-600 max-w-none",
                   !expanded && "line-clamp-6",
                 )}
                 dangerouslySetInnerHTML={{ __html: tour.description || "" }}
@@ -527,7 +525,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                               }
                             >
                               <div
-                                className="prose prose-sm max-w-none prose-p:text-gray-600 prose-p:leading-relaxed"
+                                className="safe-html text-sm text-gray-600 max-w-none"
                                 dangerouslySetInnerHTML={{
                                   __html: prog.description || "",
                                 }}
@@ -647,11 +645,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                 transition={{ duration: 0.6 }}
                 className="order-9 lg:order-none lg:col-start-1"
               >
-                <SectionHeader
-                  icon={<Check className="w-5 h-5" />}
-                  title={tour.titleCkecklist || "Checklist"}
-                />
-                <div className="mt-6 bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
+                <div className=" bg-white rounded-2xl p-6 md:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] border border-gray-100/80">
                   <div className="space-y-6">
                     {tour.checklist.map((item: any, index: any) => (
                       <div key={index} className="group">
@@ -664,7 +658,7 @@ const TourDetailsRedesigned = ({ tour, programss }: any) => {
                           {item.title}
                         </h3>
                         <div
-                          className="prose prose-sm max-w-none pl-8 prose-p:text-gray-600 prose-p:leading-relaxed"
+                          className="safe-html text-sm text-gray-600 max-w-none pl-8"
                           dangerouslySetInnerHTML={{
                             __html: item.description,
                           }}
